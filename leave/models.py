@@ -76,6 +76,7 @@ class UserProfile(models.Model):
 	user_type = models.IntegerField(choices=USER_TYPES)
 	dept = models.IntegerField(choices=DEPARTMENTS, default=0)
 	
+	
 
 
 

@@ -1,0 +1,11 @@
+<h2>Welcome to {{dept}} Department Leave application portal</h2>
+Hi {{name}}
+<br>
+
+
+
+
+<form name="logout" action="{% url 'dept' %}" method="POST">
+{% csrf_token %}
+<input type="submit" value="Logout">
+</form>

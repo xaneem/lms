@@ -1,0 +1,14 @@
+<h2>Welcome {{usertype}} of NIT Calicut</h2>
+Hi {{name}}<br>
+
+
+
+<br>
+
+
+
+
+<form name="logout" action="{% url 'higher' %}" method="POST">
+{% csrf_token %}
+<input type="submit" value="Logout">
+</form>

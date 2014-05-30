@@ -1,0 +1,14 @@
+<h2>Welcome clerk :)</h2>
+Hi {{name}}<br>
+
+
+
+<br>
+
+
+
+
+<form name="logout" action="{% url 'clerk' %}" method="POST">
+{% csrf_token %}
+<input type="submit" value="Logout">
+</form>
