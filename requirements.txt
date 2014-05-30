@@ -1,0 +1,2 @@
+Install django-bootstrap 3
+	 pip install django-bootstrap3

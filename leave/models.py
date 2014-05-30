@@ -5,10 +5,12 @@ from django.contrib.auth.models import User
 # Each choice in this list represents a End-User of the software,
 # who has the previlege to enter a new application to the system.
 DEPARTMENTS = (
+	(0,'OTHER'),
 	(1,'CSED'),
 	(2,'MED'),
 	(3,'EED'),
 	(4,'CED'),
+
 	)
 
 
@@ -72,7 +74,8 @@ class UserProfile(models.Model):
 
 	user = models.OneToOneField(User)
 	user_type = models.IntegerField(choices=USER_TYPES)
-	dept = models.IntegerField(choices=DEPARTMENTS, blank=True)
+	dept = models.IntegerField(choices=DEPARTMENTS, default=0)
+	
 
 
 
