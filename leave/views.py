@@ -1,13 +1,14 @@
 from django.shortcuts import render
+
 from django.contrib.auth.decorators import login_required, user_passes_test
-from leave.models import UserProfile 
+from leave.models import UserProfile,Employee
 from django.shortcuts import redirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.template import RequestContext, loader
 from django import forms
 from django.contrib.auth import authenticate,login,logout
-
+from leave.forms import ApplicationForm
 
 #Users are divided to Depts,Clerk,'Higher'
 #'higher' includes Dean,Dr,Registrar Etc
@@ -61,22 +62,29 @@ def index(request):
 		return render(request, 'leave/login.html',{'message':""})
 
 
+def logt(request):
+	logout(request)
+	return redirect('/')
+		
+
+
 
 @login_required	#Require Login
 @user_passes_test(isDept) #Restrict access to users from other groups 
 def dept(request):
+	#Information specific to the user
 	if(request.method=='POST'):
-		logout(request)
-		return redirect('index')
-
 
 	userprofile=UserProfile.objects.get(user=request.user)
-
-	#Information specific to the user
 	context= {
 	'name': request.user.username,
 	'dept': userprofile.get_dept_display()
 	}
+
+	form=ApplicationForm(userprofile.dept)
+	
+
+	context['form']=form
 
 	return render(request,'leave/dept.html',context)
 
@@ -85,11 +93,7 @@ def dept(request):
 @login_required
 @user_passes_test(isClerk)
 def clerk(request):
-	if(request.method=='POST'):
-		logout(request)
-		return redirect('index')
 	
-
 	userprofile=UserProfile.objects.get(user=request.user)
 
 	context= {
@@ -102,10 +106,6 @@ def clerk(request):
 @login_required
 @user_passes_test(isHigher)
 def higher(request):
-	if(request.method=='POST'):
-		logout(request)
-		return redirect('index')
-	
 
 	userprofile=UserProfile.objects.get(user=request.user)
 

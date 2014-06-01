@@ -64,6 +64,9 @@ class Employee(models.Model):
 	post = models.IntegerField(choices=POSTS)
 	email = models.EmailField(max_length=75)
 	
+	def __unicode__(self):
+		return self.name
+
 
 
 
@@ -94,8 +97,10 @@ class Application(models.Model):
 	reason = models.CharField(max_length=200,blank=True)
 	attachments = models.CharField(max_length=200,blank=True)
 	time_generated = models.DateTimeField()
-	time_apporoved = models.DateTimeField(null=True)	#This field will be set only when the application is received.
+	time_apporoved = models.DateTimeField(null=True,blank=True)	#This field will be set only when the application is received.
 	
+	def __unicode__(self):
+		return self.employee.name+self.get_leave_type_display()	
 
 
 
@@ -109,7 +114,7 @@ class CancelRequest(models.Model):
 	status = models.IntegerField(choices=STATUS)
 	current_position = models.IntegerField(choices=USER_TYPES)
 	time_generated = models.DateTimeField()
-	time_apporoved = models.DateTimeField(null=True)
+	time_apporoved = models.DateTimeField(null=True,blank=True)
 
 
 

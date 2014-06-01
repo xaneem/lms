@@ -1,5 +1,5 @@
 from django.contrib import admin
-
+from leave.models import Employee,Application
 # Register your models here.
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
@@ -13,9 +13,13 @@ class UserProfileInline(admin.StackedInline):
     can_delete = False
     
 
+admin.site.register(Employee)
+admin.site.register(Application)
+
 # Define a new User admin
 class UserAdmin(UserAdmin):
     inlines = (UserProfileInline, )
+
 
 # Re-register UserAdmin
 admin.site.unregister(User)
