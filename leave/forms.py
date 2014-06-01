@@ -10,24 +10,30 @@ class ApplicationForm(ModelForm):
 	
 	def is_valid(self):
 		valid=super(ApplicationForm,self).is_valid()
+		print self.errors
+		print "hello"
 		if not valid:
 			return valid
 
 		date_from=self.cleaned_data['date_from']
 		date_to=self.cleaned_data['date_to']
 		leave_balance=self.cleaned_data['employee'].leave_balance
+		
+
 		if date_from<datetime.now().date():
-			self._errors['date_from']="Aaha?"
+			self.errors['date_from']=['Aha?']
+			print self.errors
 			return False
 
 		if(date_to<date_from):
-			self._errors['date_to']="Seriously? :P"
+			self.errors['date_to']=["Seriously? :P"]
+
 			return False
 
 		
 
 		if((date_to-date_from).days>leave_balance):
-			self._errors['date_to']="Insufficient leave balance"
+			self.errors['date_to']=["Insufficient leave balance"]
 			return False
 
 
