@@ -74,6 +74,7 @@ def logt(request):
 def dept(request):
 	#Information specific to the user
 	if(request.method=='POST'):
+		return HttpResponse("Not now")
 
 	userprofile=UserProfile.objects.get(user=request.user)
 	context= {
@@ -81,8 +82,8 @@ def dept(request):
 	'dept': userprofile.get_dept_display()
 	}
 
-	form=ApplicationForm(userprofile.dept)
-	
+	form=ApplicationForm()
+	form.fields["employee"].queryset=Employee.objects.filter(dept=userprofile.dept)
 
 	context['form']=form
 
