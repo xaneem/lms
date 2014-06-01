@@ -1,6 +1,7 @@
-from django.forms import ModelForm
+from django.forms import ModelForm,Textarea,DateInput
 from datetime import datetime 
 from leave.models import Application,Employee
+from django.forms.extras.widgets import SelectDateWidget
 
 
 class ApplicationForm(ModelForm):
@@ -10,11 +11,11 @@ class ApplicationForm(ModelForm):
 	class Meta:
    		model = Application
    		fields = ['employee', 'leave_type', 'date_from', 'date_to','reason','attachments']
+   		widgets={'reason': Textarea(attrs={'cols': 10, 'rows': 5})}
 	
 	def is_valid(self):
 		valid=super(ApplicationForm,self).is_valid()
-		print self.errors
-		print "hello"
+		
 		if not valid:
 			return valid
 
@@ -25,7 +26,6 @@ class ApplicationForm(ModelForm):
 
 		if date_from<datetime.now().date():
 			self.errors['date_from']=['Aha?']
-			print self.errors
 			return False
 
 		if(date_to<date_from):
