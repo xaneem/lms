@@ -11,6 +11,7 @@
 
         <link href="{% static 'leave/css/bootstrap.min.css' %}" rel="stylesheet">
         <link href="{% static 'leave/css/chosen.min.css' %}" rel="stylesheet">
+        <link href="{% static 'leave/css/datepicker3.css' %}" rel="stylesheet">
 
         <script src="{% static 'leave/js/jquery-1.11.1.min.js' %}"></script>
         <!--[if lt IE 9]>
@@ -99,10 +100,16 @@
                 $('#id_leave_type, #id_employee').chosen({
                     disable_search_threshold: 5,
                 });
+
+                $('#id_date_from, #id_date_to').datepicker({
+                    startDate: "today",
+                    todayHighlight: true
+                });
             });
         </script>
         <script src="{% static 'leave/js/bootstrap.min.js' %}" ></script>
         <script src="{% static 'leave/js/chosen.jquery.min.js' %}" ></script>
+        <script src="{% static 'leave/js/bootstrap-datepicker.js' %}" ></script>
         
     </body>
 </html>
