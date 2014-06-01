@@ -39,7 +39,7 @@ def index(request):
 	        
 	   	else:
 
-	   		return render(request, 'leave/login.html',{'message':"Invalid login !"})
+	   		return render(request, 'leave/login.html',{'message':"Invalid login !",'username':username})
 	   	  	# Return an 'invalid login' error message.
 
 	#User authenticated, Now redirect to corresponding views
