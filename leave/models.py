@@ -94,7 +94,7 @@ class Application(models.Model):
 	date_to	= models.DateField()
 	status = models.IntegerField(choices=STATUS,default=1)
 	current_position= models.IntegerField(choices=USER_TYPES,default=1)
-	reason = models.CharField(max_length=200)
+	reason = models.TextField(max_length=200)
 	attachments = models.CharField(max_length=200,blank=True)
 	time_generated = models.DateTimeField(auto_now_add=True)
 	time_apporoved = models.DateTimeField(null=True,blank=True)	#This field will be set only when the application is received.
