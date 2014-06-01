@@ -1,10 +1,92 @@
+{% load bootstrap3 %}
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Login - LMS</title>
+
+        <link href="{% static 'leave/css/bootstrap.min.css' %}" rel="stylesheet">
+
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <style>
+            .space-15px{
+                height: 15px;
+                margin:0;
+                padding: 0;
+                border: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Leave Management System</a>
+            </div>
+        </nav>
+
+        <div class="space-15px"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <form action="/" method="POST" role="form">
+                    	{% csrf_token %}
+                        <legend>Login to your account</legend>
+                        <div class="form-group{% if message %} has-error{% endif %} ">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control input-lg" id="username" name="username" placeholder="Username">
+                        </div>
+                        <div class="form-group{% if message %} has-error{% endif %}">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control input-lg" id="password" name="password" placeholder="Password">
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-success btn-lg btn-block"><i class="glyphicon glyphicon-log-in"></i> &nbsp;Login</button>
+                    </form>
+                    {% if message %}
+                    <br>
+                    <div class="alert alert-danger">
+                    	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    	Invalid username or password. Please try again.
+                    </div>
+                    {% endif %}
+
+                </div>
+                <div class="col-md-8 col-md-offset-1">
+                    <div class="space-15px"></div>
+                    <p>
+                        We make it easier to manage most leave applications for the institute faculty.
+                        <ul>
+                            <li>Faster approval process</li>
+                            <li>Reduces paper use</li>
+                            <li>View application status</li>
+                            <li>Application history</li>
+                        </ul>   
+                    </p>
+                    <p>
+                        Login with your authorized account. Contact the administration for new accounts.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <script src="{% static 'leave/js/jquery-1.11.1.min.js' %}"></script>
+        <script src="{% static 'leave/js/bootstrap.min.js' %}" ></script>
+    </body>
+</html>
 
 
 
-<form action="/" method="post" class="form">
- {% csrf_token %}
- {{ message }}<br>
- Username: <input type="text" name="username"><br>
- Password: <input type="password" name="password"><br>
-<input type="submit" value="Submit">
-</form>
+

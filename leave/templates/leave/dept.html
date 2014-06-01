@@ -1,3 +1,14 @@
+{% load bootstrap3 %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	{% bootstrap_css %}
+</head>
+<body>
+
+
 <h2>Welcome to {{dept}} Department Leave application portal</h2>
 Hi {{name}}
 <br>
@@ -5,7 +16,9 @@ Hi {{name}}
 
 <form action="{% url 'dept' %}" method="post">
  {% csrf_token %}
- {{ form }}
+ 
+ {% bootstrap_form form %}
+
  <input type="submit" value="Submit">
 </form>
 
@@ -15,3 +28,8 @@ Hi {{name}}
 {% csrf_token %}
 <input type="submit" value="Logout">
 </form>
+
+
+</body>
+</html>
+
