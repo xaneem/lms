@@ -73,14 +73,23 @@ def logt(request):
 @user_passes_test(isDept) #Restrict access to users from other groups 
 def dept(request):
 	#Information specific to the user
-	if(request.method=='POST'):
-		return HttpResponse("Not now")
-
 	userprofile=UserProfile.objects.get(user=request.user)
 	context= {
 	'name': request.user.username,
 	'dept': userprofile.get_dept_display()
 	}
+
+	if(request.method=='POST'):
+		form = ApplicationForm(request.POST)
+		if(form.is_valid()):
+			form.save()
+			return HttpResponse("Success")
+		else:
+			context['form']=form
+			return render(request,'leave/dept.html',context)
+
+
+	
 
 	form=ApplicationForm()
 	form.fields["employee"].queryset=Employee.objects.filter(dept=userprofile.dept)
