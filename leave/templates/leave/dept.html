@@ -83,6 +83,8 @@
                                 {% bootstrap_field form.date_from %}
                                 {% bootstrap_field form.date_to %}
                                 {% bootstrap_field form.attachment1 %}
+                                {% bootstrap_field form.attachment2 %}
+                                {% bootstrap_field form.attachment3 %}
                             </div>
                         </div>
                         
@@ -100,6 +102,11 @@
                 $('#id_leave_type, #id_employee').chosen({
                     disable_search_threshold: 5,
                 });
+
+                $('#id_date_from, #id_date_to').attr('readonly', true).css({
+                    backgroundColor: '#ffffff',
+                    cursor: 'pointer',
+                });;
 
                 $('#id_date_from, #id_date_to').datepicker({
                     startDate: "today",
