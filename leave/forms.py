@@ -10,7 +10,7 @@ class ApplicationForm(ModelForm):
 
 	class Meta:
    		model = Application
-   		fields = ['employee', 'leave_type', 'date_from', 'date_to','reason','attachments']
+   		fields = ['employee', 'leave_type', 'date_from', 'date_to','reason','attachment1']
    		widgets={'reason': Textarea(attrs={'cols': 10, 'rows': 5})}
 	
 	def is_valid(self):
@@ -18,7 +18,7 @@ class ApplicationForm(ModelForm):
 		
 		if not valid:
 			return valid
-
+		print self.errors
 		date_from=self.cleaned_data['date_from']
 		date_to=self.cleaned_data['date_to']
 		leave_balance=self.cleaned_data['employee'].leave_balance

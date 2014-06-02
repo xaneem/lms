@@ -80,7 +80,7 @@ def dept(request):
 	}
 
 	if(request.method=='POST'):
-		form = ApplicationForm(request.POST)
+		form = ApplicationForm(request.POST,request.FILES)
 		if(form.is_valid()):
 			form.save()
 			return HttpResponse("Success")

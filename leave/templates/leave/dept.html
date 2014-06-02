@@ -70,7 +70,7 @@
 
                     <h2>Create a new Leave Application</h2>
 
-                    <form role="form" action="{% url 'dept' %}" method="post">
+                    <form role="form" action="{% url 'dept' %}" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         
                         <div class="row">
@@ -82,7 +82,7 @@
                             <div class="col-md-6">
                                 {% bootstrap_field form.date_from %}
                                 {% bootstrap_field form.date_to %}
-                                {% bootstrap_field form.attachments %}
+                                {% bootstrap_field form.attachment1 %}
                             </div>
                         </div>
                         
