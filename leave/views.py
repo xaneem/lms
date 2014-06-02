@@ -1,7 +1,7 @@
 from django.shortcuts import render
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required, user_passes_test
-from leave.models import UserProfile,Employee
+from leave.models import UserProfile,Employee,Application
 from django.shortcuts import redirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
@@ -9,6 +9,7 @@ from django.template import RequestContext, loader
 from django import forms
 from django.contrib.auth import authenticate,login,logout
 from leave.forms import ApplicationForm
+from django.views.generic import ListView
 
 #Users are divided to Depts,Clerk,'Higher'
 #'higher' includes Dean,Dr,Registrar Etc
@@ -66,6 +67,49 @@ def logt(request):
 	logout(request)
 	return redirect('/')
 		
+
+@login_required
+@user_passes_test(isDept)
+def sent(request):
+	userprofile=UserProfile.objects.get(user=request.user)
+	status = request.GET.get('status')
+	if(status==None):
+		status=0
+
+	try:
+		status = int(status)
+	except ValueError:
+		#Handle the exception
+		status=0
+	page = request.GET.get('page')
+	all_list=Application.objects.filter(employee__dept=userprofile.dept).order_by("time_generated")
+	
+	if 1<= status <=4:
+		all_list= all_list.filter(status=status)
+	
+	paginator = Paginator(all_list, 3)
+	
+	try:
+		applications = paginator.page(page)
+	except PageNotAnInteger:
+		# If page is not an integer, deliver first page.
+		applications = paginator.page(1)
+	except EmptyPage:
+		# If page is out of range (e.g. 9999), deliver last page of results.
+		applications = paginator.page(paginator.num_pages)
+
+
+	context= {
+	'name': request.user.username,
+	'dept': userprofile.get_dept_display(),
+	'applications':applications
+	}
+
+
+	return render(request,'leave/sent.html',context)
+
+
+
 
 
 

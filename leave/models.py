@@ -47,7 +47,8 @@ USER_TYPES = (
 STATUS = (
 	(1,'PENDING'),
 	(2,'PROCESSING'),
-	(3,'APPROVED')
+	(3,'APPROVED'),
+	(4,'REJECTED')
 	)
 
 

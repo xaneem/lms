@@ -77,15 +77,19 @@
                         <tbody>
                             {% for application in applications %}
                             <tr>
-                                <td>{{ application.serial_no }} </td>
+
+                                <td>{{ forloop.counter0|add:applications.start_index}} </td>
                                 <td>{{ application.employee.name }}</td>
-                                <td>{{ application.leave_type }}</td>
+                                <td>{{ application.get_leave_type_display }}</td>
                                 <td>{{ application.date_from }}</td>
                                 <td>{{ application.date_to }}</td>
-                                <td>{{ application.status }}</td>
+                                <td>{{ application.get_status_display }}</td>
                             </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
+
+                    {% bootstrap_pagination applications %}
 
                 </div>
             </div>
