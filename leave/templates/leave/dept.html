@@ -85,6 +85,10 @@
                                 {% bootstrap_field form.attachment1 %}
                                 {% bootstrap_field form.attachment2 %}
                                 {% bootstrap_field form.attachment3 %}
+
+                                <br>
+                                <button class="btn btn-default" type="button" id="add-attachment"><i class="glyphicon glyphicon-plus"></i> Add Attachment</button>
+
                             </div>
                         </div>
                         
@@ -112,6 +116,22 @@
                     startDate: "today",
                     todayHighlight: true
                 });
+
+                $('#id_attachment1, #id_attachment2, #id_attachment3').parents('.form-group').hide();
+
+                $('#add-attachment').on('click', function(event){
+                    event.preventDefault();
+
+                    if(!$('#id_attachment1').is(':visible')){
+                        $('#id_attachment1').parents('.form-group').show();
+                    }else if(!$('#id_attachment2').is(':visible'))
+                        $('#id_attachment2').parents('.form-group').show();
+                    else{
+                        $('#id_attachment3').parents('.form-group').show();
+                        $('#add-attachment').hide();
+                    }
+                });
+
             });
         </script>
         <script src="{% static 'leave/js/bootstrap.min.js' %}" ></script>
