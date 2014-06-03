@@ -34,8 +34,9 @@ class ApplicationForm(ModelForm):
 			return False
 
 		
+		
 
-		if((date_to-date_from).days>leave_balance):
+		if((date_to-date_from).days+1>leave_balance):
 			self.errors['date_to']=["Insufficient leave balance"]
 			return False
 

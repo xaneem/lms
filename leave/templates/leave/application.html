@@ -68,20 +68,41 @@
                             <table class="table table-hover table-striped">
                                 <tbody>
                                     <tr>
-                                        <th>Field Name</th>
-                                        <td>Field Data</td>
+                                        <th style="min-width:200px;">Employee Name</th>
+                                        <td>{{application.employee.name}}</td>
                                     </tr>
                                     <tr>
-                                        <th>Field Name</th>
-                                        <td>Field Data</td>
+                                        <th>Leave type</th>
+                                        <td>{{application.get_leave_type_display}}</td>
                                     </tr>
                                     <tr>
-                                        <th>Field Name</th>
-                                        <td>Field Data</td>
+                                        <th>Date From </th>
+                                        <td>{{application.date_from}}</td>
                                     </tr>
                                     <tr>
-                                        <th>Field Name</th>
-                                        <td>Field Data</td>
+                                        <th>Date To</th>
+                                        <td>{{application.date_to}}</td>
+
+                                    </tr>
+                                    <tr>
+                                        <th>Number of days applying for</th>
+                                        <td>{{days_count}}</td>
+
+                                    </tr>
+                                     <tr>
+                                        <th>Number of leaves left </th>
+                                        <td>{{application.employee.leave_balance}}</td>
+                                        
+                                    </tr>
+                                     <tr>
+                                        <th> Attachments </th>
+                                        <td>{% if application.attachment1 %}
+                                                {{ application.attachment1.url }}
+                                            {{% endif %}
+                                        </td>
+
+
+                                        
                                     </tr>
                                 </tbody>
                             </table>
@@ -90,20 +111,25 @@
                             <table class="table table-hover table-striped">
                                 <tbody>
                                     <tr>
-                                        <th>Field Name</th>
-                                        <td>Field Data</td>
+                                        <th style="min-width:200px;">Current Position</th>
+                                        <td>{{application.get_current_position_display}}</td>
                                     </tr>
                                     <tr>
-                                        <th>Field Name</th>
-                                        <td>Field Data</td>
+                                        <th>Generated time</th>
+                                        <td>{{application.time_generated}}</td>
                                     </tr>
                                     <tr>
-                                        <th>Field Name</th>
-                                        <td>Field Data</td>
+                                        <th>Apporoval time</th>
+                                        <td>{{application.time_approved}}</td>
                                     </tr>
                                     <tr>
-                                        <th>Field Name</th>
-                                        <td>Field Data</td>
+                                        <th>Reason</th>
+                                        <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                                        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
                                     </tr>
                                 </tbody>
                             </table>

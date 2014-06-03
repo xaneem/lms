@@ -1,10 +1,10 @@
 from django.shortcuts import render
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger 
 from django.contrib.auth.decorators import login_required, user_passes_test
 from leave.models import UserProfile,Employee,Application
 from django.shortcuts import redirect
-from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponse
+from django.core.exceptions import ObjectDoesNotExist,PermissionDenied
+from django.http import HttpResponse,Http404
 from django.template import RequestContext, loader
 from django import forms
 from django.contrib.auth import authenticate,login,logout
@@ -68,6 +68,33 @@ def logt(request):
 	logout(request)
 	return redirect('/')
 		
+
+
+
+
+
+	
+
+
+@login_required
+def details(request,id):
+	userprofile=UserProfile.objects.get(user=request.user)
+	try:
+		application=Application.objects.get(pk=id)
+	except Application.DoesNotExist:
+		raise Http404
+	if isDept(request.user) and application.employee.dept!=userprofile.dept:
+		raise PermissionDenied
+	
+	context= {
+	'application':application,
+	'days_count':(application.date_to-application.date_from).days+1
+	}
+
+
+	return render(request,'leave/application.html',context)
+
+
 
 @login_required
 @user_passes_test(isDept)
