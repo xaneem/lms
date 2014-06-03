@@ -102,7 +102,8 @@ def sent(request):
 	context= {
 	'name': request.user.username,
 	'dept': userprofile.get_dept_display(),
-	'applications':applications
+	'applications':applications,
+	'status' :status
 	}
 
 
