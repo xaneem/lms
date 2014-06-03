@@ -100,6 +100,7 @@
                         <thead>
                             <tr>
                                 <th>#</th>
+                                <th>Time Applied</th>
                                 <th>Employee Name</th>
                                 <th>Leave Type</th>
                                 <th>From</th>
@@ -113,6 +114,7 @@
                             <tr>
 
                                 <td>{{ forloop.counter0|add:applications.start_index}} </td>
+                                <td>{{ application.time_generated }}</td>
                                 <td>{{ application.employee.name }}</td>
                                 <td>{{ application.get_leave_type_display }}</td>
                                 <td>{{ application.date_from }}</td>

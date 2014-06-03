@@ -88,7 +88,7 @@ def sent(request):
 	if 1<= status <=4:
 		all_list= all_list.filter(status=status)
 	
-	paginator = Paginator(all_list, 1)
+	paginator = Paginator(all_list, 10)
 	
 	try:
 		applications = paginator.page(page)
