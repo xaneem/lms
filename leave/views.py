@@ -10,6 +10,7 @@ from django import forms
 from django.contrib.auth import authenticate,login,logout
 from leave.forms import ApplicationForm
 from django.views.generic import ListView
+from django.contrib import messages
 
 #Users are divided to Depts,Clerk,'Higher'
 #'higher' includes Dean,Dr,Registrar Etc
@@ -82,12 +83,12 @@ def sent(request):
 		#Handle the exception
 		status=0
 	page = request.GET.get('page')
-	all_list=Application.objects.filter(employee__dept=userprofile.dept).order_by("time_generated")
+	all_list=Application.objects.filter(employee__dept=userprofile.dept).order_by("-time_generated")
 	
 	if 1<= status <=4:
 		all_list= all_list.filter(status=status)
 	
-	paginator = Paginator(all_list, 3)
+	paginator = Paginator(all_list, 1)
 	
 	try:
 		applications = paginator.page(page)
@@ -128,7 +129,8 @@ def dept(request):
 		form = ApplicationForm(request.POST,request.FILES)
 		if(form.is_valid()):
 			form.save()
-			return HttpResponse("Success")
+			messages.success(request, 'Application added successfully') 
+			return redirect('sent')
 		else:
 			context['form']=form
 			return render(request,'leave/dept.html',context)
