@@ -58,8 +58,23 @@
 
         <div class="container">
             <div class="row">
+               
+
                 <div class="col-md-12">
-                    <h3>Application Details</h3>
+                         <div class="row">
+                            <div class="col-md-6">
+                                <h3>Application Details</h3>
+                            </div>
+                            <div class="col-md-6">
+                                  {% if messages %}
+                                        {% for message in messages %}
+                                             {% bootstrap_messages message %}
+                                        {% endfor %}
+                                {% endif %}
+                            </div>
+                         </div>
+                         
+
 
                     <ol class="breadcrumb">
                         <li>
@@ -171,6 +186,13 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            {% if application.status == 1  %}
+                            <form action="{% url 'cancel_application' %}" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="id" value="{{application.pk}}">
+                                <input type="submit" value="Cancel application" >
+                            </form>
+                            {% endif %}
 
                         </div>
                     </div>

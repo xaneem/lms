@@ -74,10 +74,23 @@ def logt(request):
 @login_required
 @user_passes_test(isDept)
 def cancel_application(request):
-	if(request.method=='POST'):
+	if request.method=='POST':
 		userprofile=UserProfile.objects.get(user=request.user)
 		application_id=request.POST.get('id')
 		application=Application.objects.get(pk=application_id)
+		if application.employee.dept==userprofile.dept and application.status==1:
+
+			application.status=5
+			application.current_position=0
+			application.save()
+			messages.success(request, 'Application canceled successfully')
+
+		else:
+			messages.error(request, 'Some error occured , Could not cancel application!')
+
+		return redirect("/details/"+application_id)
+	else:
+		raise PermissionDenied
 		
 
 

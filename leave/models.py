@@ -34,6 +34,7 @@ LEAVE_TYPES = (
 
 #Different types of users
 USER_TYPES = (
+	(0, ''),
 	(1,	'HOD'),
     (2, 'CLERK'),
     (3, 'DEAN'),
@@ -48,7 +49,8 @@ STATUS = (
 	(1,'PENDING'),
 	(2,'PROCESSING'),
 	(3,'APPROVED'),
-	(4,'REJECTED')
+	(4,'REJECTED'),
+	(5,'CANCELED')
 	)
 
 
