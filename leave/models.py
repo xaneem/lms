@@ -84,6 +84,10 @@ class UserProfile(models.Model):
 	
 	
 
+class ApplicationLog(models.Model):
+	application=models.ForeignKey('Application')
+	time = models.DateTimeField()
+	activity= models.TextField(max_length=50,blank=True,null=True)
 
 
 
@@ -97,13 +101,13 @@ class Application(models.Model):
 	date_to	= models.DateField()
 	status = models.IntegerField(choices=STATUS,default=2)
 	current_position= models.IntegerField(choices=USER_TYPES,default=3)
-
 	reason = models.TextField(max_length=200)
 	attachment1 = models.FileField(upload_to=".",null=True,blank=True)
 	attachment2 = models.FileField(upload_to=".",null=True,blank=True)
 	attachment3 = models.FileField(upload_to=".",null=True,blank=True)
 	time_generated = models.DateTimeField(auto_now_add=True)
 	time_approved = models.DateTimeField(null=True,blank=True)	#This field will be set only when the application is received.
+	response = models.TextField(max_length=400,blank=True,null=True)
 	
 	
 	def __unicode__(self):
