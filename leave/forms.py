@@ -7,11 +7,18 @@ from django.forms.extras.widgets import SelectDateWidget
 class ApplicationForm(ModelForm):
 
 	
+	def __init__(self, dept,*args, **kwargs):
+	    super(ApplicationForm, self).__init__(*args, **kwargs)
+	    self.fields['attachment1'].label = "Attachment 1"
+	    self.fields['attachment2'].label = "Attachment 2"
+	    self.fields['attachment3'].label = "Attachment 3"
+	    self.fields["employee"].queryset=Employee.objects.filter(dept=dept)
 
 	class Meta:
    		model = Application
    		fields = ['employee', 'leave_type', 'date_from', 'date_to','reason','attachment1','attachment2','attachment3']
    		widgets={'reason': Textarea(attrs={'cols': 10, 'rows': 5})}
+
 	
 	def is_valid(self):
 		valid=super(ApplicationForm,self).is_valid()

@@ -94,7 +94,7 @@ class Application(models.Model):
 	date_from = models.DateField()
 	date_to	= models.DateField()
 	status = models.IntegerField(choices=STATUS,default=1)
-	current_position= models.IntegerField(choices=USER_TYPES,default=1)
+	current_position= models.IntegerField(choices=USER_TYPES,default=2)
 
 	reason = models.TextField(max_length=200)
 	attachment1 = models.FileField(upload_to=".",null=True,blank=True)

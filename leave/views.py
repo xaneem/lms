@@ -71,9 +71,15 @@ def logt(request):
 
 
 
+@login_required
+@user_passes_test(isDept)
+def cancel_application(request):
+	if(request.method=='POST'):
+		userprofile=UserProfile.objects.get(user=request.user)
+		application_id=request.POST.get('id')
+		application=Application.objects.get(pk=application_id)
+		
 
-
-	
 
 
 @login_required
@@ -152,22 +158,23 @@ def dept(request):
 	'dept': userprofile.get_dept_display()
 	}
 
+
 	if(request.method=='POST'):
-		form = ApplicationForm(request.POST,request.FILES)
+		form = ApplicationForm(userprofile.dept,request.POST,request.FILES)
 		if(form.is_valid()):
 			form.save()
 			messages.success(request, 'Application added successfully') 
 			return redirect('sent')
 		else:
 			context['form']=form
+
 			return render(request,'leave/dept.html',context)
 
 
 	
 
-	form=ApplicationForm()
-	form.fields["employee"].queryset=Employee.objects.filter(dept=userprofile.dept)
-
+	form=ApplicationForm(userprofile.dept)
+	
 	context['form']=form
 
 	return render(request,'leave/dept.html',context)
