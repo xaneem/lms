@@ -39,8 +39,11 @@ def getStatus(sort):
 		status=3
 	elif(sort.lower()=="rejected"):
 		status=4
-	elif(sort.lower()=="canceled"):
+	elif(sort.lower()=="cancelled"):
 		status=5
+	elif(sort.lower()=="allprocessing"):
+		status=6
+	#This is for DR only
 	else:
 		status=0
 	return status
@@ -103,10 +106,10 @@ def cancel_application(request):
 			application.status=5
 			application.current_position=0
 			application.save()
-			activity="Application was canceled by "+userprofile.get_user_type_display()
+			activity="Application was cancelled by "+userprofile.get_user_type_display()
 			log_entry=ApplicationLog(application=application,time=datetime.now(),activity=activity)
 			log_entry.save()
-			messages.success(request, 'Application canceled successfully')
+			messages.success(request, 'Application cancelled successfully')
 
 		else:
 			messages.error(request, 'Some error occured , Could not cancel application!')
@@ -303,6 +306,7 @@ def sent(request,sort):
 	'applications':applications,
 	'status' :status,
 	'user_type': userprofile.user_type,
+	'user_display_name':userprofile.get_user_type_display,
 	}
 
 
@@ -373,13 +377,23 @@ def higher(request,sort):
 	status=getStatus(sort)
 	userprofile=UserProfile.objects.get(user=request.user)
 	
-
-	if userprofile.user_type == 4 :
-		all_list=Application.objects.filter(status=status)
-	else:
-		all_list=Application.objects.filter(current_position=userprofile.user_type,status=status)
 	
 
+	if userprofile.user_type == 4 :
+		if status == 2:
+			all_list=Application.objects.filter(current_position=userprofile.user_type,status=status)
+		elif status == 6:
+			all_list = all_list=Application.objects.filter(status=2)
+		elif status != 0:
+			all_list=Application.objects.filter(status=status)
+		else:
+			all_list=Application.objects.filter()
+	else:
+		if status == 0:
+			status = 2
+
+		all_list=Application.objects.filter(current_position=userprofile.user_type,status=status)
+	
 
 	paginator = Paginator(all_list, 10)
 	
@@ -393,8 +407,10 @@ def higher(request,sort):
 		applications = paginator.page(paginator.num_pages)
 	context= {
 	'name': request.user.username,
-	'usertype' :userprofile.get_user_type_display(),
 	'applications': applications,
+	'status': status,
+	'user_type': userprofile.user_type,
+	'user_display_name':userprofile.get_user_type_display,
 	}
 	return render(request,'leave/higher.html',context)
 
