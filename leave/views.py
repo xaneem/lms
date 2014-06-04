@@ -92,7 +92,45 @@ def cancel_application(request):
 		return redirect(reverse('details', args=(application.pk,)))
 	else:
 		raise PermissionDenied
+
 		
+@login_required
+@user_passes_test(isHigher)
+def change_authority(request):
+	if(request.method=='POST'):
+		userprofile=UserProfile.objects.get(user=request.user)
+		application_id=request.POST.get('id')
+		application=Application.objects.get(pk=application_id)
+		new_authority=request.POST.get('new_authority')
+		if new_authority!=application.current_position and 3 <= new_authority <= 6:
+			application.current_position=new_authority
+			application.save()
+			messages.success(request, 'Application forwarded to '+application.get_current_position_display)
+		else:
+			messages.error(request,'Could not forward application !')
+		return redirect(reverse('details',args=(application.pk)))
+	else:
+		raise PermissionDenied
+
+
+@login_required
+@user_passes_test(isHigher)
+def complete(request):
+	if(request.method=='POST'):
+		userprofile=UserProfile.objects.get(user=request.user)
+		application_id=request.POST.get('id')
+		status=request.POST.get('status')
+		application=Application.objects.get(pk=application_id)
+
+		if application.current_position == userprofile.user_type and 3 <= status <= 4:
+			application.status=status
+			application.save()
+			messages.success(request, 'Application '+application.get_status_display+' successfully')
+		else:
+			messages.error(request,'Could not complete your request !')
+		return redirect(reverse('details',args=(application.pk)))
+	else:
+		raise PermissionDenied
 
 
 
@@ -108,7 +146,8 @@ def details(request,id):
 	
 	context= {
 	'application':application,
-	'days_count':(application.date_to-application.date_from).days+1
+	'days_count':(application.date_to-application.date_from).days+1,
+	'user_type':userprofile.user_type
 	}
 
 
@@ -132,7 +171,7 @@ def sent(request):
 	page = request.GET.get('page')
 	all_list=Application.objects.filter(employee__dept=userprofile.dept).order_by("-time_generated")
 	
-	if 1<= status <=4:
+	if 1<= status <=5:
 		all_list= all_list.filter(status=status)
 	
 	paginator = Paginator(all_list, 10)
@@ -170,6 +209,7 @@ def dept(request):
 	context= {
 	'name': request.user.username,
 	'dept': userprofile.get_dept_display()
+	
 	}
 
 
