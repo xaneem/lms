@@ -28,6 +28,32 @@
         </style>
     </head>
     <body>
+        
+        
+        <!-- Cancel Application Confirmation -->
+        <div class="modal fade" id="cancel-confirm">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Cancel Application?</h4>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to cancel this application? This action cannot be reverted.
+                    </div>
+                    <div class="modal-footer">
+                        <form action="{% url 'cancel_application' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="id" value="{{application.pk}}">
+
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="glyphicon glyphicon-ban-circle"></i> Close</button>
+                            <button type="submit" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i> Cancel Application</button>
+                        </form>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
     	<nav class="navbar navbar-default" role="navigation">
     	    <div class="navbar-header">
     	        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -58,23 +84,19 @@
 
         <div class="container">
             <div class="row">
-               
-
                 <div class="col-md-12">
-                         <div class="row">
-                            <div class="col-md-6">
-                                <h3>Application Details</h3>
-                            </div>
-                            <div class="col-md-6">
-                                  {% if messages %}
-                                        {% for message in messages %}
-                                             {% bootstrap_messages message %}
-                                        {% endfor %}
-                                {% endif %}
-                            </div>
-                         </div>
-                         
-
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3>Application Details</h3>
+                        </div>
+                        {% if messages %}
+                        <div class="col-md-6">
+                            {% for message in messages %}
+                            {% bootstrap_messages message %}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
 
                     <ol class="breadcrumb">
                         <li>
@@ -85,9 +107,6 @@
                         </li>
                         <li class="active">Application Details</li>
                     </ol>
-
-                    <br>
-
                     <div class="row">
                         <div class="col-sm-6">
                             <table class="table table-striped">
@@ -131,6 +150,15 @@
                                         <th>Status</th>
                                         <td>{{application.get_status_display}}</td>
                                     </tr>
+
+                                    {% if application.status == 1  %}
+                                    <tr>
+                                        <th>Action</th>
+                                        <td>
+                                            <a class="btn btn-danger" data-toggle="modal" href='#cancel-confirm'><i class="glyphicon glyphicon-remove"></i> Cancel Application</a>
+                                        </td>
+                                    </tr>
+                                    {% endif %}
                                     
                                 </tbody>
                             </table>
@@ -186,14 +214,11 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            {% if application.status == 1  %}
-                            <form action="{% url 'cancel_application' %}" method="POST">
-                                {% csrf_token %}
-                                <input type="hidden" name="id" value="{{application.pk}}">
-                                <input type="submit" value="Cancel application" >
-                            </form>
-                            {% endif %}
-
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            
                         </div>
                     </div>
                 </div>
