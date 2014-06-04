@@ -10,9 +10,7 @@
         <title>Application Details - LMS</title>
 
         <link href="{% static 'leave/css/bootstrap.min.css' %}" rel="stylesheet">
-        <link href="{% static 'leave/css/chosen.min.css' %}" rel="stylesheet">
         <link href="{% static 'leave/css/datepicker3.css' %}" rel="stylesheet">
-
         <script src="{% static 'leave/js/jquery-1.11.1.min.js' %}"></script>
         <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -297,7 +295,8 @@
         </div>
 
         <div class="space-15px"></div>
-        <script src="{% static 'leave/js/bootstrap.min.js' %}" ></script>       
+        <script src="{% static 'leave/js/bootstrap.min.js' %}" ></script>
+        <script src="{% static 'leave/js/bootstrap-datepicker.js' %}" ></script>     
 
         <script>
             var csrfmiddlewaretoken = "{{csrf_token}}",
@@ -306,6 +305,15 @@
                 urlAuthority = "{% url 'change_authority' %}";
 
             $(function() {
+
+                $('#edit-from-date, #edit-to-date').attr('readonly', true).css({
+                    backgroundColor: '#ffffff',
+                    cursor: 'pointer',
+                }).datepicker({
+                    startDate: "today",
+                    todayHighlight: true
+                });
+
 
                 $('#action-approve').on('click', function(event){
                     event.preventDefault();
