@@ -291,10 +291,30 @@ def clerk(request):
 @user_passes_test(isHigher)
 def higher(request):
 
+	status=getStatus(sort)
 	userprofile=UserProfile.objects.get(user=request.user)
+	
 
+	if userprofile.usertype == 4 :
+		all_list=Application.objects.filter(status=status)
+	else:
+		all_list=Application.objects.filter(current_position=userprofile.user_type,status=status)
+	
+
+
+	paginator = Paginator(all_list, 10)
+	
+	try:
+		applications = paginator.page(page)
+	except PageNotAnInteger:
+		# If page is not an integer, deliver first page.
+		applications = paginator.page(1)
+	except EmptyPage:
+		# If page is out of range (e.g. 9999), deliver last page of results.
+		applications = paginator.page(paginator.num_pages)
 	context= {
 	'name': request.user.username,
 	'usertype' :userprofile.get_user_type_display()
 	}
 	return render(request,'leave/higher.html',context)
+
