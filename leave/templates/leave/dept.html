@@ -38,11 +38,13 @@
     	        </button>
     	        <a class="navbar-brand" href="{% url 'index' %}">Leave Management System</a>
     	    </div>
-    	
+
+
+
     	    <div class="collapse navbar-collapse navbar-ex1-collapse">
     	        <ul class="nav navbar-nav">
                     <li class="active"><a href="{% url 'dept' %}">Create</a></li>
-                    <li><a href="{% url 'sent' %}">View</a></li>
+                    <li><a href="{% url 'sent' '' %}">View</a></li>
                 </ul>
     	        <ul class="nav navbar-nav navbar-right">
     	            <li class="dropdown">

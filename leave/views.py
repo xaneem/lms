@@ -26,7 +26,24 @@ def isClerk(user):
 def isHigher(user):
 	return user.groups.filter(name='higher')
 
-			
+
+def getStatus(sort):
+	if(sort==None):
+		status=0
+	elif(sort.lower()=="pending"):
+		status=1
+	elif(sort.lower()=="processing"):
+		status=2
+	elif(sort.lower()=="approved"):
+		status=3
+	elif(sort.lower()=="rejected"):
+		status=4
+	elif(sort.lower()=="canceled"):
+		status=5
+	else:
+		status=0
+	return status
+
 
 
 # Create your views here.
@@ -135,7 +152,7 @@ def complete(request):
 				messages.success(request, 'Application '+application.get_status_display()+' successfully')
 			else:
 				messages.error(request, 'Insufficient number of leaves left!')
-			
+
 
 		else:
 			messages.error(request,'Could not complete your request !')
@@ -169,17 +186,10 @@ def details(request,id):
 
 @login_required
 @user_passes_test(isDept)
-def sent(request):
+def sent(request,sort):
 	userprofile=UserProfile.objects.get(user=request.user)
-	status = request.GET.get('status')
-	if(status==None):
-		status=0
+	status=getStatus(sort)
 
-	try:
-		status = int(status)
-	except ValueError:
-		#Handle the exception
-		status=0
 	page = request.GET.get('page')
 	all_list=Application.objects.filter(employee__dept=userprofile.dept).order_by("-time_generated")
 	
