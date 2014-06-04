@@ -112,7 +112,7 @@
                                         <th> Attachments </th>
                                         <td>{% if application.attachment1 %}
                                                 {{ application.attachment1.url }}
-                                            {{% endif %}
+                                            {% endif %}
                                         </td>
 
 
@@ -135,6 +135,10 @@
                                     <tr>
                                         <th>Apporoval time</th>
                                         <td>{{application.time_approved}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Status</th>
+                                        <td>{{application.get_status_display}}</td>
                                     </tr>
                                     <tr>
                                         <th>Reason</th>
