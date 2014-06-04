@@ -11,6 +11,7 @@ from django.contrib.auth import authenticate,login,logout
 from leave.forms import ApplicationForm
 from django.views.generic import ListView
 from django.contrib import messages
+from django.core.urlresolvers import reverse
 
 #Users are divided to Depts,Clerk,'Higher'
 #'higher' includes Dean,Dr,Registrar Etc
@@ -66,7 +67,7 @@ def index(request):
 
 def logt(request):
 	logout(request)
-	return redirect('/')
+	return redirect('index')
 		
 
 
@@ -88,7 +89,7 @@ def cancel_application(request):
 		else:
 			messages.error(request, 'Some error occured , Could not cancel application!')
 
-		return redirect("/details/"+application_id)
+		return redirect(reverse('details', args=(application.pk,)))
 	else:
 		raise PermissionDenied
 		
@@ -175,9 +176,9 @@ def dept(request):
 	if(request.method=='POST'):
 		form = ApplicationForm(userprofile.dept,request.POST,request.FILES)
 		if(form.is_valid()):
-			form.save()
+			new_application=form.save()
 			messages.success(request, 'Application added successfully') 
-			return redirect('sent')
+			return redirect(reverse('details', args=(new_application.pk,)))
 		else:
 			context['form']=form
 
