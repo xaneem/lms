@@ -190,6 +190,8 @@ def details(request,id):
 	'application':application,
 	'days_count':(application.date_to-application.date_from).days+1,
 	'user_type':userprofile.user_type,
+	'user_display_name':userprofile.get_user_type_display,
+	'dept': userprofile.get_dept_display,
 	'application_log':application_log
 	}
 	return render(request,'leave/application.html',context)
