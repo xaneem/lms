@@ -34,7 +34,7 @@
     	            <span class="icon-bar"></span>
     	            <span class="icon-bar"></span>
     	        </button>
-    	        <a class="navbar-brand" href="#">Leave Management System</a>
+    	        <a class="navbar-brand" href="{% url 'index' %}">Leave Management System</a>
     	    </div>
     	
     	    <div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -60,7 +60,7 @@
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-6">
-                            <h2>Sent Applications</h2>
+                            <h3>Sent Applications</h3>
                         </div>
                         <div class="col-md-6">
                             {% if messages %}
@@ -106,6 +106,7 @@
                                 <th>From</th>
                                 <th>To</th>
                                 <th>Application Status</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -120,6 +121,7 @@
                                 <td>{{ application.date_from }}</td>
                                 <td>{{ application.date_to }}</td>
                                 <td>{{ application.get_status_display }}</td>
+                                <td><a class="btn btn-default btn-xs" href="{% url 'details' application.pk %}"><i class="glyphicon glyphicon-stats"></i> &nbsp;Details</a></td>
                             </tr>
                             {% endfor %}
                         {% else %}
