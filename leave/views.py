@@ -67,9 +67,9 @@ def index(request):
 	if request.user.is_authenticated():
 		
 		if isHigher(request.user):
-			return redirect('higher')
+			return redirect(reverse('higher',args=('',)))
 		elif isClerk(request.user):
-			return redirect('clerk')
+			return redirect(reverse('clerk',args=('',)))
 		elif isDept(request.user):
 			return redirect('dept')
 		else:
@@ -289,13 +289,13 @@ def clerk(request):
 
 @login_required
 @user_passes_test(isHigher)
-def higher(request):
-
+def higher(request,sort):
+	page=request.GET.get('page')
 	status=getStatus(sort)
 	userprofile=UserProfile.objects.get(user=request.user)
 	
 
-	if userprofile.usertype == 4 :
+	if userprofile.user_type == 4 :
 		all_list=Application.objects.filter(status=status)
 	else:
 		all_list=Application.objects.filter(current_position=userprofile.user_type,status=status)
