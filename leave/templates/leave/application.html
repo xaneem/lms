@@ -225,11 +225,11 @@
                                         <td>
                                             <div class="form-group">
                                                 <label for="edit-from-date">Change From Date</label>
-                                                <input type="text" class="form-control" id="edit-from-date" placeholder="Change From Date">
+                                                <input type="text" class="form-control" id="edit-from-date" placeholder="Change From Date" value="{{ application.new_date_from|date:"m/d/Y" }}">
                                             </div>
                                             <div class="form-group">
                                                 <label for="edit-to-date">Change To Date</label>
-                                                <input type="text" class="form-control" id="edit-to-date" placeholder="Change To Date">
+                                                <input type="text" class="form-control" id="edit-to-date" placeholder="Change To Date" value="{{ application.new_date_to|date:"m/d/Y" }}">
                                             </div>
                                             <div class="form-group">
                                                 <label for="edit-notes">Add Notes</label>
@@ -282,7 +282,12 @@
                                     {% for log in application_log %}
                                     <tr>
                                         <td>{{log.time }} </td>
-                                        <td>{{log.activity}}</td>
+                                        <td>{{log.activity}}
+                                                                              
+                                            {% if log.notes %}
+                                             <br>
+                                            Note:{{log.notes|linebreaks}}
+                                              {% endif %}</td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
@@ -336,12 +341,14 @@
                             csrfmiddlewaretoken : csrfmiddlewaretoken,
                         },
                         success: function(data, textStatus, xhr) {
-                            alert('success');
+                                  alert(data.message);
                             location.reload();
+                          
+
                         },
                         error: function() {
-                            alert('error');
-                            location.reload();
+                           alert("error")
+                           location.reload();
                         }
                     });
                 });
@@ -367,12 +374,13 @@
                             csrfmiddlewaretoken : csrfmiddlewaretoken,
                         },
                         success: function(data, textStatus, xhr) {
-                            alert('success');
+                              
                             location.reload();
+                           
                         },
                         error: function() {
                             alert('error');
-                            location.reload();
+                        location.reload();
                         }
                     });
                 });
@@ -387,7 +395,7 @@
                         newAuthority = $('#new-authority').val();
 
                     $.ajax({
-                        url: urlAction,
+                        url: urlAuthority,
                         type: 'POST',
                         dataType: 'json',
                         data: {
@@ -399,12 +407,16 @@
                             csrfmiddlewaretoken : csrfmiddlewaretoken,
                         },
                         success: function(data, textStatus, xhr) {
-                            alert('success');
+                          
+                            
                             location.reload();
+                           
+
+
                         },
                         error: function() {
                             alert('error');
-                            location.reload();
+                          location.reload();
                         }
                     });
                 });
