@@ -29,7 +29,7 @@
     </head>
     <body>
         
-        
+        {% if application.status == 1  %}
         <!-- Cancel Application Confirmation -->
         <div class="modal fade" id="cancel-confirm">
             <div class="modal-dialog">
@@ -53,6 +53,7 @@
                 </div>
             </div>
         </div>
+        {% endif %}
 
     	<nav class="navbar navbar-default" role="navigation">
     	    <div class="navbar-header">
