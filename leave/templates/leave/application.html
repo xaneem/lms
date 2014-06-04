@@ -270,9 +270,15 @@
                                     </tr>
                                     {% endif %}
                                     {% endif %}
+                                    <ul>
+                    
+                                    
+
                                 </tbody>
                             </table>
-
+                                            {% for log in application_log %}
+                                        {{log.time }} : {{log.activity}} <br>
+                                    {% endfor %}
                             
                         </div>
                     </div>
