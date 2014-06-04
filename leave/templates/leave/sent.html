@@ -64,17 +64,13 @@
                         </div>
                         <div class="col-md-6">
                             {% if messages %}
-                            <div class="row">
-                                <div class="col-md-6">
                                         {% for message in messages %}
                                              {% bootstrap_messages message %}
                                         {% endfor %}
-                                </div>
-                            </div>
                             {% endif %}
                         </div>
-                        
                     </div>
+                    
                     <div class="pull-left">
                         {% bootstrap_pagination applications %}
                     </div>
