@@ -83,7 +83,7 @@
                                 <li {% if status == 2  %} class="active"{% endif %}><a href="{% url 'sent' 'processing' %}">Processing</a></li>
                                 <li {% if status == 3  %} class="active"{% endif %}><a href="{% url 'sent' 'approved' %}">Approved</a></li>
                                 <li {% if status == 4  %} class="active"{% endif %}><a href="{% url 'sent' 'rejected' %}">Rejected</a></li>
-                                <li {% if status == 5  %} class="active"{% endif %}><a href="{% url 'sent' 'canceled' %}">Cancelled</a></li>
+                                <li {% if status == 5  %} class="active"{% endif %}><a href="{% url 'sent' 'cancelled' %}">Cancelled</a></li>
                             </ul>
                         </div>
                         <p>&nbsp;</p><br>
