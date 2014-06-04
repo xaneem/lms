@@ -244,8 +244,8 @@ def dept(request):
 	userprofile=UserProfile.objects.get(user=request.user)
 	context= {
 	'name': request.user.username,
-	'dept': userprofile.get_dept_display()
-	
+	'dept': userprofile.get_dept_display(),
+	'user_type': userprofile.user_type
 	}
 
 
