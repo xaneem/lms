@@ -26,42 +26,49 @@
         </style>
     </head>
     <body>
-    	<nav class="navbar navbar-default" role="navigation">
-    	    <div class="navbar-header">
-    	        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-    	            <span class="sr-only">Toggle navigation</span>
-    	            <span class="icon-bar"></span>
-    	            <span class="icon-bar"></span>
-    	            <span class="icon-bar"></span>
-    	        </button>
-    	        <a class="navbar-brand" href="{% url 'index' %}">Leave Management System</a>
-    	    </div>
-    	
-    	    <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{% url 'index' %}">Leave Management System</a>
+            </div>
+        
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="{% url 'dept' %}">Create</a></li>
-                    <li class="active"><a href="{% url 'sent' '' %}">View</a></li>
+                    <li class="active"><a href="{% url 'sent' '' %}">Sent Applications</a></li>
                 </ul>
-    	        <ul class="nav navbar-nav navbar-right">
-    	            <li class="dropdown">
-    	                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{dept}} Dept. <b class="caret"></b></a>
-    	                <ul class="dropdown-menu">
-    	                    <li class="dropdown-header">{{name}}</li>
-    	                    <li><a href="{% url 'logt' %}"><i class="glyphicon glyphicon-log-out"></i> Log Out</a></li>
-    	                </ul>
-    	            </li>
-    	        </ul>
-    	    </div>
-    	</nav>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% if user_type == 1 %}{{dept}} Dept.{% else %} {{user_display_name}} {% endif %}<b class="caret"></b></a> 
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-header">{{name}}</li>
+                            <li><a href="{% url 'logt' %}"><i class="glyphicon glyphicon-log-out"></i> Log Out</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
 
-        <div class="space-15px"></div>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <h3>Sent Applications</h3>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="{% url 'index' %}">Home</a>
+                        </li>
+                        <li class="active">Sent Applications</li>
+                    </ol>
+
                     <div class="pull-left">
                         {% bootstrap_pagination applications %}
                     </div>
+
                     <div class="pull-right">
                         <div class="btn-group">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -100,11 +107,11 @@
                                 <td>{{ forloop.counter0|add:applications.start_index}} </td>
                                 <td>{{ application.time_generated }}</td>
                                 <td>{{ application.employee.name }}</td>
-                                <td>{{ application.get_leave_type_display }}</td>
+                                <td>{{ application.get_leave_type_display|title }}</td>
                                 <td>{{ application.date_from }}</td>
                                 <td>{{ application.date_to }}</td>
-                                <td>{{ application.get_status_display }}</td>
-                                <td><a class="btn btn-default btn-xs" href="{% url 'details' application.pk %}"><i class="glyphicon glyphicon-stats"></i> &nbsp;Details</a></td>
+                                <td>{{ application.get_status_display|title }}</td>
+                                <td><a class="btn btn-default btn-xs" href="{% url 'details' application.pk %}"><i class="glyphicon glyphicon-stats"></i> &nbsp;View Details</a></td>
                             </tr>
                             {% endfor %}
                         {% else %}

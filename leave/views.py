@@ -182,8 +182,8 @@ def details(request,id):
 		raise Http404
 	if isDept(request.user) and application.employee.dept!=userprofile.dept:
 		raise PermissionDenied
-	application_log=ApplicationLog.objects.filter(application=application).order_by("-time")
-
+	application_log=ApplicationLog.objects.filter(application=application).order_by("time")
+												
 
 	context= {
 	'name':request.user.username,
@@ -226,7 +226,8 @@ def sent(request,sort):
 	'name': request.user.username,
 	'dept': userprofile.get_dept_display(),
 	'applications':applications,
-	'status' :status
+	'status' :status,
+	'user_type': userprofile.user_type,
 	}
 
 

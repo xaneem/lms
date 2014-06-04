@@ -274,15 +274,24 @@
                                 </tbody>
                             </table>
 
-                            <label>Log</label><br>
-                            {% for log in application_log %}
-                            {{log.time }} : {{log.activity}} <br>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            
+                            <h4>Detailed Log</h4>
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Date/Time</th>
+                                        <th>Note</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for log in application_log %}
+                                    <tr>
+                                        <td>{{log.time }} </td>
+                                        <td>{{log.activity}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
                         </div>
                     </div>
                 </div>

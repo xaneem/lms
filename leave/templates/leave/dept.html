@@ -60,9 +60,15 @@
             <div class="row">
                 <div class="col-md-12">
                     
-                    <h3>Create a new application</h3>
-                    <br>
+                    <h3>Create Application</h3>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="{% url 'index' %}">Home</a>
+                        </li>
+                        <li class="active">Create Application</li>
+                    </ol>
 
+                    <p>Please fill the details for the application. You can add upto 3 attachments if required.</p>
                     <form role="form" action="{% url 'dept' %}" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         
