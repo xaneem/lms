@@ -12,6 +12,8 @@ urlpatterns = patterns('',
     url(r'^logt/',views.logt,name='logt'),
     url(r'^details/(\d+)/$',views.details,name='details'),
     url(r'^cancel_application/$',views.cancel_application,name='cancel_application'),
+    url(r'^change_authority/$',views.change_authority,name='change_authority'),
+    url(r'^complete/$',views.complete,name='complete'),
  	url(r'^attachments/(?P<path>.*)$', 'django.views.static.serve', {
             'document_root': settings.MEDIA_ROOT,
         }))

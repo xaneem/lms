@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from datetime import datetime 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger 
 from django.contrib.auth.decorators import login_required, user_passes_test
 from leave.models import UserProfile,Employee,Application
@@ -102,13 +103,16 @@ def change_authority(request):
 		application_id=request.POST.get('id')
 		application=Application.objects.get(pk=application_id)
 		new_authority=request.POST.get('new_authority')
-		if new_authority!=application.current_position and 3 <= new_authority <= 6:
+		new_authority=int(new_authority)
+		
+		if new_authority != application.current_position and 3 <= int(new_authority) <= 6:
+			
 			application.current_position=new_authority
 			application.save()
-			messages.success(request, 'Application forwarded to '+application.get_current_position_display)
+			messages.success(request, 'Application forwarded to '+application.get_current_position_display())
 		else:
 			messages.error(request,'Could not forward application !')
-		return redirect(reverse('details',args=(application.pk)))
+		return redirect(reverse('details',args=(application.pk,)))
 	else:
 		raise PermissionDenied
 
@@ -120,15 +124,22 @@ def complete(request):
 		userprofile=UserProfile.objects.get(user=request.user)
 		application_id=request.POST.get('id')
 		status=request.POST.get('status')
+		status=int(status)
 		application=Application.objects.get(pk=application_id)
 
 		if application.current_position == userprofile.user_type and 3 <= status <= 4:
-			application.status=status
-			application.save()
-			messages.success(request, 'Application '+application.get_status_display+' successfully')
+			if (application.date_to-application.date_from).days <= application.employee.leave_balance :
+				application.status=status
+				application.time_approved=datetime.now()
+				application.save()
+				messages.success(request, 'Application '+application.get_status_display()+' successfully')
+			else:
+				messages.error(request, 'Insufficient number of leaves left!')
+			
+
 		else:
 			messages.error(request,'Could not complete your request !')
-		return redirect(reverse('details',args=(application.pk)))
+		return redirect(reverse('details',args=(application.pk,)))
 	else:
 		raise PermissionDenied
 
@@ -145,6 +156,7 @@ def details(request,id):
 		raise PermissionDenied
 	
 	context= {
+	'name':request.user.username,
 	'application':application,
 	'days_count':(application.date_to-application.date_from).days+1,
 	'user_type':userprofile.user_type
