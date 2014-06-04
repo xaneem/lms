@@ -81,9 +81,7 @@
                                 <a class="btn btn-default {% if status == 6 %}active{% endif %}" href="{% url 'higher' 'allprocessing' %}">Processing</a>
                                 {% endif %}
                                 <a class="btn btn-default {% if status == 3 %}active{% endif %}" href="{% url 'higher' 'approved' %}">Approved</a>
-                                {% if user_type == 4%}
                                 <a class="btn btn-default {% if status == 4 %}active{% endif %}" href="{% url 'higher' 'rejected' %}">Rejected</a>
-                                {% endif %}
                                 {% if user_type == 4%}
                                 <a class="btn btn-default {% if status == 5 %}active{% endif %}" href="{% url 'higher' 'cancelled' %}">Cancelled</a>
                                 {% endif %}
