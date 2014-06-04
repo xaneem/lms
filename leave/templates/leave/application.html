@@ -155,16 +155,42 @@
                                         <th>Status</th>
                                         <td>{{application.get_status_display}}</td>
                                     </tr>
-
-                                    {% if application.status == 1  %}
+                                    {% if user_type %}
+                                    {% if user_type == 1 and application.status == 1 %}
                                     <tr>
                                         <th>Action</th>
                                         <td>
                                             <a class="btn btn-danger" data-toggle="modal" href='#cancel-confirm'><i class="glyphicon glyphicon-remove"></i> Cancel Application</a>
                                         </td>
                                     </tr>
+                                    {% elif user_type == 2 %}
+                                    <tr>
+                                        <th>Action</th>
+                                        <td>
+                                            Clerk actions
+                                        </td>
+                                    </tr>
+                                    {% elif 3 <= user_type <= 6 and application.status = 2 %}
+                                    <tr>
+                                        <td colspan="2" class="text-center">
+                                            <button class="btn btn-success"><i class="glyphicon glyphicon-ok"></i> Approve</button>
+                                            <button class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i> Reject</button>
+
+                                            <div class="btn-group dropup text-left">
+                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                                <i class="glyphicon glyphicon-share"></i> Forward Application to <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <li><a href="#">Dean</a></li>
+                                                    <li><a href="#">Deputy Registrar</a></li>
+                                                    <li><a href="#">Registrar</a></li>
+                                                    <li><a href="#">Director</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
                                     {% endif %}
-                                    
+                                    {% endif %}
                                 </tbody>
                             </table>
 
