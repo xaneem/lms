@@ -220,7 +220,7 @@ def complete(request):
 			if application.status==3 or days <= application.employee.leave_balance :
 				application.status=status
 				application.time_approved=datetime.now()
-				if application.new_date_from!=date_from or application.new_date_to!=date_to:
+				if status==3 and (application.new_date_from!=date_from or application.new_date_to!=date_to):
 					if notes and notes!="":
 						notes+='\n'
 					notes+=userprofile.get_user_type_display()+" updated recommended date  : "+str(date_from)+" to "+str(date_to)
