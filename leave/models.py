@@ -5,29 +5,38 @@ from django.contrib.auth.models import User
 # Each choice in this list represents a End-User of the software,
 # who has the previlege to enter a new application to the system.
 DEPARTMENTS = (
-	(0,'OTHER'),
-	(1,'CSED'),
-	(2,'MED'),
-	(3,'EED'),
-	(4,'CED'),
-
+	(0,'Other'),
+	(1,'Computer Science'),
+	(2,'Mechanical'),
+	(3,'Electrical'),
+	(4,'Civil'),
+	(5,'Electronics'),
+	(6,'Chemical'),
+	(7,'Biotechnology'),
+	(8,'Architecture'),
+	(9,'Mathematics'),
+	(10,'Nanotechnology'),
+	(11,'Chemistry'),
+	(12,'SOMS'),
 	)
-
 
 #Different posts of Employees
 POSTS = (
-	(1,'AD-HOC'),
-	(2,'ASSISTANT PROFESSOR'),
-	(3,'ASSOCIATE PROFESSOR'),
+	(1,'Ad-Hoc'),
+	(2,'Assistant Professor'),
+	(3,'Associate Professor'),
 	(4,'HOD'),
+	(5,'Professor'),
 	)
 
 
 #Types of leave
 LEAVE_TYPES = (
-	(1,'HALF PAY'),
-	(2,'ON DUTY'),
-	(3,'EARNED LEAVE'),
+	(1,'Special Casual Leave'),
+	(2,'Earned Leave'),
+	(3,'Half Pay Leave'),
+	(3,'Commuted Leave'),
+	(3,'On Duty Leave'),
 	)
 
 
@@ -36,25 +45,22 @@ LEAVE_TYPES = (
 USER_TYPES = (
 	(0, ''),
 	(1,	'HOD'),
-    (2, 'CLERK'),
-    (3, 'DEAN'),
-    (4, 'DR'),
-    (5,	'REGISTRAR'),
-    (6,	'DIRECTOR'),
+    (2, 'Clerk'),
+    (3, 'Dean'),
+    (4, 'Deputy Registrar'),
+    (5,	'Registrar'),
+    (6,	'Director'),
 )
 
 
 #Status of Application
 STATUS = (
-	(1,'PENDING'),
-	(2,'PROCESSING'),
-	(3,'APPROVED'),
-	(4,'REJECTED'),
-	(5,'CANCELED')
+	(1,'Pending'),
+	(2,'Processing'),
+	(3,'Approved'),
+	(4,'Rejected'),
+	(5,'Cancelled')
 	)
-
-
-# Create your models here.
 
 
 #Model for employees
@@ -101,7 +107,7 @@ class Application(models.Model):
 	date_from = models.DateField()
 	date_to	= models.DateField()
 	status = models.IntegerField(choices=STATUS,default=2)
-	current_position= models.IntegerField(choices=USER_TYPES,default=3)
+	current_position= models.IntegerField(choices=USER_TYPES,default=4)
 	reason = models.TextField(max_length=200)
 	new_date_to=models.DateField(null=True)
 	new_date_from=models.DateField(null=True)
@@ -112,7 +118,7 @@ class Application(models.Model):
 	time_approved = models.DateTimeField(null=True,blank=True)	#This field will be set only when the application is received.
 		
 	def __unicode__(self):
-		return self.employee.name+self.get_leave_type_display()	
+		return self.employee.name + " - " + self.get_leave_type_display()	
 
 
 
