@@ -282,12 +282,10 @@
                                     {% for log in application_log %}
                                     <tr>
                                         <td>{{log.time }} </td>
-                                        <td>{{log.activity}}
-                                                                              
-                                            {% if log.notes %}
-                                             <br>
-                                            Note:{{log.notes|linebreaks}}
-                                              {% endif %}</td>
+                                        <td>
+                                            {{log.activity}}
+                                            {% if log.notes %}<br><strong>Note:</strong>{{ log.notes|linebreaks}}{% endif %}
+                                        </td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
