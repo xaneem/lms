@@ -381,20 +381,20 @@ def higher(request,sort):
 
 	if userprofile.user_type == 4 :
 		if status == 2:
-			all_list=Application.objects.filter(current_position=userprofile.user_type,status=status)
+			all_list=Application.objects.filter(current_position=userprofile.user_type,status=status).order_by("-time_generated")
 		elif status == 6:
-			all_list = all_list=Application.objects.filter(status=2)
+			all_list = all_list=Application.objects.filter(status=2).order_by("-time_generated")
 		elif status != 0:
-			all_list=Application.objects.filter(status=status)
+			all_list=Application.objects.filter(status=status),order_by("-time_generated")
 		else:
-			all_list=Application.objects.filter()
+			all_list=Application.objects.filter().order_by("-time_generated")
 	else:
 		if status == 0:
 			status = 2
 
-		all_list=Application.objects.filter(current_position=userprofile.user_type,status=status)
+		all_list=Application.objects.filter(current_position=userprofile.user_type,status=status).order_by("-time_generated")
 	
-
+	
 	paginator = Paginator(all_list, 10)
 	
 	try:
