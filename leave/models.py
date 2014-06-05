@@ -103,6 +103,8 @@ class Application(models.Model):
 	status = models.IntegerField(choices=STATUS,default=2)
 	current_position= models.IntegerField(choices=USER_TYPES,default=3)
 	reason = models.TextField(max_length=200)
+	new_date_to=models.DateField(null=True)
+	new_date_from=models.DateField(null=True)
 	attachment1 = models.FileField(upload_to=".",null=True,blank=True)
 	attachment2 = models.FileField(upload_to=".",null=True,blank=True)
 	attachment3 = models.FileField(upload_to=".",null=True,blank=True)
