@@ -33,11 +33,11 @@ class ApplicationForm(ModelForm):
 		
 
 		if date_from<datetime.now().date():
-			self.errors['date_from']=['Aha?']
+			self.errors['date_from']=['Invalid from date']
 			return False
 
 		if(date_to<date_from):
-			self.errors['date_to']=["Seriously? :P"]
+			self.errors['date_to']=["Invalid to date"]
 
 			return False
 

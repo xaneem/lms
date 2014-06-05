@@ -142,7 +142,7 @@ def change_authority(request):
 			valid=False
 			to_json['message']='Invalid dates entered.'
 		else:
-			if date_to>application.new_date_to or date_from<application.new_date_from:
+			if date_from>date_to or date_to>application.new_date_to or date_from<application.new_date_from:
 				valid=False
 				to_json['message']='Selected dates out of range. Please select valid dates.'
 		if not valid:
@@ -208,7 +208,7 @@ def complete(request):
 			valid=False
 			to_json['message']='Invalid dates entered.'
 		else:
-			if date_to>application.new_date_to or date_from<application.new_date_from:
+			if date_from>date_to or date_to>application.new_date_to or date_from<application.new_date_from:
 				valid=False
 				to_json['message']='Selected dates out of range. Please select valid dates.'
 		if not valid:
