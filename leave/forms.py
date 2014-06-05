@@ -16,7 +16,8 @@ class ApplicationForm(ModelForm):
 
 	class Meta:
    		model = Application
-   		fields = ['employee', 'leave_type', 'date_from', 'date_to','reason','attachment1','attachment2','attachment3']
+   		fields = ['employee', 'leave_type', 'date_from', 'date_to','reason','attachment1',
+   		'attachment2','attachment3',]
    		widgets={'reason': Textarea(attrs={'cols': 10, 'rows': 5})}
 
 	
