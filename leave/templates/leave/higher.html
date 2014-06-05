@@ -1,14 +1,139 @@
-<h2>Welcome {{usertype}} of NIT Calicut</h2>
-Hi {{name}}<br>
+{% load bootstrap3 %}
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{{user_display_name}} - LMS</title>
+
+        <link href="{% static 'leave/css/bootstrap.min.css' %}" rel="stylesheet">
+        <script src="{% static 'leave/js/jquery-1.11.1.min.js' %}"></script>
+
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <style>
+            .space-15px{
+                height: 15px;
+                margin:0;
+                padding: 0;
+                border: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{% url 'index' %}">Leave Management System</a>
+            </div>
+        
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% if user_type == 1 %}{{dept}} Dept.{% else %} {{user_display_name}} {% endif %}<b class="caret"></b></a> 
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-header">{{name}}</li>
+                            <li><a href="{% url 'logt' %}"><i class="glyphicon glyphicon-log-out"></i> Log Out</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Applications</h3>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="{% url 'index' %}">Home</a>
+                        </li>
+                        <li class="active">Applications</li>
+                    </ol>
+
+                    <div class="pull-left">
+                        {% if applications.has_other_pages %}
+                        {% bootstrap_pagination applications %}
+                        {% endif %}
+                    </div>
+
+                    <div class="pull-right">
+                        <br>
+                        <div class="btn-group">
+                                {% if user_type == 4%}
+                                <a class="btn btn-default {% if status == 0 %}active{% endif %}" href="{% url 'higher' '' %}">All</a>
+                                {% endif %}
+                                <a class="btn btn-warning {% if status == 2 %}active{% endif %}" href="{% url 'higher' 'processing' %}">Requires Action</a>
+                                {% if user_type == 4%}
+                                <a class="btn btn-default {% if status == 6 %}active{% endif %}" href="{% url 'higher' 'allprocessing' %}">Processing</a>
+                                {% endif %}
+                                <a class="btn btn-default {% if status == 3 %}active{% endif %}" href="{% url 'higher' 'approved' %}">Approved</a>
+                                {% if user_type == 4%}
+                                <a class="btn btn-default {% if status == 4 %}active{% endif %}" href="{% url 'higher' 'rejected' %}">Rejected</a>
+                                {% endif %}
+                                {% if user_type == 4%}
+                                <a class="btn btn-default {% if status == 5 %}active{% endif %}" href="{% url 'higher' 'cancelled' %}">Cancelled</a>
+                                {% endif %}
+                        </div>
+                        <p>&nbsp;</p><br>
+                    </div>
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Time Applied</th>
+                                <th>Employee Name</th>
+                                <th>Leave Type</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Application Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% if applications %}
+                            {% for application in applications %}
+                            <tr>
+
+                                <td>{{ forloop.counter0|add:applications.start_index}} </td>
+                                <td>{{ application.time_generated }}</td>
+                                <td>{{ application.employee.name }}</td>
+                                <td>{{ application.get_leave_type_display|title }}</td>
+                                <td>{{ application.date_from }}</td>
+                                <td>{{ application.date_to }}</td>
+                                <td>{{ application.get_status_display|title }}</td>
+                                <td><a class="btn btn-default btn-xs" href="{% url 'details' application.pk %}"><i class="glyphicon glyphicon-stats"></i> &nbsp;View Details</a></td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                        <tr><td colspan="6">No applications yet.</td></tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+     
+        </div>
 
 
 
-<br>
-
-
-
-
-<form name="logt" action="{% url 'logt' %}" method="POST">
-{% csrf_token %}
-<input type="submit" value="Logout">
-</form>
+        <div class="space-15px"></div>
+        
+        <script src="{% static 'leave/js/bootstrap.min.js' %}" ></script>       
+    </body>
+</html>
