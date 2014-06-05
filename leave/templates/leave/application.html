@@ -188,16 +188,30 @@
                                 <tbody>
                                     <tr>
                                         <th colspan="2" class="text-center">Application Status</th>
-                                    </tr>
-                                    <tr>
-                                        <th style="width:200px;">Current Position</th>
-                                        <td>{{application.get_current_position_display}}</td>
-                                    </tr>                                    
+                                    </tr>                              
                                     {% if application.time_approved %}
+                                    <tr>
+                                        <th style="width:200px;">Approved by</th>
+                                        <td>{{application.get_current_position_display}}</td>
+                                    </tr>
                                     <tr>
                                         <th>Approval Time</th>
                                         <td>{{application.time_approved}}</td>
                                     </tr>
+                                    <tr>
+                                        <th>Approved Date From</th>
+                                        <td>{{application.new_date_from}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Approved Date To</th>
+                                        <td>{{application.new_date_to}}</td>
+                                    </tr>
+
+                                    {% else %}
+                                    <tr>
+                                        <th style="width:200px;">Current Position</th>
+                                        <td>{{application.get_current_position_display}}</td>
+                                    </tr>      
                                     {% endif %}
                                     <tr>
                                         <th>Status</th>
@@ -281,7 +295,7 @@
                                 <tbody>
                                     {% for log in application_log %}
                                     <tr>
-                                        <td>{{log.time }} </td>
+                                        <td style="min-width:170px;">{{log.time }}</td>
                                         <td>
                                             {{log.activity}}
                                             {% if log.notes %}<br><strong>Note:</strong>{{ log.notes|linebreaks}}{% endif %}
@@ -339,13 +353,10 @@
                             csrfmiddlewaretoken : csrfmiddlewaretoken,
                         },
                         success: function(data, textStatus, xhr) {
-                                  alert(data.message);
                             location.reload();
-                          
-
                         },
                         error: function() {
-                           alert("error")
+                           alert("Error. Please report to developers.");
                            location.reload();
                         }
                     });
@@ -372,13 +383,11 @@
                             csrfmiddlewaretoken : csrfmiddlewaretoken,
                         },
                         success: function(data, textStatus, xhr) {
-                              
                             location.reload();
-                           
                         },
                         error: function() {
-                            alert('error');
-                        location.reload();
+                            alert("Error. Please report to developers.");
+                            location.reload();
                         }
                     });
                 });
@@ -405,16 +414,11 @@
                             csrfmiddlewaretoken : csrfmiddlewaretoken,
                         },
                         success: function(data, textStatus, xhr) {
-                          
-                            
                             location.reload();
-                           
-
-
                         },
                         error: function() {
-                            alert('error');
-                          location.reload();
+                            alert("Error. Please report to developers.");
+                            location.reload();
                         }
                     });
                 });
