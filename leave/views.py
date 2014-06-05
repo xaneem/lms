@@ -124,6 +124,8 @@ def change_authority(request):
 		application=Application.objects.get(pk=application_id)
 		new_authority=request.POST.get('new_authority')
 		new_authority=int(new_authority)
+		to_json={}
+
 		
 		if new_authority != application.current_position and 3 <= int(new_authority) <= 6:
 			
@@ -132,10 +134,14 @@ def change_authority(request):
 			activity="Application forwarded from "+userprofile.get_user_type_display()+" to "+application.get_current_position_display()
 			log_entry=ApplicationLog(application=application,time=datetime.now(),activity=activity)
 			log_entry.save()
+			to_json['result']=1
+			to_json['message']='Application forwarded to '+application.get_current_position_display()
 			messages.success(request, 'Application forwarded to '+application.get_current_position_display())
 		else:
+			to_json['result']=0
+			to_json['message']='Could not forward application !'
 			messages.error(request,'Could not forward application !')
-		return redirect(reverse('details',args=(application.pk,)))
+		return HttpResponse(simplejson.dumps(to_json), mimetype='application/json')
 	else:
 		raise PermissionDenied
 
@@ -149,7 +155,7 @@ def complete(request):
 		status=request.POST.get('status')
 		status=int(status)
 		application=Application.objects.get(pk=application_id)
-
+		to_json = {}
 		if application.current_position == userprofile.user_type and 3 <= status <= 4:
 			days=(application.date_to-application.date_from).days 
 
@@ -160,15 +166,22 @@ def complete(request):
 				activity="Application "+application.get_status_display()+" by "+userprofile.get_user_type_display()
 				log_entry=ApplicationLog(application=application,time=datetime.now(),activity=activity)
 				log_entry.save()
+				
+				to_json['result']=1
+				to_json['message']='Application '+application.get_status_display()+' successfully'
+    
 				messages.success(request, 'Application '+application.get_status_display()+' successfully')
 			else:
+				to_json['result']=0
+				to_json['message']="Insufficient number of leaves left!"
 				messages.error(request, 'Insufficient number of leaves left!')
 
 
 
 		else:
-			messages.error(request,'Could not complete your request !')
-		return redirect(reverse('details',args=(application.pk,)))
+			to_json['result']=0
+			to_json['message']='Could not complete your request !'
+		return HttpResponse(simplejson.dumps(to_json), mimetype='application/json')
 	else:
 		raise PermissionDenied
 

@@ -87,7 +87,8 @@ class UserProfile(models.Model):
 class ApplicationLog(models.Model):
 	application=models.ForeignKey('Application')
 	time = models.DateTimeField()
-	activity= models.TextField(max_length=50,blank=True,null=True)
+	activity= models.TextField(max_length=100,blank=True,null=True)
+	notes=models.TextField(max_length=100,blank=True,null=True)
 
 
 
@@ -107,9 +108,7 @@ class Application(models.Model):
 	attachment3 = models.FileField(upload_to=".",null=True,blank=True)
 	time_generated = models.DateTimeField(auto_now_add=True)
 	time_approved = models.DateTimeField(null=True,blank=True)	#This field will be set only when the application is received.
-	response = models.TextField(max_length=400,blank=True,null=True)
-	
-	
+		
 	def __unicode__(self):
 		return self.employee.name+self.get_leave_type_display()	
 
