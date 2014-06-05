@@ -106,13 +106,13 @@ def cancel_application(request):
 			application.status=5
 			application.current_position=0
 			application.save()
-			activity="Application was cancelled by "+userprofile.get_user_type_display()
+			activity="Application cancelled by "+userprofile.get_user_type_display()
 			log_entry=ApplicationLog(application=application,time=datetime.now(),activity=activity)
 			log_entry.save()
-			messages.success(request, 'Application cancelled successfully')
+			messages.success(request, 'Application cancelled.')
 
 		else:
-			messages.error(request, 'Some error occured , Could not cancel application!')
+			messages.error(request, 'Some error occured: Could not cancel application.')
 
 		return redirect(reverse('details', args=(application.pk,)))
 	else:
@@ -140,13 +140,14 @@ def change_authority(request):
 			date_from=datetime.strptime(date_from, "%m/%d/%Y").date()
 		except ValueError:
 			valid=False
-			to_json['message']='Invalid dates'
+			to_json['message']='Invalid dates entered.'
 		else:
 			if date_to>application.new_date_to or date_from<application.new_date_from:
 				valid=False
-				to_json['message']='Please pick dates from recommended dates'
+				to_json['message']='Selected dates out of range.'
 		if not valid:
-			to_json['result']=0			
+			to_json['result']=0
+			messages.error(request, to_json['message'])
 			return HttpResponse(simplejson.dumps(to_json), mimetype='application/json')
 
 
@@ -158,7 +159,7 @@ def change_authority(request):
 			if application.new_date_from!=date_from or application.new_date_to!=date_to:
 				if notes and notes!="":
 						notes+='\n'
-				notes+=userprofile.get_user_type_display()+" updated recommended date  : "+str(date_from)+" to "+str(date_to)
+				notes+=userprofile.get_user_type_display()+" updated recommended date : "+str(date_from)+" to "+str(date_to)
 
 			application.new_date_from=date_from
 			application.new_date_to=date_to
@@ -212,6 +213,7 @@ def complete(request):
 				to_json['message']='Please pick dates from recommended dates'
 		if not valid:
 			to_json['result']=0
+			messages.error(request, to_json['message'])
 			return HttpResponse(simplejson.dumps(to_json), mimetype='application/json')
 
 		if application.status== 2 and application.current_position == userprofile.user_type and 3 <= status <= 4:
@@ -226,7 +228,8 @@ def complete(request):
 					notes+=userprofile.get_user_type_display()+" updated recommended date  : "+str(date_from)+" to "+str(date_to)
 				application.new_date_from=date_from
 				application.new_date_to=date_to
-				
+				application.employee.leave_balance -= (date_to - date_from).days + 1
+
 				application.save()
 				activity="Application "+application.get_status_display()+" by "+userprofile.get_user_type_display()
 				log_entry=ApplicationLog(application=application,time=datetime.now(),activity=activity,notes=notes)
@@ -236,6 +239,7 @@ def complete(request):
 				to_json['message']='Application '+application.get_status_display()+' successfully'
     
 				messages.success(request, 'Application '+application.get_status_display()+' successfully')
+				
 			else:
 				to_json['result']=0
 				to_json['message']="Insufficient number of leaves left!"
@@ -245,7 +249,7 @@ def complete(request):
 
 		else:
 			to_json['result']=0
-			to_json['message']='Could not complete your request !'
+			to_json['message']='Some error occured. Please try again'
 		return HttpResponse(simplejson.dumps(to_json), mimetype='application/json')
 	else:
 		raise PermissionDenied
@@ -385,7 +389,7 @@ def higher(request,sort):
 		elif status == 6:
 			all_list = all_list=Application.objects.filter(status=2).order_by("-time_generated")
 		elif status != 0:
-			all_list=Application.objects.filter(status=status),order_by("-time_generated")
+			all_list=Application.objects.filter(status=status).order_by("-time_generated")
 		else:
 			all_list=Application.objects.filter().order_by("-time_generated")
 	else:
