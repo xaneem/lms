@@ -19,9 +19,7 @@ POSTS = (
 	(1,'AD-HOC'),
 	(2,'ASSISTANT PROFESSOR'),
 	(3,'ASSOCIATE PROFESSOR'),
-	(4,'PROFESSOR'),
-	(5,'HOD'),
-
+	(4,'HOD'),
 	)
 
 
@@ -114,7 +112,7 @@ class Application(models.Model):
 	time_approved = models.DateTimeField(null=True,blank=True)	#This field will be set only when the application is received.
 		
 	def __unicode__(self):
-		return self.employee.name+"-"+self.pk
+		return self.employee.name+self.get_leave_type_display()	
 
 
 
