@@ -44,12 +44,10 @@ LEAVE_TYPES = (
 #Different types of users
 USER_TYPES = (
 	(0, ''),
-	(1,	'HOD'),
-    (2, 'Clerk'),
-    (3, 'Dean'),
+	(1,	'Section Head'),
+    (2, 'Est. Office'),
     (4, 'Deputy Registrar'),
-    (5,	'Registrar'),
-    (6,	'Director'),
+   
 )
 
 
