@@ -124,8 +124,12 @@
                                         <td>{{application.employee.get_dept_display}}</td>
                                     </tr>
                                      <tr>
-                                        <th>Number of leaves left </th>
-                                        <td>{{application.employee.leave_balance}}</td>
+                                        <th>Earned leave balance</th>
+                                        <td>{{application.employee.earned_balance}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Half Pay leave balance </th>
+                                        <td>{{application.employee.hp_balance}}</td>
                                     </tr>
                                     <tr>
                                         <th>Employee Details</th>
@@ -190,10 +194,7 @@
                                         <th colspan="2" class="text-center">Application Status</th>
                                     </tr>                              
                                     {% if application.time_approved %}
-                                    <tr>
-                                        <th style="width:200px;">Approved by</th>
-                                        <td>{{application.get_current_position_display}}</td>
-                                    </tr>
+                                  
                                     <tr>
                                         <th>Approval Time</th>
                                         <td>{{application.time_approved}}</td>
@@ -207,11 +208,8 @@
                                         <td>{{application.new_date_to}}</td>
                                     </tr>
 
-                                    {% else %}
-                                    <tr>
-                                        <th style="width:200px;">Current Position</th>
-                                        <td>{{application.get_current_position_display}}</td>
-                                    </tr>      
+                                   
+                                       
                                     {% endif %}
                                     <tr>
                                         <th>Status</th>
