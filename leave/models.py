@@ -67,10 +67,12 @@ class Employee(models.Model):
 	code = models.CharField(max_length=10,null=True)
 	name = models.CharField(max_length=100)
 	dept = models.IntegerField(choices=DEPARTMENTS)
-	leave_balance = models.IntegerField();
+	earned_balance = models.IntegerField()
+	hp_balance = models.IntegerField()
 	post = models.IntegerField(choices=POSTS)
 	email = models.EmailField(max_length=75)
-	
+	is_active= models.BooleanField(default=True)
+
 	def __unicode__(self):
 		return self.name
 
@@ -95,17 +97,28 @@ class ApplicationLog(models.Model):
 	notes=models.TextField(max_length=100,blank=True,null=True)
 
 
+class TransactionLog(models.Model):
+	employee=models.ForeignKey('Employee')
+	application=models.ForeignKey('Application',null=True)
+	is_admin=models.BooleanField()
+	earned_balance=models.IntegerField()
+	earned_change=models.IntegerField(default=0)
+	hp_balance=models.IntegerField()
+	hp_change=models.IntegerField(default=0)
+	note=models.TextField(max_length=100,blank=True,null=True)
+
 
 
 #Model to represent an individual application
 class Application(models.Model):
 
 	employee = models.ForeignKey('Employee')
+	is_new = models.BooleanField(default=True)
+	original= models.ForeignKey('self',null=True)
 	leave_type = models.IntegerField(choices=LEAVE_TYPES)
 	date_from = models.DateField()
 	date_to	= models.DateField()
 	status = models.IntegerField(choices=STATUS,default=2)
-	current_position= models.IntegerField(choices=USER_TYPES,default=4)
 	reason = models.TextField(max_length=200)
 	new_date_to=models.DateField(null=True)
 	new_date_from=models.DateField(null=True)
@@ -113,24 +126,11 @@ class Application(models.Model):
 	attachment2 = models.FileField(upload_to=".",null=True,blank=True)
 	attachment3 = models.FileField(upload_to=".",null=True,blank=True)
 	time_generated = models.DateTimeField(auto_now_add=True)
-	time_approved = models.DateTimeField(null=True,blank=True)	#This field will be set only when the application is received.
+	time_approved = models.DateTimeField(null=True,blank=True)
+	#This field will be set only when the application is approved/rejected	
 		
 	def __unicode__(self):
 		return self.employee.name + " - " + self.get_leave_type_display()	
-
-
-
-#Model to represent a cancel request , Each entry references a leave application
-class CancelRequest(models.Model):
-
-	application = models.ForeignKey('Application')
-	reason = models.CharField(max_length=200)
-	date_from = models.DateField()
-	date_to	= models.DateField()
-	status = models.IntegerField(choices=STATUS)
-	current_position = models.IntegerField(choices=USER_TYPES)
-	time_generated = models.DateTimeField()
-	time_approved = models.DateTimeField(null=True,blank=True)
 
 
 
