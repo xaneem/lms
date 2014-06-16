@@ -27,9 +27,18 @@ class ApplicationForm(ModelForm):
 		if not valid:
 			return valid
 		print self.errors
+		employee=self.cleaned_data['employee']
 		date_from=self.cleaned_data['date_from']
 		date_to=self.cleaned_data['date_to']
-		leave_balance=self.cleaned_data['employee'].leave_balance
+		leave_type=self.cleaned_data['leave_type']
+		if leave_type==2:
+			leave_balance=employee.earned_balance
+		elif leave_type==3:
+			leave_balance=employee.hp_balance
+		else:
+			leave_balance=0
+
+		
 		
 
 		if date_from<datetime.now().date():
