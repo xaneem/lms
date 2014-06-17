@@ -156,6 +156,7 @@ def print_application(request,id):
 	log=TransactionLog.objects.filter(employee=employee).order_by("-time")[:5]
 	context={
 	'application':application,
+	'days_count':(application.date_to-application.date_from).days+1,
 	'log':log
 	}
 	return render(request,'leave/print.html',context)
@@ -200,15 +201,15 @@ def complete(request):
 			return HttpResponse(simplejson.dumps(to_json), mimetype='application/json')
 
 		if application.status== 2 and 3 <= status <= 4:
-			days=(application.date_to-application.date_from).days 
+			days=(application.date_to-application.date_from).days+1
 
-			if application.status==3 or days <= application.employee.leave_balance :
+			if status==4 or isLeaveLeft(days,application):
 				application.status=status
 				application.time_approved=datetime.now()
 				if status==3 and (application.new_date_from!=date_from or application.new_date_to!=date_to):
 					if notes and notes!="":
 						notes+='\n'
-					notes+=userprofile.get_user_type_display()+" updated recommended date  : "+str(date_from)+" to "+str(date_to)
+					notes+=userprofile.get_user_type_display()+" updated  date  : "+str(date_from)+" to "+str(date_to)
 				application.new_date_from=date_from
 				application.new_date_to=date_to
 				application.employee.leave_balance -= (date_to - date_from).days + 1

@@ -106,6 +106,8 @@ class TransactionLog(models.Model):
 	hp_balance=models.IntegerField()
 	hp_change=models.IntegerField(default=0)
 	note=models.TextField(max_length=100,blank=True,null=True)
+	time= models.DateTimeField(null=True)
+
 
 
 
@@ -126,6 +128,7 @@ class Application(models.Model):
 	attachment2 = models.FileField(upload_to=".",null=True,blank=True)
 	attachment3 = models.FileField(upload_to=".",null=True,blank=True)
 	time_generated = models.DateTimeField(auto_now_add=True)
+	time_received = models.DateTimeField(null=True)
 	time_approved = models.DateTimeField(null=True,blank=True)
 	#This field will be set only when the application is approved/rejected	
 		
