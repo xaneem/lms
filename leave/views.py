@@ -176,6 +176,7 @@ def complete(request):
 		date_to=request.POST.get('date_to',"")
 		notes=request.POST.get('notes',"")
 		application=Application.objects.get(pk=application_id)
+		employee=application.employee
 		to_json = {}
 		valid=True
 
@@ -201,28 +202,30 @@ def complete(request):
 			return HttpResponse(simplejson.dumps(to_json), mimetype='application/json')
 
 		if application.status== 2 and 3 <= status <= 4:
-			days=(application.date_to-application.date_from).days+1
+			days=(date_to-date_from).days+1
 
-			if status==4 or isLeaveLeft(days,application):
+			if status==4 or employee.isLeaveLeft(days,application.leave_type):
 				application.status=status
 				application.time_approved=datetime.now()
 				if status==3 and (application.new_date_from!=date_from or application.new_date_to!=date_to):
 					if notes and notes!="":
 						notes+='\n'
 					notes+=userprofile.get_user_type_display()+" updated  date  : "+str(date_from)+" to "+str(date_to)
-				application.new_date_from=date_from
-				application.new_date_to=date_to
-				application.employee.leave_balance -= (date_to - date_from).days + 1
-
-				application.save()
-				activity="Application "+application.get_status_display()+" by "+userprofile.get_user_type_display()
-				log_entry=ApplicationLog(application=application,time=datetime.now(),activity=activity,notes=notes)
-				log_entry.save()
+				if status==3:
+					application.new_date_from=date_from
+					application.new_date_to=date_to
+					employee.transaction(days,application.leave_type)
+					
+				if application.save():
+					activity="Application "+application.get_status_display()+" by "+userprofile.get_user_type_display()
+					log_entry=ApplicationLog(application=application,time=datetime.now(),activity=activity,notes=notes)
+					log_entry.save()
+					messages.success(request, 'Application '+application.get_status_display()+' successfully')
 				
 				to_json['result']=1
 				to_json['message']='Application '+application.get_status_display()+' successfully'
     
-				messages.success(request, 'Application '+application.get_status_display()+' successfully')
+				
 				
 			else:
 				to_json['result']=0

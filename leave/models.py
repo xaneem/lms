@@ -33,9 +33,9 @@ POSTS = (
 #Types of leave
 LEAVE_TYPES = (
 	#(1,'Special Casual Leave'),
-	(2,'Earned Leave'),
-	(3,'Half Pay Leave'),
-	#(3,'Commuted Leave'),
+	(1,'Earned Leave'),
+	(2,'Half Pay Leave'),
+	(3,'Commuted Leave'),
 	#(3,'On Duty Leave'),
 	)
 
@@ -76,7 +76,27 @@ class Employee(models.Model):
 	def __unicode__(self):
 		return self.name
 
+	def isLeaveLeft(self,days,leave_type):
+		if leave_type==1:
+			return days<=self.earned_balance
+		elif leave_type==2:
+			return days<=self.hp_balance
+		elif leave_type==3:
+			return days*2<=self.hp_balance
+		else:
+			return False
 
+	def transaction(self,days,leave_type):
+		if leave_type==1:
+			self.earned_balance-=days
+		elif leave_type==2:
+			self.hp_balance-=days
+		elif leave_type==3:
+			self.hp_balance-=2*days
+		else:
+			return False
+		self.save()
+		return True
 
 
 
