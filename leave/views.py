@@ -360,13 +360,38 @@ def dept(request):
 
 @login_required
 @user_passes_test(isClerk)
-def clerk(request):
+def clerk(request,sort):
+	userprofile=request.user.userprofile
+	status=getStatus(sort)
+	if status==0:
+		status=1
+	page = request.GET.get('page')
+	all_list=Application.objects.all().order_by("-time_generated")
 	
-	userprofile=UserProfile.objects.get(user=request.user)
+	if 1<= status <=5:
+		all_list= all_list.filter(status=status)
+	
+	paginator = Paginator(all_list, 10)
+	
+	try:
+		applications = paginator.page(page)
+	except PageNotAnInteger:
+		# If page is not an integer, deliver first page.
+		applications = paginator.page(1)
+	except EmptyPage:
+		# If page is out of range (e.g. 9999), deliver last page of results.
+		applications = paginator.page(paginator.num_pages)
+
 
 	context= {
 	'name': request.user.username,
+	'applications':applications,
+	'status' :status,
+	'user_type': userprofile.user_type,
+	'user_display_name':userprofile.get_user_type_display,
 	}
+
+
 	return render(request,'leave/clerk.html',context)
 
 
