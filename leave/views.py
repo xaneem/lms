@@ -128,29 +128,20 @@ def start_processing(request):
 		to_json={}
 		notes=request.POST.get('notes',"")
 				
-		if application.status==1 and user_type:
-			
-			
-			application.current_position=new_authority
-			if application.new_date_from!=date_from or application.new_date_to!=date_to:
-				if notes and notes!="":
-						notes+='\n'
-				notes+=userprofile.get_user_type_display()+" updated recommended date : "+str(date_from)+" to "+str(date_to)
-
-			application.new_date_from=date_from
-			application.new_date_to=date_to
+		if application.status==1 and user_type==2:
+				
+			application.status=2
 			application.save()
-
-			activity="Application forwarded from "+userprofile.get_user_type_display()+" to "+application.get_current_position_display()
+			activity="Processing started "
 			log_entry=ApplicationLog(application=application,time=datetime.now(),activity=activity,notes=notes)
 			log_entry.save()
 			to_json['result']=1
-			to_json['message']='Application forwarded to '+application.get_current_position_display()
-			messages.success(request, 'Application forwarded to '+application.get_current_position_display())
+			to_json['message']='Application marked as processing'
+			messages.success(request, 'Application marked as processing')
 		else:
 			to_json['result']=0
-			to_json['message']='Could not forward application !'
-			messages.error(request,'Could not forward application !')
+			to_json['message']='Could not start processing !'
+			messages.error(request,'Could not start processing !')
 		return HttpResponse(simplejson.dumps(to_json), mimetype='application/json')
 	else:
 		raise PermissionDenied
