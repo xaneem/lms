@@ -118,39 +118,17 @@ def cancel_application(request):
 
 		
 @login_required
-@user_passes_test(isHigher)
-def change_authority(request):
+def start_processing(request):
+	
 	if(request.method=='POST'):
 		userprofile=UserProfile.objects.get(user=request.user)
+		user_type=userprofile.user_type
 		application_id=request.POST.get('id')
 		application=Application.objects.get(pk=application_id)
-		new_authority=request.POST.get('new_authority')
-		new_authority=int(new_authority)
 		to_json={}
-		date_from=request.POST.get('date_from',"")
-		date_to=request.POST.get('date_to',"")
 		notes=request.POST.get('notes',"")
-		application=Application.objects.get(pk=application_id)
-		to_json = {}
-		valid=True
-		try:
-			date_to=datetime.strptime(date_to, "%m/%d/%Y").date()
-			date_from=datetime.strptime(date_from, "%m/%d/%Y").date()
-		except ValueError:
-			valid=False
-			to_json['message']='Invalid dates entered.'
-		else:
-			if date_from>date_to or date_to>application.new_date_to or date_from<application.new_date_from:
-				valid=False
-				to_json['message']='Selected dates out of range. Please select valid dates.'
-		if not valid:
-			to_json['result']=0
-			messages.error(request, to_json['message'])
-			return HttpResponse(simplejson.dumps(to_json), mimetype='application/json')
-
-
-		
-		if application.status==2 and new_authority != application.current_position and 3 <= int(new_authority) <= 6:
+				
+		if application.status==1 and user_type:
 			
 			
 			application.current_position=new_authority
