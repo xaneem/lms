@@ -41,11 +41,11 @@ def getStatus(sort):
 		status=4
 	elif(sort.lower()=="cancelled"):
 		status=5
-	#This is for DR only
+	elif(sort.lower()=="all"):
+		status=6
 	else:
 		status=0
 	return status
-
 
 
 # Create your views here.
@@ -102,7 +102,6 @@ def cancel_application(request):
 		if application.employee.dept==userprofile.dept and application.status==1:
 
 			application.status=5
-			application.current_position=0
 			application.save()
 			activity="Application cancelled by "+userprofile.get_user_type_display()
 			log_entry=ApplicationLog(application=application,time=datetime.now(),activity=activity)
@@ -118,6 +117,7 @@ def cancel_application(request):
 
 		
 @login_required
+@user_passes_test(isClerk)
 def start_processing(request):
 	
 	if(request.method=='POST'):
@@ -140,8 +140,8 @@ def start_processing(request):
 			messages.success(request, 'Application marked as processing')
 		else:
 			to_json['result']=0
-			to_json['message']='Could not start processing !'
-			messages.error(request,'Could not start processing !')
+			to_json['message']='error'
+			messages.error(request,'Error: Could not change status. Try again.')
 		return HttpResponse(simplejson.dumps(to_json), mimetype='application/json')
 	else:
 		raise PermissionDenied
@@ -199,7 +199,7 @@ def complete(request):
 			messages.error(request, to_json['message'])
 			return HttpResponse(simplejson.dumps(to_json), mimetype='application/json')
 
-		if application.status== 2 and application.current_position == userprofile.user_type and 3 <= status <= 4:
+		if application.status== 2 and 3 <= status <= 4:
 			days=(application.date_to-application.date_from).days 
 
 			if application.status==3 or days <= application.employee.leave_balance :
@@ -292,7 +292,6 @@ def sent(request,sort):
 	'applications':applications,
 	'status' :status,
 	'user_type': userprofile.user_type,
-	'user_display_name':userprofile.get_user_type_display,
 	}
 
 
@@ -373,7 +372,6 @@ def clerk(request,sort):
 	'applications':applications,
 	'status' :status,
 	'user_type': userprofile.user_type,
-	'user_display_name':userprofile.get_user_type_display,
 	}
 
 
@@ -385,26 +383,18 @@ def clerk(request,sort):
 @user_passes_test(isHigher)
 def higher(request,sort):
 	page=request.GET.get('page')
-	status=getStatus(sort)
 	userprofile=UserProfile.objects.get(user=request.user)
 	
-	
+	status=getStatus(sort)
 
-	if userprofile.user_type == 4 :
-		if status == 2:
-			all_list=Application.objects.filter(current_position=userprofile.user_type,status=status).order_by("-time_generated")
-		elif status == 6:
-			all_list = all_list=Application.objects.filter(status=2).order_by("-time_generated")
-		elif status != 0:
-			all_list=Application.objects.filter(status=status).order_by("-time_generated")
-		else:
-			all_list=Application.objects.filter().order_by("-time_generated")
+	if status == 0 :
+		status = 2
+
+	if status == 6:
+		all_list=Application.objects.all().order_by("-time_generated")
 	else:
-		if status == 0:
-			status = 2
+		all_list=Application.objects.filter(status=status).order_by("-time_generated")
 
-		all_list=Application.objects.filter(current_position=userprofile.user_type,status=status).order_by("-time_generated")
-	
 	
 	paginator = Paginator(all_list, 10)
 	
@@ -421,7 +411,6 @@ def higher(request,sort):
 	'applications': applications,
 	'status': status,
 	'user_type': userprofile.user_type,
-	'user_display_name':userprofile.get_user_type_display,
 	}
 	return render(request,'leave/higher.html',context)
 

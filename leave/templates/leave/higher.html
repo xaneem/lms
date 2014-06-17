@@ -43,7 +43,7 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% if user_type == 1 %}{{dept}}{% else %} {{user_display_name}} {% endif %}<b class="caret"></b></a> 
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.first_name}}<b class="caret"></b></a> 
                         <ul class="dropdown-menu">
                             <li class="dropdown-header">{{name}}</li>
                             <li><a href="{% url 'logt' %}"><i class="glyphicon glyphicon-log-out"></i> Log Out</a></li>
@@ -73,18 +73,12 @@
                     <div class="pull-right">
                         <br>
                         <div class="btn-group">
-                                {% if user_type == 4%}
-                                <a class="btn btn-default {% if status == 0 %}active{% endif %}" href="{% url 'higher' '' %}">All</a>
-                                {% endif %}
-                                <a class="btn btn-warning {% if status == 2 %}active{% endif %}" href="{% url 'higher' 'processing' %}">Requires Action</a>
-                                {% if user_type == 4%}
-                                <a class="btn btn-default {% if status == 6 %}active{% endif %}" href="{% url 'higher' 'allprocessing' %}">Processing</a>
-                                {% endif %}
+                                <a class="btn btn-default {% if status == 0 %}active{% endif %}" href="{% url 'higher' 'all' %}">All</a>
+                                <a class="btn btn-default {% if status == 1 %}active{% endif %}" href="{% url 'higher' 'pending' %}">Pending</a>
+                                <a class="btn btn-default {% if status == 2 %}active{% endif %}" href="{% url 'higher' 'processing' %}">Processing</a>
                                 <a class="btn btn-default {% if status == 3 %}active{% endif %}" href="{% url 'higher' 'approved' %}">Approved</a>
                                 <a class="btn btn-default {% if status == 4 %}active{% endif %}" href="{% url 'higher' 'rejected' %}">Rejected</a>
-                                {% if user_type == 4%}
                                 <a class="btn btn-default {% if status == 5 %}active{% endif %}" href="{% url 'higher' 'cancelled' %}">Cancelled</a>
-                                {% endif %}
                         </div>
                         <p>&nbsp;</p><br>
                     </div>
@@ -117,7 +111,7 @@
                             </tr>
                             {% endfor %}
                         {% else %}
-                        <tr><td colspan="6">No applications yet.</td></tr>
+                        <tr><td colspan="8">No applications yet.</td></tr>
                         {% endif %}
                         </tbody>
                     </table>
