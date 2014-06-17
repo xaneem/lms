@@ -32,11 +32,11 @@ POSTS = (
 
 #Types of leave
 LEAVE_TYPES = (
-	(1,'Special Casual Leave'),
+	#(1,'Special Casual Leave'),
 	(2,'Earned Leave'),
 	(3,'Half Pay Leave'),
-	(3,'Commuted Leave'),
-	(3,'On Duty Leave'),
+	#(3,'Commuted Leave'),
+	#(3,'On Duty Leave'),
 	)
 
 
@@ -118,7 +118,7 @@ class Application(models.Model):
 	leave_type = models.IntegerField(choices=LEAVE_TYPES)
 	date_from = models.DateField()
 	date_to	= models.DateField()
-	status = models.IntegerField(choices=STATUS,default=2)
+	status = models.IntegerField(choices=STATUS,default=1)
 	reason = models.TextField(max_length=200)
 	new_date_to=models.DateField(null=True)
 	new_date_from=models.DateField(null=True)

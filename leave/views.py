@@ -285,7 +285,6 @@ def details(request,id):
 def sent(request,sort):
 	userprofile=UserProfile.objects.get(user=request.user)
 	status=getStatus(sort)
-
 	page = request.GET.get('page')
 	all_list=Application.objects.filter(employee__dept=userprofile.dept).order_by("-time_generated")
 	
@@ -346,7 +345,7 @@ def dept(request):
 			messages.success(request, 'Application added successfully')
 			return redirect(reverse('details', args=(new_application.pk,)))
 		else:
-			context['form']=formf
+			context['form']=form
 
 			return render(request,'leave/dept.html',context)
 
