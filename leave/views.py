@@ -2,7 +2,7 @@ from django.shortcuts import render
 from datetime import datetime 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger 
 from django.contrib.auth.decorators import login_required, user_passes_test
-from leave.models import UserProfile,Employee,Application,ApplicationLog
+from leave.models import UserProfile,Employee,Application,ApplicationLog,TransactionLog
 from django.shortcuts import redirect
 from django.core.exceptions import ObjectDoesNotExist,PermissionDenied
 from django.http import HttpResponse,Http404
@@ -145,6 +145,22 @@ def start_processing(request):
 		return HttpResponse(simplejson.dumps(to_json), mimetype='application/json')
 	else:
 		raise PermissionDenied
+
+@login_required
+def print_application(request,id):
+	try:
+		application=Application.objects.get(pk=id)
+	except Application.DoesNotExist:
+		raise Http404
+	employee=application.employee
+	log=TransactionLog.objects.filter(employee=employee).order_by("-time")[:5]
+	context={
+	'application':application,
+	'log':log
+	}
+	return render(request,'leave/print.html',context)
+
+
 
 
 @login_required
