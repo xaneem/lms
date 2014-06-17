@@ -226,9 +226,26 @@
                                     </tr>
                                     {% elif user_type == 2 %}
                                     <tr>
-                                        <th>Action</th>
+                                        <th>Notes</th>
                                         <td>
-                                            Clerk actions
+                                            <div class="form-group">
+                                                <label for="edit-notes">Add Notes</label>
+                                                <textarea class="form-control" rows="3" id="edit-notes" placeholder="Add a note (optional)"></textarea>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-md-10 col-md-offset-1">
+                                                    <div class="form-group">
+                                                        <button type="button" id="action-process" class="btn btn-default btn-block"><i class="glyphicon glyphicon-ok"></i> Start Processing</button>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <button type="button" id="action-print" class="btn btn-default btn-block"><i class="glyphicon glyphicon-print"></i> Print Application</button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                     {% elif 3 <= user_type and user_type <= 6 and application.status == 2 and application.current_position == user_type %}
@@ -317,7 +334,6 @@
             var csrfmiddlewaretoken = "{{csrf_token}}",
                 id = {{application.pk}},
                 urlAction = "{% url 'complete' %}",
-                urlAuthority = "{% url 'change_authority' %}";
 
             $(function() {
 
@@ -375,37 +391,6 @@
                         data: {
                             id: id,
                             status: 4,
-                            date_from : editFromDate,
-                            date_to : editToDate,
-                            notes : editNotes,
-                            csrfmiddlewaretoken : csrfmiddlewaretoken,
-                        },
-                        success: function(data, textStatus, xhr) {
-                            location.reload(true);
-                        },
-                        error: function() {
-                            alert("Error. Please report to developers.");
-                            location.reload(true);
-                        }
-                    });
-                });
-    
-
-                $('#action-new-authority').on('click', function(event){
-                    event.preventDefault();
-
-                    var editFromDate = $('#edit-from-date').val(),
-                        editToDate = $('#edit-to-date').val(),
-                        editNotes = $('#edit-notes').val(),
-                        newAuthority = $('#new-authority').val();
-
-                    $.ajax({
-                        url: urlAuthority,
-                        type: 'POST',
-                        dataType: 'json',
-                        data: {
-                            id: id,
-                            new_authority: newAuthority,
                             date_from : editFromDate,
                             date_to : editToDate,
                             notes : editNotes,
