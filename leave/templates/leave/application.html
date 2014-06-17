@@ -235,9 +235,10 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <th>Actions</th>
                                         <td>
                                             <div class="row">
-                                                <div class="col-md-10 col-md-offset-1">
+                                                <div class="col-md-8">
                                                     <div class="form-group">
                                                         <button type="button" id="action-process" class="btn btn-default btn-block"><i class="glyphicon glyphicon-ok"></i> Start Processing</button>
                                                     </div>
@@ -334,6 +335,8 @@
             var csrfmiddlewaretoken = "{{csrf_token}}",
                 id = {{application.pk}},
                 urlAction = "{% url 'complete' %}",
+                urlProcess = "{% url 'start_processing' %}";
+
 
             $(function() {
 
@@ -405,6 +408,35 @@
                         }
                     });
                 });
+
+
+                $('#action-process').on('click', function(event){
+                    event.preventDefault();
+
+                    var editNotes = $('#edit-notes').val();
+
+
+                    $.ajax({
+                        url: urlProcess,
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            id: id,
+                            notes : editNotes,
+                        },
+                        success: function(data, textStatus, xhr) {
+                            location.reload(true);
+                        },
+                        error: function(data1, data2, data3) {
+                            alert("Error. Please report to developers.");
+                            // location.reload(true);
+                            console.log(data1);
+                            console.log(data2);
+                            console.log(data3);
+                        }
+                    });
+                });
+
 
             });
 
