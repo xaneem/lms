@@ -29,15 +29,19 @@
     <body>        
         <div class="container">
         	<div class="space-15px"></div>
+        	<h2>Application #{{application.pk}}</h2>
             <div class="row">
                 <div class="col-md-12">
-
                     <div class="row">
                         <div class="col-sm-6">
                             <table class="table table-striped">
                                 <tbody>
                                     <tr>
                                         <th colspan="2" class="text-center">Employee Details</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:200px;">Employee Code</th>
+                                        <td>{{application.employee.code}}</td>
                                     </tr>
                                     <tr>
                                         <th style="width:200px;">Employee Name</th>
@@ -55,22 +59,38 @@
                                         <th>Half Pay leave balance </th>
                                         <td>{{application.employee.hp_balance}}</td>
                                     </tr>
-                                    <tr>
-                                        <th>Employee Details</th>
-                                        <td><a href="#">View Employee Details</a></td>
-                                    </tr>
                                 </tbody>
-                            </table>   
+                            </table>
+
+                            <table class="table table-striped">
+                            	<tbody>
+                            		<tr>
+                            			<th>Employee History</th>
+                            		</tr>
+
+                            		{% for entry in log %}
+                            		<tr>
+                            			<td>{{forloop.counter}}</td>
+                            			<td>{{log.text}}</td>
+                            		</tr>
+                            		{% endfor %}
+                            	</tbody>
+                            </table>
+
                         </div>
                         <div class="col-md-6">
                             <table class="table table-striped">
                                 <tbody>
                                     <tr>
-                                        <th colspan="2" class="text-center">Leave Details</th>
+                                        <th colspan="2" class="text-center">Application Details</th>
                                     </tr>
                                     <tr>
                                         <th>Generated at</th>
                                         <td>{{application.time_generated}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Application Type</th>
+                                        <td>{% if application.is_new %}For New Leave{% else %}Cancel Approved Leave{% endif %}<td>
                                     </tr>
                                     <tr>
                                         <th style="width:200px;">Leave type</th>
@@ -114,6 +134,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row">
+            <h3>Notes/Comments</h3>
             </div>
         </div>
 
