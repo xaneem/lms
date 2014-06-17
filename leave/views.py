@@ -41,8 +41,6 @@ def getStatus(sort):
 		status=4
 	elif(sort.lower()=="cancelled"):
 		status=5
-	elif(sort.lower()=="allprocessing"):
-		status=6
 	#This is for DR only
 	else:
 		status=0
