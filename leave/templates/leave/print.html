@@ -70,8 +70,8 @@
 
                             		{% for entry in log %}
                             		<tr>
-                            			<td>{{forloop.counter}}</td>
-                            			<td>{{log.text}}</td>
+                            			<td><i>{{entry.time}}</i></td>
+                            			<td>{{entry.toText}}</td>
                             		</tr>
                             		{% endfor %}
                             	</tbody>
