@@ -197,21 +197,23 @@
                                     <tr>
                                         <th colspan="2" class="text-center">Application Status</th>
                                     </tr>                              
-                                    {% if application.time_approved %}
+                                    {% if application.time_approved  %}
                                   
                                     <tr>
-                                        <th>Approval Time</th>
+                                        <th>Processing completed at</th>
                                         <td>{{application.time_approved}}</td>
                                     </tr>
+                                    {% if application.status == 3 %}
                                     <tr>
                                         <th>Approved Date From</th>
                                         <td>{{application.new_date_from}}</td>
                                     </tr>
+
                                     <tr>
                                         <th>Approved Date To</th>
                                         <td>{{application.new_date_to}}</td>
                                     </tr>
-
+                                    {% endif %}
                                    
                                        
                                     {% endif %}
