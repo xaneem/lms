@@ -15,7 +15,7 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.utils import simplejson
 
-#Users are divided to Depts,Clerk,'Higher'
+# are divided to Depts,Clerk,'Higher'
 #'higher' includes Dean,Dr,Registrar Etc
 #These functions are used to verify user's groups
 def isDept(user):
@@ -128,7 +128,7 @@ def start_processing(request):
 		to_json={}
 		notes=request.POST.get('notes',"")
 				
-		if application.status==1 and user_type==2:
+		if application.status==1 and isClerk(request.user):
 				
 			application.status=2
 			application.save()
@@ -216,11 +216,11 @@ def complete(request):
 					application.new_date_to=date_to
 					employee.transaction(days,application.leave_type)
 					
-				if application.save():
-					activity="Application "+application.get_status_display()+" by "+userprofile.get_user_type_display()
-					log_entry=ApplicationLog(application=application,time=datetime.now(),activity=activity,notes=notes)
-					log_entry.save()
-					messages.success(request, 'Application '+application.get_status_display()+' successfully')
+				application.save()
+				activity="Application "+application.get_status_display()
+				log_entry=ApplicationLog(application=application,time=datetime.now(),activity=activity,notes=notes)
+				log_entry.save()
+				messages.success(request, 'Application '+application.get_status_display()+' successfully')
 				
 				to_json['result']=1
 				to_json['message']='Application '+application.get_status_display()+' successfully'
@@ -251,6 +251,13 @@ def details(request,id):
 		raise Http404
 	if isDept(request.user) and application.employee.dept!=userprofile.dept:
 		raise PermissionDenied
+	if isClerk(request.user) and not application.time_received:
+		application.time_received=datetime.now()
+		application.save()
+		activity="Application Received at Est.Office"
+		log_entry=ApplicationLog(application=application,time=datetime.now(),activity=activity)
+		log_entry.save()
+
 	application_log=ApplicationLog.objects.filter(application=application).order_by("time")
 												
 
