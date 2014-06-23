@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 from django.contrib.auth.models import User
 
 
@@ -120,7 +121,7 @@ class ApplicationLog(models.Model):
 class TransactionLog(models.Model):
 	employee=models.ForeignKey('Employee')
 	application=models.ForeignKey('Application',null=True)
-	is_admin=models.BooleanField()
+	is_admin=models.BooleanField(default=False)
 	earned_balance=models.IntegerField()
 	earned_change=models.IntegerField(default=0)
 	hp_balance=models.IntegerField()
@@ -128,6 +129,51 @@ class TransactionLog(models.Model):
 	note=models.TextField(max_length=100,blank=True,null=True)
 	time= models.DateTimeField(null=True)
 
+
+	def toText(self):
+		change=0
+		text=""
+		if self.hp_change:
+			change=self.hp_change
+			text+=str(abs(change))+" Halfpay leave"
+		elif self.earned_change:
+			change=self.earned_change
+			text+=str(abs(change))+" Earned leave"
+		if change<0:
+			text+=" debited by"
+		elif change>0:
+			text+=" credited by"
+
+		if not self.is_admin:
+			text+=" Application #"+str(self.application.pk)
+		else:
+			text+=" Admin"
+		return text
+
+	def newTransaction(self,employee,application):
+		earned_balance=employee.earned_balance
+		hp_balance=employee.hp_balance
+		earned_change=0
+		hp_change=0
+		days=(application.new_date_to-application.new_date_from).days+1
+		if application.leave_type==1:
+			earned_change-=days
+		elif application.leave_type==2:
+			hp_change-=days
+		elif application.leave_type==3:
+			hp_change-=2*days
+
+		self.employee=employee
+		self.application=application
+		self.earned_balance=earned_balance
+		self.earned_change=earned_change
+		self.hp_balance=hp_balance
+		self.hp_change=hp_change
+		self.time=datetime.now()
+		self.save()
+
+	
+	
 
 
 
