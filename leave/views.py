@@ -153,7 +153,7 @@ def print_application(request,id):
 	except Application.DoesNotExist:
 		raise Http404
 	employee=application.employee
-	log=TransactionLog.objects.filter(employee=employee).order_by("-time")[:5]
+	log=TransactionLog.objects.filter(time__lt=application.time_received,employee=employee).order_by("-time")[:5]
 	context={
 	'application':application,
 	'days_count':(application.date_to-application.date_from).days+1,
@@ -217,6 +217,9 @@ def complete(request):
 					employee.transaction(days,application.leave_type)
 					
 				application.save()
+				if application.status==3:
+					TransactionLog().newTransaction(employee,application)
+
 				activity="Application "+application.get_status_display()
 				log_entry=ApplicationLog(application=application,time=datetime.now(),activity=activity,notes=notes)
 				log_entry.save()
