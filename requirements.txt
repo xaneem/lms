@@ -1,2 +1,7 @@
 Install django-bootstrap 3
 	 pip install django-bootstrap3
+
+Install South for Database migration
+	
+Install Pytz for using TimeZone
+	pip install pytz

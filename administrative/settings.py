@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'leave',
     'south',
+    'pytz',
     'bootstrap3',
 )
 
