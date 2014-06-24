@@ -47,6 +47,29 @@ def getStatus(sort):
 		status=0
 	return status
 
+def getApplicationsList(page,status,year,month,date):
+	all_list=Application.objects.all().order_by("-time_generated")
+	if 1<= status <=5 :
+		all_list=all_list.filter(status=status)
+	if year:
+		all_list=all_list.filter(time_generated__year=year)
+	print month
+	if month:
+		all_list=all_list.filter(time_generated__month=month)
+	if date:
+		all_list=all_list.filter(time_generated__day=date)
+	paginator = Paginator(all_list, 10)
+	
+	try:
+		applications = paginator.page(page)
+	except PageNotAnInteger:
+		# If page is not an integer, deliver first page.
+		applications = paginator.page(1)
+	except EmptyPage:
+		# If page is out of range (e.g. 9999), deliver last page of results.
+		applications = paginator.page(paginator.num_pages)
+	return applications
+
 
 # Create your views here.
 def index(request):
@@ -279,26 +302,11 @@ def details(request,id):
 
 @login_required
 @user_passes_test(isDept)
-def sent(request,sort):
+def sent(request,sort,year,month,date):
 	userprofile=UserProfile.objects.get(user=request.user)
 	status=getStatus(sort)
 	page = request.GET.get('page')
-	all_list=Application.objects.filter(employee__dept=userprofile.dept).order_by("-time_generated")
-	
-	if 1<= status <=5:
-		all_list= all_list.filter(status=status)
-	
-	paginator = Paginator(all_list, 10)
-	
-	try:
-		applications = paginator.page(page)
-	except PageNotAnInteger:
-		# If page is not an integer, deliver first page.
-		applications = paginator.page(1)
-	except EmptyPage:
-		# If page is out of range (e.g. 9999), deliver last page of results.
-		applications = paginator.page(paginator.num_pages)
-
+	applications=getApplicationsList(page,status,year,month,date)
 
 	context= {
 	'name': request.user.username,
@@ -308,12 +316,7 @@ def sent(request,sort):
 	'user_type': userprofile.user_type,
 	}
 
-
 	return render(request,'leave/sent.html',context)
-
-
-
-
 
 
 @login_required	#Require Login
@@ -358,29 +361,13 @@ def dept(request):
 
 @login_required
 @user_passes_test(isClerk)
-def clerk(request,sort):
+def clerk(request,sort,year,month,date):
 	userprofile=request.user.userprofile
 	status=getStatus(sort)
 	if status==0:
 		status=1
 	page = request.GET.get('page')
-	all_list=Application.objects.all().order_by("-time_generated")
-	
-	if 1<= status <=5:
-		all_list= all_list.filter(status=status)
-	
-	paginator = Paginator(all_list, 10)
-	
-	try:
-		applications = paginator.page(page)
-	except PageNotAnInteger:
-		# If page is not an integer, deliver first page.
-		applications = paginator.page(1)
-	except EmptyPage:
-		# If page is out of range (e.g. 9999), deliver last page of results.
-		applications = paginator.page(paginator.num_pages)
-
-
+	applications=getApplicationsList(page,status,year,month,date)
 	context= {
 	'name': request.user.username,
 	'applications':applications,
@@ -388,38 +375,22 @@ def clerk(request,sort):
 	'user_type': userprofile.user_type,
 	}
 
-
 	return render(request,'leave/clerk.html',context)
 
 
 
 @login_required
 @user_passes_test(isHigher)
-def higher(request,sort):
+def higher(request,sort,year,month,date):
+
 	page=request.GET.get('page')
 	userprofile=UserProfile.objects.get(user=request.user)
-	
 	status=getStatus(sort)
 
 	if status == 0 :
 		status = 2
 
-	if status == 6:
-		all_list=Application.objects.all().order_by("-time_generated")
-	else:
-		all_list=Application.objects.filter(status=status).order_by("-time_generated")
-
-	
-	paginator = Paginator(all_list, 10)
-	
-	try:
-		applications = paginator.page(page)
-	except PageNotAnInteger:
-		# If page is not an integer, deliver first page.
-		applications = paginator.page(1)
-	except EmptyPage:
-		# If page is out of range (e.g. 9999), deliver last page of results.
-		applications = paginator.page(paginator.num_pages)
+	applications=getApplicationsList(page,status,year,month,date)
 	context= {
 	'name': request.user.username,
 	'applications': applications,
