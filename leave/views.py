@@ -285,7 +285,7 @@ def details(request,id):
 		log_entry.save()
 
 	application_log=ApplicationLog.objects.filter(application=application).order_by("time")
-												
+							
 
 	context= {
 	'name':request.user.username,
@@ -298,6 +298,41 @@ def details(request,id):
 	}
 	return render(request,'leave/application.html',context)
 
+
+
+@login_required
+def employee(request,id):
+	userprofile=UserProfile.objects.get(user=request.user)
+	page=request.GET.get('page')
+	try:
+		employee=Employee.objects.get(pk=id)
+	except Employee.DoesNotExist:
+		raise Http404
+	if isDept(request.user) and employee.dept!=userprofile.dept:
+		raise PermissionDenied
+	all_list=TransactionLog.objects.filter(employee=employee).order_by("-time")
+
+	paginator = Paginator(all_list, 10)
+	
+	try:
+		transaction_log = paginator.page(page)
+	except PageNotAnInteger:
+		# If page is not an integer, deliver first page.
+		transaction_log = paginator.page(1)
+	except EmptyPage:
+		# If page is out of range (e.g. 9999), deliver last page of results.
+		transaction_log = paginator.page(paginator.num_pages)
+
+	context= {
+	'name':request.user.username,
+	'employee':employee,
+	'user_type':userprofile.user_type,
+	'user_display_name':userprofile.get_user_type_display,
+	'dept': userprofile.get_dept_display,
+	'transaction_log': transaction_log
+	}
+
+	return render(request,'leave/employee.html',context)
 
 
 @login_required

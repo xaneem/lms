@@ -1,0 +1,199 @@
+{% load bootstrap3 %}
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Employee Details - LMS</title>
+
+        <link href="{% static 'leave/css/bootstrap.min.css' %}" rel="stylesheet">
+ 
+        <script src="{% static 'leave/js/jquery-1.11.1.min.js' %}"></script>
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <style>
+            .space-15px{
+                height: 15px;
+                margin:0;
+                padding: 0;
+                border: 0;
+            }
+        </style>
+    </head>
+    <body>
+
+    	<nav class="navbar navbar-default" role="navigation">
+    	    <div class="navbar-header">
+    	        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+    	            <span class="sr-only">Toggle navigation</span>
+    	            <span class="icon-bar"></span>
+    	            <span class="icon-bar"></span>
+    	            <span class="icon-bar"></span>
+    	        </button>
+    	        <a class="navbar-brand" href="{% url 'index' %}">Leave Management System</a>
+    	    </div>
+    	
+    	    <div class="collapse navbar-collapse navbar-ex1-collapse">
+    	        <ul class="nav navbar-nav">
+                    {% if user_type == 1 %}
+                    <li><a href="{% url 'dept' %}">Create</a></li>
+                    <li><a href="{% url 'sent' '' %}">Sent Applications</a></li>
+                    {% else %}
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    {% endif %}
+                </ul>
+    	        <ul class="nav navbar-nav navbar-right">
+    	            <li class="dropdown">
+    	                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user_display_name}}<b class="caret"></b></a> 
+    	                <ul class="dropdown-menu">
+    	                    <li class="dropdown-header">{{name}}</li>
+    	                    <li><a href="{% url 'logt' %}"><i class="glyphicon glyphicon-log-out"></i> Log Out</a></li>
+    	                </ul>
+    	            </li>
+    	        </ul>
+    	    </div>
+    	</nav>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3>Employee Details</h3>
+                        </div>
+                        {% if messages %}
+                        <div class="col-md-6">
+                            {% for message in messages %}
+                            {% bootstrap_messages message %}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="{% url 'index' %}">Home</a>
+                        </li>
+                        <li class="active">Employee Details</li>
+                    </ol>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <th style="width:200px;">Code</th>
+                                        <td>{{employee.code}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th> Name</th>
+                                        <td>{{employee.name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Department</th>
+                                        <td>{{employee.get_dept_display}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Designation</th>
+                                        <td>{{employee.get_post_display}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>  
+                            <br>
+                                    </div>
+                        <div class="col-sm-6">
+                            <table class="table table-striped">
+                                <tbody>
+                                       <tr>
+                                        <th>Email</th>
+                                        <td>{{employee.email}}</td>
+                                    </tr>
+                                      <tr>
+                                        <th>Status</th>
+                                        <td>{% if employee.is_active %}
+                                                Active
+                                            {% else %}
+                                                Deleted
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                      <tr>
+                                        <th>Earned leave balance</th>
+                                        <td>{{employee.earned_balance}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Half Pay leave balance </th>
+                                        <td>{{employee.hp_balance}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+                 <div class="pull-left">
+                        {% if transaction_log.has_other_pages %}
+                        {% bootstrap_pagination transaction_log %}
+                        {% endif %}
+                    </div>
+               <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Time </th>
+                                <th>Reference</th>
+                                <th>Leave type</th>
+                                <th>Earned Leave change</th>
+                                <th>Earned Leave balance</th>
+                                <th>Halfpay Leave change</th>
+                                <th>Halfpay Leave balance</th>
+                                <th>Note</th>
+                            
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% if transaction_log %}
+                            {% for log in transaction_log %}
+                            <tr>
+
+                                <td>{{ forloop.counter0|add:transaction_log.start_index}} </td>
+                                <td>{{ log.time }}</td>
+                                <td>{% if log.is_admin %}
+                                        Admin
+                                    {% else %}
+                                        Application #<a href="{% url 'details' log.application.pk %}"> {{log.application.pk}}
+                                                    </a>
+                                    {% endif %}
+
+                                </td>
+                                <td>{{ log.application.get_leave_type_display }}</td>
+                                <td>{{ log.earned_change }}</td>
+                                <td>{{ log.earned_balance }}</td>
+                                <td>{{ log.hp_change }}</td>
+                                <td>{{ log.hp_balance }}</td>
+                                <td>{{ log.note }}</td>
+                            </tr>
+                            {% endfor %}
+
+                        {% else %}
+                        <tr><td colspan="8">No applications yet.</td></tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+        </div>
+
+        <div class="space-15px"></div>
+        <script src="{% static 'leave/js/bootstrap.min.js' %}" ></script>
+       
+
+       
+    </body>
+</html>
+
+
