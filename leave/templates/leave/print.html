@@ -1,15 +1,12 @@
 {% load bootstrap3 %}
 {% load staticfiles %}
-
 <!DOCTYPE html>
-
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Application Details - LMS</title>
-
         <link href="{% static 'leave/css/bootstrap.min.css' %}" rel="stylesheet">
         <link href="{% static 'leave/css/datepicker3.css' %}" rel="stylesheet">
         <script src="{% static 'leave/js/jquery-1.11.1.min.js' %}"></script>
@@ -18,135 +15,122 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
         <style>
-            .space-15px{
-                height: 15px;
-                margin:0;
-                padding: 0;
-                border: 0;
-            }
+        body{
+        font-size: 1.4em;
+        }
+        .space-15px{
+        height: 15px;
+        margin:0;
+        padding: 0;
+        border: 0;
+        }
         </style>
     </head>
-    <body>        
+    <body>
         <div class="container">
-        	<div class="space-15px"></div>
-        	<h2>Application #{{application.pk}}</h2>
+            <div class="space-15px"></div>
+            <h2>Application #{{application.pk}}</h2>
             <div class="row">
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <table class="table table-striped">
-                                <tbody>
-                                    <tr>
-                                        <th colspan="2" class="text-center">Employee Details</th>
-                                    </tr>
-                                    <tr>
-                                        <th style="width:200px;">Employee Code</th>
-                                        <td>{{application.employee.code}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th style="width:200px;">Employee Name</th>
-                                        <td>{{application.employee.name}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Department</th>
-                                        <td>{{application.employee.get_dept_display}}</td>
-                                    </tr>
-                                     <tr>
-                                        <th>Earned leave balance</th>
-                                        <td>{{application.employee.earned_balance}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Half Pay leave balance </th>
-                                        <td>{{application.employee.hp_balance}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <table class="table table-striped">
-                            	<tbody>
-                            		<tr>
-                            			<th>Employee History</th>
-                            		</tr>
-
-                            		{% for entry in log %}
-                            		<tr>
-                            			<td><i>{{entry.time}}</i></td>
-                            			<td>{{entry.toText}}</td>
-                            		</tr>
-                            		{% endfor %}
-                            	</tbody>
-                            </table>
-
-                        </div>
-                        <div class="col-md-6">
-                            <table class="table table-striped">
-                                <tbody>
-                                    <tr>
-                                        <th colspan="2" class="text-center">Application Details</th>
-                                    </tr>
-                                    <tr>
-                                        <th>Generated at</th>
-                                        <td>{{application.time_generated}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Application Type</th>
-                                        <td>{% if application.is_new %}For New Leave{% else %}Cancel Approved Leave{% endif %}<td>
-                                    </tr>
-                                    <tr>
-                                        <th style="width:200px;">Leave type</th>
-                                        <td>{{application.get_leave_type_display}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>From</th>
-                                        <td>{{application.date_from}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>To</th>
-                                        <td>{{application.date_to}}</td>
-
-                                    </tr>
-                                    <tr>
-                                        <th>Number of days</th>
-                                        <td>{{days_count}}</td>
-
-                                    </tr>
-                                    <tr>
-                                        <th>Reason</th>
-                                        <td>{{ application.reason }}</td>
-                                    </tr>
-                                     <tr>
-                                        <th> Attachments </th>
-                                        <td>
-                                        {% if application.attachment1 %}
-                                                <a href="/{{application.attachment1.url }}"><i class="glyphicon glyphicon-file"></i> Attachment 1</a><br>
-                                        {% endif %}
-                                        {% if application.attachment2 %}
-                                                <a href="/{{application.attachment1.url }}"><i class="glyphicon glyphicon-file"></i> Attachment 2</a><br>
-                                        {% endif %}
-                                        {% if application.attachment2 %}
-                                                <a href="/{{application.attachment1.url }}"><i class="glyphicon glyphicon-file"></i> Attachment 3</a><br>
-                                        {% endif %}
-
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                <div class="col-sm-6">
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <th colspan="2" class="text-center">Employee Details</th>
+                            </tr>
+                            <tr>
+                                <th style="width:200px;">Employee Code</th>
+                                <td>{{application.employee.code}}</td>
+                            </tr>
+                            <tr>
+                                <th>Employee Name</th>
+                                <td>{{application.employee.name}}</td>
+                            </tr>
+                            <tr>
+                                <th>Department</th>
+                                <td>{{application.employee.get_dept_display}}</td>
+                            </tr>
+                            <tr>
+                                <th>Designation</th>
+                                <td>{{application.employee.get_post_display}}</td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <td>{{application.employee.email}}</td>
+                            </tr>
+                            <tr>
+                                <th>Earned Leave Balance</th>
+                                <td>{{application.employee.earned_balance}}</td>
+                            </tr>
+                            <tr>
+                                <th>Half Pay Leave Balance</th>
+                                <td>{{application.employee.hp_balance}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm-6">
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <th colspan="2" class="text-center">Application Details</th>
+                            </tr>
+                            <tr>
+                                <th style="width:200px;">Generated at</th>
+                                <td>{{application.time_generated}}</td>
+                            </tr>
+                            <tr>
+                                <th>Application Type</th>
+                                <td>{% if application.is_new %}For New Leave{% else %}Cancel Approved Leave{% endif %}</td>
+                            </tr>
+                            <tr>
+                                <th>Leave type</th>
+                                <td>{{application.get_leave_type_display}}</td>
+                            </tr>
+                            <tr>
+                                <th>From</th>
+                                <td>{{application.date_from}}</td>
+                            </tr>
+                            <tr>
+                                <th>To</th>
+                                <td>{{application.date_to}}</td>
+                            </tr>
+                            <tr>
+                                <th>Number of days</th>
+                                <td>{{days_count}}</td>
+                            </tr>
+                            <tr>
+                                <th>Reason</th>
+                                <td>{{ application.reason }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <div class="row">
-            <h3>Notes/Comments</h3>
+                <div class="col-md-12">
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <th colspan="2">Employee History</th>
+                            </tr>
+                            {% for entry in log %}
+                                <tr>
+                                    <td><i>{{entry.time}}</i></td>
+                                    <td>{{entry.toText}}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <br>
+                    <h3>Notes / Comments <small>(for office use)</small></h3>
+                </div>
             </div>
         </div>
-
         <div class="space-15px"></div>
         <script>
-        	$(function() {
-        		// print();
-        	});
+            $(function() {
+                // print();
+            });
         </script>
     </body>
 </html>
-
-

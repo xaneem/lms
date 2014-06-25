@@ -254,9 +254,8 @@
                                                     {% endif %}
                                                     {% if application.status != 1  %}
                                                     <div class="form-group">
-                                                        <a href="{% url 'print' application.pk %}">
-                                                        <button type="button" id="action-print" class="btn btn-default btn-block"><i class="glyphicon glyphicon-print"></i> Print Application</button>
-                                                    </a>
+                                                        <a class="btn btn-default btn-block" href="{% url 'print' application.pk %}" target="_blank"><i class="glyphicon glyphicon-print"></i> Print Application
+                                                        </a>
                                                     {% endif %}
                                                     </div>
                                                 </div>
