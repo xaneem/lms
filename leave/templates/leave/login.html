@@ -84,6 +84,14 @@
 
         <script src="{% static 'leave/js/jquery-1.11.1.min.js' %}"></script>
         <script src="{% static 'leave/js/bootstrap.min.js' %}" ></script>
+        <script>
+            $(function() {
+                if($('#username').val())
+                    $('#password').focus();
+                else
+                    $('#username').focus();
+            });
+        </script>
     </body>
 </html>
 
