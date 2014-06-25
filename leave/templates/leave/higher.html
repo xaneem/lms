@@ -162,6 +162,8 @@
         <script src="{% static 'leave/js/moment.js' %}" ></script>
 
         <script>
+            var current_url = "{{current_url}}";
+
             $(function() {
                 $('#filter').on('click', function(event){
                     event.preventDefault();
@@ -265,15 +267,15 @@
 
                     if (day) {
                         var date = moment(day, "DD/MM/YYYY").format("YYYY-MM-DD");
-                        alert(date);
+                        window.location.assign(current_url+'/'+date);
                     } else if (month) {
                         var date = moment(month, "MM/YYYY").format("YYYY-MM");
-                        alert(date);
+                        window.location.assign(current_url+'/'+date);
                     } else if (year) {
                         var date = moment(year, "YYYY").format("YYYY");
-                        alert(date);
+                        window.location.assign(current_url+'/'+date);
                     } else {
-                        alert('Reset');
+                        window.location.assign(current_url);
                     }
 
                 });
