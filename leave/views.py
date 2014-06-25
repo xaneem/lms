@@ -14,7 +14,9 @@ from django.views.generic import ListView
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 import json
+from EmployeeSerializer import EmployeeSerializer
 from django.core import serializers
+
 
 
 # are divided to Depts,Clerk,'Higher'
@@ -381,8 +383,9 @@ def new_employee(request):
 @user_passes_test(isDataEntry)
 def employees(request):
 	employees=Employee.objects.all()
-	serialized_employees = serializers.serialize('json', employees)
-
+	serializer = EmployeeSerializer()
+	serialized_employees = serializer.serialize(employees)
+	print serialized_employees
 	context={
 	'employees':serialized_employees
 	}
