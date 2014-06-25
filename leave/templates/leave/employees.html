@@ -1,1 +1,129 @@
-{{employees}}
+{% load bootstrap3 %}
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Employee Details - LMS</title>
+
+        <link href="{% static 'leave/css/bootstrap.min.css' %}" rel="stylesheet">
+ 
+        <script src="{% static 'leave/js/jquery-1.11.1.min.js' %}"></script>
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <style>
+            .space-15px{
+                height: 15px;
+                margin:0;
+                padding: 0;
+                border: 0;
+            }
+        </style>
+    </head>
+    <body>
+
+    	<nav class="navbar navbar-default" role="navigation">
+    	    <div class="navbar-header">
+    	        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+    	            <span class="sr-only">Toggle navigation</span>
+    	            <span class="icon-bar"></span>
+    	            <span class="icon-bar"></span>
+    	            <span class="icon-bar"></span>
+    	        </button>
+    	        <a class="navbar-brand" href="{% url 'index' %}">Leave Management System</a>
+    	    </div>
+    	
+    	    <div class="collapse navbar-collapse navbar-ex1-collapse">
+    	        <ul class="nav navbar-nav">
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                </ul>
+    	        <ul class="nav navbar-nav navbar-right">
+    	            <li class="dropdown">
+    	                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user_display_name}}<b class="caret"></b></a> 
+    	                <ul class="dropdown-menu">
+    	                    <li class="dropdown-header">{{name}}</li>
+    	                    <li><a href="{% url 'logt' %}"><i class="glyphicon glyphicon-log-out"></i> Log Out</a></li>
+    	                </ul>
+    	            </li>
+    	        </ul>
+    	    </div>
+    	</nav>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                	<h3>Employees List</h3>
+                	<ol class="breadcrumb">
+                	    <li>
+                	        <a href="{% url 'index' %}">Home</a>
+                	    </li>
+                	    <li class="active">Employees List</li>
+                	</ol>
+
+                	<table class="table table-hover table-striped">
+                		<thead>
+                			<tr>
+                				<th><input type="checkbox"></th>
+                				<th>Emp. Code</th>
+                				<th>Emp. Name</th>
+                				<th>Dept.</th>
+                				<th>EL Bal.</th>
+                				<th>HPL Bal.</th>
+                				<th>Actions</th>
+                			</tr>
+                		</thead>
+                		<tbody id="table-entries">
+                			<tr>
+                				<td colspan="7">No entries loaded.</td>
+                			</tr>
+                		</tbody>
+                	</table>
+                </div>
+            </div>
+        </div>
+
+        <div class="space-15px"></div>
+        <script src="{% static 'leave/js/bootstrap.min.js' %}" ></script>
+        <script>
+        	var json = {{employees|safe}};
+        	var employees = [];
+
+        	json.forEach(function(entry){
+        		var employee = {
+        			"pk" : entry.pk,
+        			"name" : entry.name,
+        			"dept" : entry.dept,
+        			"dept_value" :entry.dept_value,
+        			"designation" : entry.post,
+        			"designation_value" : entry.post_value,
+        			"code" : entry.code,
+        			"el_bal" : entry.earned_balance,
+        			"hpl_bal" : entry.hp_balance,
+         			"edit_url" : entry.edit_url
+        		}
+
+        		employees.push(employee);
+        	});
+
+
+        	var loadTable = function(items){
+        		$('#table-entries').html('');
+        		items.forEach(function(item){
+        			$('#table-entries').append('<tr><td><input type="checkbox" data-id="'+item.pk+'"></td><td>'+item.code+'</td><td>'+item.name+'</td><td>'+item.dept+'</td><td>'+item.el_bal+'</td><td>'+item.hpl_bal+'</td><td><a href="'+item.edit_url+'" target="_blank" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-pencil"></i>&nbsp; Edit</a><tr>');
+        		});
+        	}
+
+        	$(function() {
+        		loadTable(employees);
+        	});
+
+
+
+        </script>
+    </body>
+</html>
