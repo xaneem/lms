@@ -266,13 +266,13 @@
 
                     if (day) {
                         var date = moment(day, "DD/MM/YYYY").format("YYYY-MM-DD");
-                        window.location.assign(current_url+'/'+date);
+                        window.location.assign(current_url+date);
                     } else if (month) {
                         var date = moment(month, "MM/YYYY").format("YYYY-MM");
-                        window.location.assign(current_url+'/'+date);
+                        window.location.assign(current_url+date);
                     } else if (year) {
                         var date = moment(year, "YYYY").format("YYYY");
-                        window.location.assign(current_url+'/'+date);
+                        window.location.assign(current_url+date);
                     } else {
                         window.location.assign(current_url);
                     }
