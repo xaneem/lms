@@ -363,6 +363,7 @@ def edit_employee(request,id):
 		if form.is_valid():
 			form.save()
 			messages.success(request, 'Employee details updated')
+			context['form']=EmployeeForm(instance=employee)
 		else:
 			messages.error(request,'Please correct incorrect fields')
 			context['form']=form
@@ -371,6 +372,10 @@ def edit_employee(request,id):
 	else:	
 		return render(request,'leave/edit_employee.html',context)
 
+@login_required
+@user_passes_test(isDataEntry)
+def new_employee(request):
+	return HttpResponse("HI")
 
 @login_required
 @user_passes_test(isDataEntry)
@@ -468,16 +473,29 @@ def higher(request,sort,year,month,date):
 	page=request.GET.get('page')
 	userprofile=UserProfile.objects.get(user=request.user)
 	status=getStatus(sort)
+	if not sort or status==0:
+		sort=''
 
 	if status == 0 :
 		status = 2
 
+	
+
+	url=reverse('higher', args=(sort,))
+	
+	if not sort=='':
+		url=url+'/'
+	
+			
+		
+	
 	applications=getApplicationsList(page,status,year,month,date)
 	context= {
 	'name': request.user.username,
 	'applications': applications,
 	'status': status,
 	'user_type': userprofile.user_type,
+	'current_url': url
 	}
 	return render(request,'leave/higher.html',context)
 
