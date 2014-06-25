@@ -57,19 +57,32 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                	<h3>Employees List</h3>
-                	<ol class="breadcrumb">
-                	    <li>
-                	        <a href="{% url 'index' %}">Home</a>
-                	    </li>
-                	    <li class="active">Employees List</li>
-                	</ol>
+                	<div class="row">
+                        <div class="col-md-6">
+                            <h3>Employee List</h3>
+                        </div>
+                        {% if messages %}
+                        <div class="col-md-6">
+                            {% for message in messages %}
+                            {% bootstrap_messages message %}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="{% url 'index' %}">Home</a>
+                        </li>
+                        <li class="active">Employee List</li>
+                    </ol>
 
                 	<form action="{% url 'manage_leave' %}" method="POST" role="form">
-                		<input type="hidden" name="leave_type" value="1">
+                		{% csrf_token %}
+                		<input type="hidden" name="leave_type" value="2">
                 		<!-- Earned:1, HP:2 -->
-                		<input type="hidden" name="action_type" value="1">
-                		<input type="hidden" name="count" value="10">
+                		<input type="hidden" name="action_type" value="-1">
+                		<input type="hidden" name="count" value="5">
 
                 		<button type="submit" class="btn btn-default">Credit/Debit Leave</button>
                 		<table class="table table-hover table-striped">
