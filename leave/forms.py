@@ -54,7 +54,12 @@ class ApplicationForm(ModelForm):
 
 
 
-class EmployeeForm(ModelForm):
+class EmployeeEditForm(ModelForm):
+
+	def __init__(self,*args, **kwargs):
+	    super(EmployeeEditForm, self).__init__(*args, **kwargs)
+	    self.fields['post'].label = "Designation"
+	  
 
  	def save(self, commit=True):
 
@@ -73,5 +78,31 @@ class EmployeeForm(ModelForm):
 	class Meta:
    		model = Employee
    		fields = ['code', 'name', 'dept', 'post','email','is_active',]	
+
+
+class EmployeeNewForm(ModelForm):
+
+	def __init__(self,*args, **kwargs):
+	    super(EmployeeNewForm, self).__init__(*args, **kwargs)
+	    self.fields['post'].label = "Designation"
+	  
+ 	def save(self, commit=True):
+
+   		if self.instance.pk is None:
+   			fail_message='created'
+   		else:
+   			fail_message = 'changed'
+   		
+   		return save_instance(self, self.instance, self._meta.fields,
+                             fail_message, commit, construct=False,
+                             )
+
+   		
+    	
+    
+
+	class Meta:
+   		model = Employee
+   		fields = ['code', 'name', 'dept', 'post','email','is_active','earned_balance','hp_balance']	
 
 

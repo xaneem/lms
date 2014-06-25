@@ -9,7 +9,7 @@ from django.http import HttpResponse,Http404
 from django.template import RequestContext, loader
 from django import forms
 from django.contrib.auth import authenticate,login,logout
-from leave.forms import ApplicationForm,EmployeeForm
+from leave.forms import ApplicationForm,EmployeeEditForm,EmployeeNewForm
 from django.views.generic import ListView
 from django.contrib import messages
 from django.core.urlresolvers import reverse
@@ -134,7 +134,7 @@ def manage_leave(request):
 		note="Just testing"
 		days=int(days)
 		
-		if 1<= leave_type <=2 and (action_type==-1 or action_type==1):
+		if 1<= leave_type <=2 and (action_type==-1 or action_type==1) and days>=0:
 			count=0
 			employees=request.POST.getlist('check[]')
 			for pk in employees:
@@ -142,12 +142,14 @@ def manage_leave(request):
 					employee=Employee.objects.get(pk=pk)
 				except Employee.DoesNotExist:
 					pass
-				if action_type==-1 and not employee.isLeaveLeft(days,leave_type):
-					pass
+				else:
+					if action_type==-1 and not employee.isLeaveLeft(days,leave_type):
+						pass
+					else:
+						employee.transaction(days,leave_type,action_type)
+						TransactionLog().AdminTransaction(employee,leave_type,days,action_type,note)
+						count=count+1
 
-				employee.transaction(days,leave_type,action_type)
-				TransactionLog().AdminTransaction(employee,leave_type,days,action_type,note)
-				count=count+1
 
 			if count:
 				messages.success(request,"Updated "+str(count)+" employees ")
@@ -392,17 +394,17 @@ def edit_employee(request,id):
 	except Employee.DoesNotExist:
 		raise Http404
 
-	form=EmployeeForm(instance=employee)
+	form=EmployeeEditForm(instance=employee)
 	
 	context={
 	'form':form
 	}
 	if request.method=='POST':
-		form = EmployeeForm(request.POST,instance=employee)
+		form = EmployeeEditForm(request.POST,instance=employee)
 		if form.is_valid():
 			form.save()
 			messages.success(request, 'Employee details updated')
-			context['form']=EmployeeForm(instance=employee)
+			context['form']=EmployeeEditForm(instance=employee)
 		else:
 			messages.error(request,'Please correct incorrect fields')
 			context['form']=form
@@ -414,12 +416,42 @@ def edit_employee(request,id):
 @login_required
 @user_passes_test(isDataEntry)
 def new_employee(request):
-	return HttpResponse("HI")
+	context={
+	}
+	if request.method=='POST':
+		form = EmployeeNewForm(request.POST)
+		code=form.data['code']
+		print code
+		try:
+			employee=Employee.objects.filter(is_active=False).get(code=code)
+			messages.success(request, 'Employee code already exists ,Please update details Here')
+			return redirect(reverse('edit_employee',args=(employee.pk,)))
+		except Employee.DoesNotExist:
+			if form.is_valid():
+				
+					new_employee=form.save()
+					employee=Employee.objects.get(code=form.cleaned_data['code'])
+					note="Entering existing data"
+	   				TransactionLog().AdminTransaction(employee,1,employee.earned_balance,1,note)
+	   				TransactionLog().AdminTransaction(employee,2,employee.hp_balance,1,note)
+					messages.success(request, 'New Employee Added')
+					return(redirect(reverse('employees')))
+			else:
+				messages.error(request,'Please correct incorrect fields')
+				context['form']=form
+		return render(request,'leave/new_employee.html',context)
+	
+	
+	else:	
+		context['form']=EmployeeNewForm()
+		return render(request,'leave/new_employee.html',context)
+
+
 
 @login_required
 @user_passes_test(isDataEntry)
 def employees(request):
-	employees=Employee.objects.all()
+	employees=Employee.objects.filter(is_active=True)
 	serializer = EmployeeSerializer()
 	serialized_employees = serializer.serialize(employees)
 	print serialized_employees

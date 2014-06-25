@@ -69,8 +69,8 @@ class Employee(models.Model):
 	code = models.CharField(max_length=10,null=True,unique=True)
 	name = models.CharField(max_length=100)
 	dept = models.IntegerField(choices=DEPARTMENTS)
-	earned_balance = models.IntegerField()
-	hp_balance = models.IntegerField()
+	earned_balance = models.IntegerField(default=0)
+	hp_balance = models.IntegerField(default=0)
 	post = models.IntegerField(choices=POSTS)
 	email = models.EmailField(max_length=75)
 	is_active= models.BooleanField(default=True)
@@ -186,6 +186,7 @@ class TransactionLog(models.Model):
 			hp_change+=days*2*action_type
 
 		self.employee=employee
+		self.leave_type=leave_type
 		self.is_admin=True
 		self.earned_balance=earned_balance
 		self.earned_change=earned_change
