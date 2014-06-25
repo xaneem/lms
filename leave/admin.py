@@ -1,5 +1,5 @@
 from django.contrib import admin
-from leave.models import Employee,Application
+from leave.models import Employee,Application,TransactionLog,ApplicationLog
 # Register your models here.
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
@@ -15,6 +15,9 @@ class UserProfileInline(admin.StackedInline):
 
 admin.site.register(Employee)
 admin.site.register(Application)
+admin.site.register(TransactionLog)
+admin.site.register(ApplicationLog)
+
 
 # Define a new User admin
 class UserAdmin(UserAdmin):
