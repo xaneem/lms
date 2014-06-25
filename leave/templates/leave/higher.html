@@ -10,6 +10,7 @@
         <title>{{user_display_name}} - LMS</title>
 
         <link href="{% static 'leave/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'leave/css/datepicker3.css' %}" rel="stylesheet">
         <script src="{% static 'leave/js/jquery-1.11.1.min.js' %}"></script>
 
         <!--[if lt IE 9]>
@@ -73,21 +74,41 @@
                     <div class="pull-right">
                         <br>
                         <div class="btn-group">
-                                <a class="btn btn-default {% if status == 0 %}active{% endif %}" href="{% url 'higher' 'all' %}">All</a>
+                                <a class="btn btn-default {% if status == 6 %}active{% endif %}" href="{% url 'higher' 'all' %}">All</a>
                                 <a class="btn btn-default {% if status == 1 %}active{% endif %}" href="{% url 'higher' 'pending' %}">Pending</a>
                                 <a class="btn btn-default {% if status == 2 %}active{% endif %}" href="{% url 'higher' 'processing' %}">Processing</a>
                                 <a class="btn btn-default {% if status == 3 %}active{% endif %}" href="{% url 'higher' 'approved' %}">Approved</a>
                                 <a class="btn btn-default {% if status == 4 %}active{% endif %}" href="{% url 'higher' 'rejected' %}">Rejected</a>
                                 <a class="btn btn-default {% if status == 5 %}active{% endif %}" href="{% url 'higher' 'cancelled' %}">Cancelled</a>
+                                <button class="btn btn-default" id="filter">Filter <i class="glyphicon glyphicon-chevron-down"></i></button>
                         </div>
-                        <p>&nbsp;</p><br>
                     </div>
+                    <div class="clearfix"></div>
+
+                    <div class="well" id="filter-list" style="display:none;">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" id="" placeholder="Year">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" id="" placeholder="Month">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" id="" placeholder="Day">
+                            </div>
+                            <div class="col-md-3">
+                                <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-filter"></i> Update Filter</button>
+                            </div>
+                        </div>                                      
+                    </div>
+                    <p>&nbsp;</p>
                     <table class="table table-hover table-striped">
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Time Applied</th>
-                                <th>Employee Name</th>
+                                <th>Emp. Code</th>
+                                <th>Emp. Name</th>
                                 <th>Leave Type</th>
                                 <th>From</th>
                                 <th>To</th>
@@ -102,6 +123,7 @@
 
                                 <td>{{ forloop.counter0|add:applications.start_index}} </td>
                                 <td>{{ application.time_generated }}</td>
+                                <td>{{ application.employee.code }}</td>
                                 <td>{{ application.employee.name }}</td>
                                 <td>{{ application.get_leave_type_display|title }}</td>
                                 <td>{{ application.date_from }}</td>
@@ -125,7 +147,25 @@
 
 
         <div class="space-15px"></div>
-        
-        <script src="{% static 'leave/js/bootstrap.min.js' %}" ></script>       
+        <script src="{% static 'leave/js/bootstrap.min.js' %}" ></script>
+        <script src="{% static 'leave/js/bootstrap-datepicker.js' %}" ></script>
+
+        <script>
+            $(function() {
+                $('#filter').on('click', function(event){
+                    event.preventDefault();
+
+                    
+                    if($('#filter-list').is(':visible')){
+                        $('#filter-list').fadeOut();
+                        $('#filter').html('Filter <i class="glyphicon glyphicon-chevron-down"></i>');
+                    }else{
+                        $('#filter-list').fadeIn();
+                        $('#filter').html('Filter <i class="glyphicon glyphicon-chevron-up"></i>');
+                    }
+                });
+            });
+        </script>
+
     </body>
 </html>

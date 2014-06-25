@@ -146,13 +146,13 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Time </th>
+                                <th>Date</th>
                                 <th>Reference</th>
-                                <th>Leave type</th>
-                                <th>Earned Leave change</th>
-                                <th>Earned Leave balance</th>
-                                <th>Halfpay Leave change</th>
-                                <th>Halfpay Leave balance</th>
+                                <th>Leave Type</th>
+                                <th>EL Change</th>
+                                <th>EL Balance</th>
+                                <th>HPL Change</th>
+                                <th>HPL Balance</th>
                                 <th>Note</th>
                             
                             </tr>
@@ -167,10 +167,8 @@
                                 <td>{% if log.is_admin %}
                                         Admin
                                     {% else %}
-                                        Application #<a href="{% url 'details' log.application.pk %}"> {{log.application.pk}}
-                                                    </a>
+                                        <a href="{% url 'details' log.application.pk %}">Application # {{log.application.pk}}</a>
                                     {% endif %}
-
                                 </td>
                                 <td>{{ log.application.get_leave_type_display }}</td>
                                 <td>{{ log.earned_change }}</td>
