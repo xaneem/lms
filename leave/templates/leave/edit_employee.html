@@ -1,0 +1,122 @@
+{% load bootstrap3 %}
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Edit Employee - LMS</title>
+
+        <link href="{% static 'leave/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'leave/css/chosen.min.css' %}" rel="stylesheet">
+        <link href="{% static 'leave/css/datepicker3.css' %}" rel="stylesheet">
+
+        <script src="{% static 'leave/js/jquery-1.11.1.min.js' %}"></script>
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <style>
+            .space-15px{
+                height: 15px;
+                margin:0;
+                padding: 0;
+                border: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{% url 'index' %}">Leave Management System</a>
+            </div>
+        
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="{% url 'employees' %}">Home</a></li>
+                    <li><a href="{% url 'sent' '' %}">Sent Applications</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.first_name}}<b class="caret"></b></a> 
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-header">{{name}}</li>
+                            <li><a href="{% url 'logt' %}"><i class="glyphicon glyphicon-log-out"></i> Log Out</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                      <div class="row">
+                        <div class="col-md-6">
+                           <h3>Edit Employee</h3>
+                        </div>
+                        {% if messages %}
+                        <div class="col-md-6">
+                            {% for message in messages %}
+                            {% bootstrap_messages message %}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="{% url 'index' %}">Home</a>
+                        </li>
+                        <li class="active">Edit Employee</li>
+                    </ol>
+
+                    
+                    <form role="form" action="{% url 'edit_employee' form.instance.pk %}" method="post" >
+                        {% csrf_token %}
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                {% bootstrap_field form.code %}
+                                {% bootstrap_field form.name %}
+                                {% bootstrap_field form.dept %}
+
+                            </div>
+                            <div class="col-md-6">
+                               
+                                {% bootstrap_field form.email %}
+                                {% bootstrap_field form.post%}
+                                {% bootstrap_field form.is_active %}     
+
+                                <br>
+                         
+
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-success btn-lg"><i class="glyphicon glyphicon-chevron-right"></i> Update
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+
+       
+        <script src="{% static 'leave/js/bootstrap.min.js' %}" ></script>
+        <script src="{% static 'leave/js/chosen.jquery.min.js' %}" ></script>
+     
+        
+    </body>
+</html>
+
+
