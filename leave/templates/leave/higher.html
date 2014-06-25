@@ -87,7 +87,7 @@
 
                     <div class="row">
                         <div class="col-md-12">
-                            <div style="padding:10px;" id="filter-list" style="display:none;" class="well pull-right">
+                            <div style="padding:10px; display:none;" id="filter-list" class="well pull-right">
                                 <form action="" method="GET" class="form-inline" role="form">
                                 
                                     <div class="form-group">
@@ -168,7 +168,6 @@
                 $('#filter').on('click', function(event){
                     event.preventDefault();
 
-                    
                     if($('#filter-list').is(':visible')){
                         $('#filter-list').fadeOut();
                         $('#filter').html('Filter <i class="glyphicon glyphicon-chevron-down"></i>');
@@ -277,9 +276,7 @@
                     } else {
                         window.location.assign(current_url);
                     }
-
                 });
-
 
             });
         </script>
