@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 
 class EmployeeSerializer(Serializer):
     def get_dump_object(self, obj):
+    	self._current['pk']=obj.pk
     	self._current['dept_value'] = obj.dept
     	self._current['post_value'] = obj.post
         self._current['dept'] = obj.get_dept_display()
