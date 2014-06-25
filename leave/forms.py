@@ -1,4 +1,4 @@
-from django.forms import ModelForm,Textarea,DateInput
+from django.forms import ModelForm,Textarea,DateInput,save_instance
 from datetime import datetime 
 from leave.models import Application,Employee
 from django.forms.extras.widgets import SelectDateWidget
@@ -54,6 +54,24 @@ class ApplicationForm(ModelForm):
 
 
 
+class EmployeeForm(ModelForm):
 
+ 	def save(self, commit=True):
+
+   		if self.instance.pk is None:
+   			fail_message='created'
+   		else:
+   			fail_message = 'changed'
+   		exclude = ['earned_balance', 'hp_balance']
+   		return save_instance(self, self.instance, self._meta.fields,
+                             fail_message, commit, construct=False,
+                             exclude=exclude)
+   		
+    	
+    
+
+	class Meta:
+   		model = Employee
+   		fields = ['code', 'name', 'dept', 'post','email','is_active',]	
 
 

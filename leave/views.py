@@ -9,11 +9,13 @@ from django.http import HttpResponse,Http404
 from django.template import RequestContext, loader
 from django import forms
 from django.contrib.auth import authenticate,login,logout
-from leave.forms import ApplicationForm
+from leave.forms import ApplicationForm,EmployeeForm
 from django.views.generic import ListView
 from django.contrib import messages
 from django.core.urlresolvers import reverse
-from django.utils import simplejson
+import json
+from django.core import serializers
+
 
 # are divided to Depts,Clerk,'Higher'
 #'higher' includes Dean,Dr,Registrar Etc
@@ -26,6 +28,9 @@ def isClerk(user):
 
 def isHigher(user):
 	return user.groups.filter(name='higher')
+
+def isDataEntry(user):
+	return user.groups.filter(name="data_entry")
 
 
 def getStatus(sort):
@@ -97,6 +102,10 @@ def index(request):
 			return redirect(reverse('clerk',args=('',)))
 		elif isDept(request.user):
 			return redirect('dept')
+		elif isDataEntry(request.user):
+			return redirect(reverse('edit_employee',args=('1',)))
+
+
 		else:
 			#If user do not belong to any of three groups, then it should be considered as a staff
 			#Redirect this user to Admin page
@@ -165,7 +174,7 @@ def start_processing(request):
 			to_json['result']=0
 			to_json['message']='error'
 			messages.error(request,'Error: Could not change status. Try again.')
-		return HttpResponse(simplejson.dumps(to_json), mimetype='application/json')
+		return HttpResponse(json.dumps(to_json), mimetype='application/json')
 	else:
 		raise PermissionDenied
 
@@ -222,7 +231,7 @@ def complete(request):
 		if not valid:
 			to_json['result']=0
 			messages.error(request, to_json['message'])
-			return HttpResponse(simplejson.dumps(to_json), mimetype='application/json')
+			return HttpResponse(json.dumps(to_json), mimetype='application/json')
 
 		if application.status== 2 and 3 <= status <= 4:
 			days=(date_to-date_from).days+1
@@ -263,7 +272,7 @@ def complete(request):
 		else:
 			to_json['result']=0
 			to_json['message']='Some error occured. Please try again'
-		return HttpResponse(simplejson.dumps(to_json), mimetype='application/json')
+		return HttpResponse(json.dumps(to_json), mimetype='application/json')
 	else:
 		raise PermissionDenied
 
@@ -300,6 +309,8 @@ def details(request,id):
 
 
 
+
+
 @login_required
 def employee(request,id):
 	userprofile=UserProfile.objects.get(user=request.user)
@@ -333,6 +344,45 @@ def employee(request,id):
 	}
 
 	return render(request,'leave/employee.html',context)
+
+@login_required
+@user_passes_test(isDataEntry)
+def edit_employee(request,id):
+	try:
+		employee=Employee.objects.get(pk=id)
+	except Employee.DoesNotExist:
+		raise Http404
+
+	form=EmployeeForm(instance=employee)
+	
+	context={
+	'form':form
+	}
+	if request.method=='POST':
+		form = EmployeeForm(request.POST,instance=employee)
+		if form.is_valid():
+			form.save()
+			messages.success(request, 'Employee details updated')
+		else:
+			messages.error(request,'Please correct incorrect fields')
+			context['form']=form
+		return render(request,'leave/edit_employee.html',context)
+	
+	else:	
+		return render(request,'leave/edit_employee.html',context)
+
+
+@login_required
+@user_passes_test(isDataEntry)
+def employees(request):
+	employees=Employee.objects.all()
+	serialized_employees = serializers.serialize('json', employees)
+
+	context={
+	'employees':serialized_employees
+	}
+	
+	return render(request,'leave/employees.html',context)
 
 
 @login_required
@@ -384,13 +434,10 @@ def dept(request):
 			return render(request,'leave/dept.html',context)
 
 
-	
-
-	form=ApplicationForm(userprofile.dept)
-	
-	context['form']=form
-
-	return render(request,'leave/dept.html',context)
+	else:
+		form=ApplicationForm(userprofile.dept)
+		context['form']=form
+		return render(request,'leave/dept.html',context)
 
 
 
