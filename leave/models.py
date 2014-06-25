@@ -88,13 +88,13 @@ class Employee(models.Model):
 		else:
 			return False
 
-	def transaction(self,days,leave_type):
+	def transaction(self,days,leave_type,action_type):
 		if leave_type==1:
-			self.earned_balance-=days
+			self.earned_balance+=days*action_type
 		elif leave_type==2:
-			self.hp_balance-=days
+			self.hp_balance+=days*action_type
 		elif leave_type==3:
-			self.hp_balance-=2*days
+			self.hp_balance+=2*days*action_type
 		else:
 			return False
 		self.save()
@@ -151,7 +151,7 @@ class TransactionLog(models.Model):
 			text+=" Admin"
 		return text
 
-	def newTransaction(self,employee,application):
+	def ApplicationTransaction(self,employee,application):
 		earned_balance=employee.earned_balance
 		hp_balance=employee.hp_balance
 		earned_change=0
@@ -173,6 +173,27 @@ class TransactionLog(models.Model):
 		self.time=datetime.now()
 		self.save()
 
+	def AdminTransaction(self,employee,leave_type,days,action_type,note):
+		earned_balance=employee.earned_balance
+		hp_balance=employee.hp_balance
+		earned_change=0
+		hp_change=0
+		if leave_type==1:
+			earned_change+=days*action_type
+		elif leave_type==2:
+			hp_change+=days*action_type
+		elif leave_type==3:
+			hp_change+=days*2*action_type
+
+		self.employee=employee
+		self.is_admin=True
+		self.earned_balance=earned_balance
+		self.earned_change=earned_change
+		self.hp_balance=hp_balance
+		self.hp_change=hp_change
+		self.time=datetime.now()
+		self.note=note
+		self.save()
 	
 	
 

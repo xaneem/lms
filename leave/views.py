@@ -105,9 +105,7 @@ def index(request):
 		elif isDept(request.user):
 			return redirect('dept')
 		elif isDataEntry(request.user):
-			return redirect(reverse('edit_employee',args=('1',)))
-
-
+			return redirect(reverse('employees'))
 		else:
 			#If user do not belong to any of three groups, then it should be considered as a staff
 			#Redirect this user to Admin page
@@ -124,6 +122,45 @@ def logt(request):
 	return redirect('index')
 		
 
+@login_required
+@user_passes_test(isDataEntry)
+def manage_leave(request):
+	if request.method=='POST':
+		leave_type=request.POST.get('leave_type')
+		action_type=request.POST.get('action_type')
+		days=request.POST.get('count')
+		leave_type=int(leave_type)
+		action_type=int(action_type)
+		note="Just testing"
+		days=int(days)
+		
+		if 1<= leave_type <=2 and (action_type==-1 or action_type==1):
+			count=0
+			employees=request.POST.getlist('check[]')
+			for pk in employees:
+				try:
+					employee=Employee.objects.get(pk=pk)
+				except Employee.DoesNotExist:
+					pass
+				if action_type==-1 and not employee.isLeaveLeft(days,leave_type):
+					pass
+
+				employee.transaction(days,leave_type,action_type)
+				TransactionLog().AdminTransaction(employee,leave_type,days,action_type,note)
+				count=count+1
+
+			if count:
+				messages.success(request,"Updated "+str(count)+" employees ")
+			else:
+				messages.error(request,"No employee updated")
+		
+
+		else:
+			messages.error(request,"Invalid Action")
+
+		return redirect(reverse('employees'))
+	else:
+		raise PermissionDenied
 
 
 @login_required
@@ -248,11 +285,11 @@ def complete(request):
 				if status==3:
 					application.new_date_from=date_from
 					application.new_date_to=date_to
-					employee.transaction(days,application.leave_type)
+					employee.transaction(days,application.leave_type,-1)
 					
 				application.save()
 				if application.status==3:
-					TransactionLog().newTransaction(employee,application)
+					TransactionLog().ApplicationTransaction(employee,application)
 
 				activity="Application "+application.get_status_display()
 				log_entry=ApplicationLog(application=application,time=datetime.now(),activity=activity,notes=notes)
