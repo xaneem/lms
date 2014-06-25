@@ -66,7 +66,7 @@ STATUS = (
 #Model for employees
 class Employee(models.Model):
 		
-	code = models.CharField(max_length=10,null=True)
+	code = models.CharField(max_length=10,null=True,unique=True)
 	name = models.CharField(max_length=100)
 	dept = models.IntegerField(choices=DEPARTMENTS)
 	earned_balance = models.IntegerField()
