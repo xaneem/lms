@@ -92,18 +92,19 @@
                                 
                                     <div class="form-group">
                                         <label class="sr-only" for="">Year</label>
-                                        <input type="text" style="width:80px;" class="form-control" id="filter-year" placeholder="Year">
+                                        <input type="text" style="width:100px;" class="form-control" id="filter-year" placeholder="Year">
                                     </div>
                                     <div class="form-group">
                                         <label class="sr-only" for="">Month</label>
-                                        <input type="text" style="width:80px;" class="form-control" id="filter-month" placeholder="Month">
+
+                                        <input type="text" style="width:100px;" class="form-control" id="filter-month" placeholder="Month" disabled="disabled">
                                     </div>
                                     <div class="form-group">
                                         <label class="sr-only" for="">Day</label>
-                                        <input type="text" style="width:80px;" class="form-control" id="filter-day" placeholder="Day">
+                                        <input type="text" style="width:100px;" class="form-control" id="filter-day" placeholder="Day" disabled="disabled">
                                     </div>
 
-                                    <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-filter"></i> Update Filter</button>
+                                    <button type="button" class="btn btn-default" id="btn-update-filter"><i class="glyphicon glyphicon-filter"></i> Update Filter</button>
                                 </form>
                                 
                             </div>
@@ -181,18 +182,30 @@
                     $('#filter-year').datepicker({
                          startView: 1,
                          minViewMode: 2,
-                         format: "yyyy"
+                         format: "yyyy",
+                         startDate: "2013",
+                         endDate: "today",
                     });
 
                     $('#filter-year').datepicker().on('changeDate', function(e) {
                         year = $('#filter-year').val();
 
-                        if(year!='')
+                        if(year!=''){
+                            $('#filter-month').val('');
+                            $('#filter-day').val('');
                             activateMonth(year);
-                        else
+                            $('#filter-month').attr('disabled', false)
+                            $('#filter-day').val('').attr('disabled', true);
+                        }else{
                             deactivateMonth();
+                            $('#filter-month').val('').attr('disabled', true);
+                        }
 
                     });
+
+                    if($('#filter-year').val()){
+                        activateMonth($('#filter-year').val());
+                    }
 
                 };
 
@@ -204,13 +217,66 @@
                         startDate: moment(year, "YYYY").format("01/YYYY"),
                         endDate: moment(year, "YYYY").format("12/YYYY"),
                     });
-                }
+
+                    $('#filter-month').datepicker().on('changeDate', function(e) {
+                        month = $('#filter-month').val();
+
+                        if(month!=''){
+                            $('#filter-day').val('');
+                            activateDay(month);
+                            $('#filter-day').attr('disabled', false)
+                        }else{
+                            deactivateDay();
+                            $('#filter-day').val('').attr('disabled', true);
+                        }
+
+                    });
+
+                    if($('#filter-month').val()){
+                        activateDay($('#filter-month').val());
+                    }
+                };
+
+                var activateDay = function(month){
+                    deactivateDay();
+                    $('#filter-day').datepicker({
+                        format: "dd/mm/yyyy",
+                        startDate: moment('01/'+month, "DD/MM/YYYY").format("DD/MM/YYYY"),
+                        endDate: moment('01/'+month, "DD/MM/YYYY").endOf('month').format("DD/MM/YYYY"),
+                    });
+                };
 
                 var deactivateMonth = function(){
                     $('#filter-month').datepicker('remove');
                 };
 
+                var deactivateDay = function(){
+                    $('#filter-day').datepicker('remove');
+                };
+
                 activateYear();
+
+
+                $('#btn-update-filter').on('click', function(event) {
+                    event.preventDefault();
+                    var day = $('#filter-day').val(),
+                        month = $('#filter-month').val(),
+                        year = $('#filter-year').val();
+
+                    if (day) {
+                        var date = moment(day, "DD/MM/YYYY").format("YYYY-MM-DD");
+                        alert(date);
+                    } else if (month) {
+                        var date = moment(month, "MM/YYYY").format("YYYY-MM");
+                        alert(date);
+                    } else if (year) {
+                        var date = moment(year, "YYYY").format("YYYY");
+                        alert(date);
+                    } else {
+                        alert('Reset');
+                    }
+
+                });
 
 
             });
