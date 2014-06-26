@@ -60,7 +60,7 @@ def getApplicationsList(page,status,year,month,date):
 		all_list=all_list.filter(status=status)
 	if year:
 		all_list=all_list.filter(time_generated__year=year)
-	print month
+	
 	if month:
 		all_list=all_list.filter(time_generated__month=month)
 	if date:
@@ -254,12 +254,11 @@ def complete(request):
 		valid=True
 
 		try:
-			print date_to
-			print date_from
+			
+			
 			date_to=datetime.strptime(date_to, "%m/%d/%Y").date()
 			date_from=datetime.strptime(date_from, "%m/%d/%Y").date()
-			print date_to
-			print date_from
+			
 			
 
 		except ValueError:
@@ -421,7 +420,7 @@ def new_employee(request):
 	if request.method=='POST':
 		form = EmployeeNewForm(request.POST)
 		code=form.data['code']
-		print code
+		
 		try:
 			employee=Employee.objects.filter(is_active=False).get(code=code)
 			messages.success(request, 'Employee code already exists ,Please update details Here')
@@ -454,7 +453,7 @@ def employees(request):
 	employees=Employee.objects.filter(is_active=True)
 	serializer = EmployeeSerializer()
 	serialized_employees = serializer.serialize(employees)
-	print serialized_employees
+	
 	context={
 	'employees':serialized_employees
 	}
