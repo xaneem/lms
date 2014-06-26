@@ -126,13 +126,19 @@ def logt(request):
 @user_passes_test(isDataEntry)
 def manage_leave(request):
 	if request.method=='POST':
-		leave_type=request.POST.get('leave_type')
-		action_type=request.POST.get('action_type')
-		days=request.POST.get('count')
-		leave_type=int(leave_type)
-		action_type=int(action_type)
+		leave_type=request.POST.get('leave_type','')
+		action_type=request.POST.get('action_type','')
+		days=request.POST.get('count','')
+		try :
+			leave_type=int(leave_type)
+			action_type=int(action_type)
+			days=int(days)
+		except ValueError:
+			messages.error(request,"Invalid Inputs")
+			return redirect(reverse('employees'))
+
+
 		note="Just testing"
-		days=int(days)
 		
 		if 1<= leave_type <=2 and (action_type==-1 or action_type==1) and days>=0:
 			count=0
