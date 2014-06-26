@@ -41,8 +41,7 @@
         
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="{% url 'employees' %}">Home</a></li>
-                    <li><a href="{% url 'sent' '' %}">Sent Applications</a></li>
+                    <li><a href="{% url 'index' %}">Home</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
@@ -94,7 +93,14 @@
                                
                                 {% bootstrap_field form.email %}
                                 {% bootstrap_field form.post%}
-                                {% bootstrap_field form.is_active %}     
+                                
+                                <br>
+                                <div class="checkbox"> 
+                                    <label>
+                                        {{ form.is_active }}
+                                        Active Employee (Uncheck to deactivate)
+                                    </label>
+                                </div>
 
                                 <br>
                          

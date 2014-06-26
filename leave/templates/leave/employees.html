@@ -40,7 +40,7 @@
     	
     	    <div class="collapse navbar-collapse navbar-ex1-collapse">
     	        <ul class="nav navbar-nav">
-                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li class="active"><a href="{% url 'index' %}">Home</a></li>
                 </ul>
     	        <ul class="nav navbar-nav navbar-right">
     	            <li class="dropdown">
@@ -65,13 +65,16 @@
                 	    <li class="active">Employees List</li>
                 	</ol>
 
-                	<form action="{% url 'manage_leave' %}" method="POST" role="form">
+                	<form action="{# url 'manage_leave' #}" method="GET" role="form">
+                		<input type="hidden" name="csrfmiddlewaretoken" value="{{csrf_token}}">
                 		<input type="hidden" name="leave_type" value="1">
                 		<!-- Earned:1, HP:2 -->
                 		<input type="hidden" name="action_type" value="1">
                 		<input type="hidden" name="count" value="10">
 
-                		<button type="submit" class="btn btn-default">Credit/Debit Leave</button>
+                		<p>Select the employee(s) from the table to Credit/Debit leaves. Then click on the button below.</p>
+                		<button type="submit" class="btn btn-warning btn-lg"><i class="glyphicon glyphicon-stats"></i> Credit/Debit Leave</button>
+                		<br><br>
                 		<table class="table table-hover table-striped">
                 			<thead>
                 				<tr>
