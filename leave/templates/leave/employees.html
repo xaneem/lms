@@ -27,6 +27,8 @@
     </head>
     <body>
 
+
+
     	<nav class="navbar navbar-default" role="navigation">
     	    <div class="navbar-header">
     	        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -66,14 +68,56 @@
                 	</ol>
 
                 	<form action="{# url 'manage_leave' #}" method="GET" role="form">
-                		<input type="hidden" name="csrfmiddlewaretoken" value="{{csrf_token}}">
-                		<input type="hidden" name="leave_type" value="1">
-                		<!-- Earned:1, HP:2 -->
-                		<input type="hidden" name="action_type" value="1">
-                		<input type="hidden" name="count" value="10">
+                        <div class="modal fade" id="modal-leave">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title">Credit/Debit Leave</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div id="leave-text"></div>
+                                        
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <div class="btn-group" data-toggle="buttons">
+                                                        <label class="btn btn-default">
+                                                            <input type="radio" name="options" id="option1"> Credit Leave
+                                                        </label>
+                                                        <label class="btn btn-default">
+                                                            <input type="radio" name="options" id="option2"> Debit Leave
+                                                        </label>
+                                                    </div>
+                                                </div>
 
-                		<p>Select the employee(s) from the table to Credit/Debit leaves. Then click on the button below.</p>
-                		<button type="submit" class="btn btn-warning btn-lg"><i class="glyphicon glyphicon-stats"></i> Credit/Debit Leave</button>
+                                                <div class="form-group">
+                                                    <label for="count">Number of leaves</label>
+                                                    <input type="number" name="count" id="count" class="form-control" value="" required="required" placeholder="Number of leaves" >
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="glyphicon glyphicon-ban-circle"></i>  Cancel</button>
+                                        <button type="submit" class="btn btn-info"><i class="glyphicon glyphicon-ok"></i> Confirm Action</button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+
+                        
+                        <input type="hidden" name="csrfmiddlewaretoken" value="{{csrf_token}}">
+                        <input type="hidden" name="leave_type" value="1">
+                        <!-- Earned:1, HP:2 -->
+                        <input type="hidden" name="action_type" value="1">
+                        <input type="hidden" name="count" value="10">
+
+                        <p>Select the employee(s) from the table to Credit/Debit leaves. Then click on the button below.</p>
+
+                        <a class="btn btn-warning btn-lg" data-toggle="modal" href='#modal-leave'><i class="glyphicon glyphicon-stats"></i> Credit/Debit Leave</a>
+
                 		<br><br>
                 		<table class="table table-hover table-striped">
                 			<thead>
