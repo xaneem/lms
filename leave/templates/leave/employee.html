@@ -40,12 +40,7 @@
     	
     	    <div class="collapse navbar-collapse navbar-ex1-collapse">
     	        <ul class="nav navbar-nav">
-                    {% if user_type == 1 %}
-                    <li><a href="{% url 'dept' %}">Create</a></li>
-                    <li><a href="{% url 'sent' '' %}">Sent Applications</a></li>
-                    {% else %}
                     <li><a href="{% url 'index' %}">Home</a></li>
-                    {% endif %}
                 </ul>
     	        <ul class="nav navbar-nav navbar-right">
     	            <li class="dropdown">
