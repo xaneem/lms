@@ -1,0 +1,32 @@
+* Move dataentry to Est. Office.
+* Approval by DR for all dataentry.
+* Department -> Add function to credit leave.
+* Usertypes: Dept, EST1 & EST 2, DR
+* Cancel Application Workflow.
+* EST admin
+* Current status/History to employee email
+* Option to change password
+* Leave Credit
+* Online Help/Manual
+
+
+Notes:
+*Home page: About the software
+	Working model,
+	Authors
+	License, TOS
+
+*Inside Login:
+	Head:
+		Help/How-To
+		Features
+
+
+
+Logins:
+estoffice
+estadmin
+estdr
+section-heads(csed, med, ..)
+
+Approval By DR *Important.
