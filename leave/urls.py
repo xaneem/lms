@@ -18,7 +18,7 @@ urlpatterns = patterns('',
     url(r'^employee/new$',views.new_employee,name='new_employee'),
     url(r'^application/(\d+)/$',views.details,name='details'),
     url(r'^manage_leave/$',views.manage_leave,name='manage_leave'),
-    url(r'^cancel_application/$',views.cancel_application,name='cancel_application'),
+    url(r'^delete_application/$',views.delete_application,name='delete_application'),
     url(r'^start_processing/$',views.start_processing,name='start_processing'),
     url(r'^complete/$',views.complete,name='complete'),
  	url(r'^attachments/(?P<path>.*)$', 'django.views.static.serve', {

@@ -64,9 +64,9 @@ class CancelForm(forms.Form):
 	    self.fields['attachment2'].label = "Attachment 2"
 	    self.fields['attachment3'].label = "Attachment 3"
 	reason=forms.CharField(widget=forms.Textarea)
-	attachment1 = forms.FileField()
-	attachment2 = forms.FileField()
-	attachment3 = forms.FileField()
+	attachment1 = forms.FileField(required=False)
+	attachment2 = forms.FileField(required=False)
+	attachment3 = forms.FileField(required=False)
 
 
 

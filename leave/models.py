@@ -55,6 +55,7 @@ USER_TYPES = (
 
 #Status of Application
 STATUS = (
+	(0,'Deleted'),
 	(1,'Pending'),
 	(2,'Processing'),
 	(3,'Approved'),
@@ -156,13 +157,19 @@ class TransactionLog(models.Model):
 		hp_balance=employee.hp_balance
 		earned_change=0
 		hp_change=0
+		action_type=1 #Cancel application (Credit)
+		if application.is_new:
+			action_type=-1 #New application (Debit)
+
+
 		days=(application.new_date_to-application.new_date_from).days+1
 		if application.leave_type==1:
-			earned_change-=days
+			earned_change+=days*action_type
 		elif application.leave_type==2:
-			hp_change-=days
+			hp_change+=days*action_type
 		elif application.leave_type==3:
-			hp_change-=2*days
+			hp_change+=2*days*action_type
+			
 
 		self.employee=employee
 		self.application=application
@@ -206,6 +213,7 @@ class Application(models.Model):
 	employee = models.ForeignKey('Employee')
 	is_new = models.BooleanField(default=True)
 	original= models.ForeignKey('self',null=True)
+	# Original field of New applications refers to ongoing cancel request for the same
 	leave_type = models.IntegerField(choices=LEAVE_TYPES)
 	date_from = models.DateField()
 	date_to	= models.DateField()
@@ -230,7 +238,11 @@ class Application(models.Model):
 		date_to=self.new_date_to,new_date_from=self.new_date_from,
 		new_date_to=self.new_date_to,reason=reason,attachment1=attachment1,
 		attachment2=attachment2,attachment3=attachment3,)
-		return cancel_application.save()
+		cancel_application.save()
+		self.original=cancel_application
+		# Original field of New applications refers to ongoing cancel request for the same
+		self.save()
+		return cancel_application
 
 
 
