@@ -143,7 +143,7 @@
                                 <th>#</th>
                                 <th>Date</th>
                                 <th>Reference</th>
-                                <th>Leave Type</th>
+                                <th>Application Type</th>
                                 <th>EL Change</th>
                                 <th>EL Balance</th>
                                 <th>HPL Change</th>
@@ -165,7 +165,14 @@
                                         <a href="{% url 'details' log.application.pk %}">Application # {{log.application.pk}}</a>
                                     {% endif %}
                                 </td>
-                                <td>{{ log.application.get_leave_type_display }}</td>
+                                 <td>
+                                    {% if log.application.is_new %}
+                                        New
+                                    {% else %}
+                                        Cancel
+                                    {% endif %}
+                                    {{ log.application.get_leave_type_display|title }}
+                                </td>
                                 <td>{{ log.earned_change }}</td>
                                 <td>{{ log.earned_balance }}</td>
                                 <td>{{ log.hp_change }}</td>

@@ -119,7 +119,7 @@
                                 <th>Time Applied</th>
                                 <th>Emp. Code</th>
                                 <th>Emp. Name</th>
-                                <th>Leave Type</th>
+                                <th>Application Type</th>
                                 <th>From</th>
                                 <th>To</th>
                                 <th>Application Status</th>
@@ -135,7 +135,14 @@
                                 <td>{{ application.time_generated }}</td>
                                 <td>{{ application.employee.code }}</td>
                                 <td>{{ application.employee.name }}</td>
-                                <td>{{ application.get_leave_type_display|title }}</td>
+                                <td>
+                                    {% if application.is_new %}
+                                        New
+                                    {% else %}
+                                        Cancel
+                                    {% endif %}
+                                    {{ application.get_leave_type_display|title }}
+                                </td>
                                 <td>{{ application.date_from }}</td>
                                 <td>{{ application.date_to }}</td>
                                 <td>{{ application.get_status_display|title }}</td>

@@ -28,24 +28,24 @@
     <body>
         
         {% if application.status == 1  %}
-        <!-- Cancel Application Confirmation -->
-        <div class="modal fade" id="cancel-confirm">
+        <!-- Delete Application Confirmation -->
+        <div class="modal fade" id="delete-confirm">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Cancel Application?</h4>
+                        <h4 class="modal-title">Delete Application?</h4>
                     </div>
                     <div class="modal-body">
-                        Are you sure you want to cancel this application? This action cannot be reverted.
+                        Are you sure you want to delete this application? This action cannot be reverted.
                     </div>
                     <div class="modal-footer">
-                        <form action="{% url 'cancel_application' %}" method="POST">
+                        <form action="{% url 'delete_application' %}" method="POST">
                             {% csrf_token %}
                             <input type="hidden" name="id" value="{{application.pk}}">
 
                             <button type="button" class="btn btn-default" data-dismiss="modal"><i class="glyphicon glyphicon-ban-circle"></i> Close</button>
-                            <button type="submit" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i> Cancel Application</button>
+                            <button type="submit" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i> Delete Application</button>
                         </form>                        
                     </div>
                 </div>
@@ -90,7 +90,11 @@
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-6">
-                            <h3>Application Details</h3>
+                               <h3>Application #{{application.pk}} ({% if application.is_new %}
+                                                       For New Leave
+                                                      {% else %}
+                                                        Cancel Approved Leave
+                                                      {% endif %} )</h3>
                         </div>
                         {% if messages %}
                         <div class="col-md-6">
@@ -146,6 +150,16 @@
                                 <tbody>
                                     <tr>
                                         <th colspan="2" class="text-center">Application Details</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Application Type</th>
+                                        <td>{% if application.is_new %}
+                                                New Application
+                                            {% else %}
+                                                Cancel request for<a href="{% url 'details' application.original.pk %}" target="_blank">
+                                                Application #{{ application.original.pk }} </a>
+                                            {% endif %}
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th>Generated at</th>
@@ -223,13 +237,27 @@
                                     </tr>
 
                                     {% if user_type %}
-                                    {% if user_type == 1 and application.status == 1 %}
-                                    <tr>
-                                        <th>Action</th>
-                                        <td>
-                                            <a class="btn btn-danger" data-toggle="modal" href='#cancel-confirm'><i class="glyphicon glyphicon-remove"></i> Cancel Application</a>
-                                        </td>
-                                    </tr>
+                                    {% if user_type == 1 %} 
+                                        {% if application.status == 1 %}
+                                            <tr>
+                                                <th>Action</th>
+                                                <td>
+                                                    <a class="btn btn-danger" data-toggle="modal" href='#delete-confirm'><i class="glyphicon glyphicon-remove"></i> Delete Application</a>
+                                                </td>
+                                            </tr>
+                                        {% elif application.status == 3 and application.is_new %}
+                                            <tr>
+                                                <th>Action</th>
+                                                <td>
+                                                    <a class="btn btn-danger" data-toggle="modal" href=
+                                                    "{% url 'cancel' application.pk %}"><i class="glyphicon glyphicon-remove"></i> Cancel Application</a>
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+
+
+
+
                                     {% elif user_type == 2 %}
                                     {% if application.status == 1  %}
                                     <tr>
@@ -262,18 +290,24 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    {% elif 3 <= user_type and user_type <= 6 and application.status == 2 %}
+                                    {% elif  user_type == 4 and application.status == 2 %}
+
                                     <tr>
                                         <th style="max-width:120px;">Edit Application before action (optional)</th>
-                                        <td>
-                                            <div class="form-group">
-                                                <label for="edit-from-date">Change From Date</label>
-                                                <input type="text" class="form-control" id="edit-from-date" placeholder="Change From Date" value="{{ application.new_date_from|date:"m/d/Y" }}">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="edit-to-date">Change To Date</label>
-                                                <input type="text" class="form-control" id="edit-to-date" placeholder="Change To Date" value="{{ application.new_date_to|date:"m/d/Y" }}">
-                                            </div>
+                                    <td>
+                                        {% if application.is_new %}
+                                                
+                                                
+
+                                                    <div class="form-group">
+                                                        <label for="edit-from-date">Change From Date</label>
+                                                        <input type="text" class="form-control" id="edit-from-date" placeholder="Change From Date" value="{{ application.new_date_from|date:"m/d/Y" }}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="edit-to-date">Change To Date</label>
+                                                        <input type="text" class="form-control" id="edit-to-date" placeholder="Change To Date" value="{{ application.new_date_to|date:"m/d/Y" }}">
+                                                    </div>
+                                        {% endif %}
                                             <div class="form-group">
                                                 <label for="edit-notes">Add Notes</label>
                                                 <textarea class="form-control" rows="3" id="edit-notes" placeholder="Add a note (optional)"></textarea>
