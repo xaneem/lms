@@ -9,7 +9,7 @@ from django.http import HttpResponse,Http404
 from django.template import RequestContext, loader
 from django import forms
 from django.contrib.auth import authenticate,login,logout
-from leave.forms import ApplicationForm,EmployeeEditForm,EmployeeNewForm
+from leave.forms import ApplicationForm,EmployeeEditForm,EmployeeNewForm,CancelForm
 from django.views.generic import ListView
 from django.contrib import messages
 from django.core.urlresolvers import reverse
@@ -170,6 +170,43 @@ def manage_leave(request):
 	else:
 		raise PermissionDenied
 
+@login_required
+@user_passes_test(isDept)
+def cancel(request,id):
+	userprofile=UserProfile.objects.get(user=request.user)
+	try:
+		application=Application.objects.get(pk=id)
+	except Application.DoesNotExist:
+		raise Http404
+
+	if application.employee.dept!=userprofile.dept:
+		raise PermissionDenied
+
+	
+	if application.status!=3:
+		HttpResponse("This application is now "+application.get_status_display()+
+		", Cancellation request can be initiated only for APPROVED applications ")
+
+	new_form=CancelForm()
+	context={
+	'form':new_form,
+	'application':application,
+	}
+
+	if request.method=='POST':
+		form=CancelForm(request.POST,request.FILES)
+		if form.is_valid():
+			reason=form.cleaned_data['reason']
+			att1=form.cleaned_data['attachment1']
+			att2=form.cleaned_data['attachment2']
+			att3=form.cleaned_data['attachment3']
+			cancel_application=application.CancelRequest(reason,att1,att2,att3)
+			messages.success("Cancellation request created")
+			return redirect(reverse('details',args=(cancel_application,)));
+		else:
+			context['form']=form
+
+	return render(request,'leave/cancel.html',context)
 
 @login_required
 @user_passes_test(isDept)

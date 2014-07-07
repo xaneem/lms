@@ -1,4 +1,6 @@
+from django import forms
 from django.forms import ModelForm,Textarea,DateInput,save_instance
+
 from datetime import datetime 
 from leave.models import Application,Employee
 from django.forms.extras.widgets import SelectDateWidget
@@ -22,6 +24,7 @@ class ApplicationForm(ModelForm):
 
 	
 	def is_valid(self):
+
 		valid=super(ApplicationForm,self).is_valid()
 		
 		if not valid:
@@ -51,6 +54,19 @@ class ApplicationForm(ModelForm):
 
 
 		return True
+
+
+class CancelForm(forms.Form):
+
+	def __init__(self,*args, **kwargs):
+	    super(CancelForm, self).__init__(*args, **kwargs)
+	    self.fields['attachment1'].label = "Attachment 1"
+	    self.fields['attachment2'].label = "Attachment 2"
+	    self.fields['attachment3'].label = "Attachment 3"
+	reason=forms.CharField(widget=forms.Textarea)
+	attachment1 = forms.FileField()
+	attachment2 = forms.FileField()
+	attachment3 = forms.FileField()
 
 
 
@@ -96,11 +112,7 @@ class EmployeeNewForm(ModelForm):
    		return save_instance(self, self.instance, self._meta.fields,
                              fail_message, commit, construct=False,
                              )
-
-   		
-    	
-    
-
+	
 	class Meta:
    		model = Employee
    		fields = ['code', 'name', 'dept', 'post','email','is_active','earned_balance','hp_balance']	

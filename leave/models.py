@@ -220,9 +220,18 @@ class Application(models.Model):
 	time_received = models.DateTimeField(null=True)
 	time_approved = models.DateTimeField(null=True,blank=True)
 	#This field will be set only when the application is approved/rejected	
-		
+	
 	def __unicode__(self):
 		return self.employee.name + " - " + self.get_leave_type_display()	
+
+	def CancelRequest(self,reason,attachment1,attachment2,attachment3):
+		cancel_application=Application(original=self,is_new=False,
+		employee=self.employee,leave_type=self.leave_type,date_from=self.new_date_from,
+		date_to=self.new_date_to,new_date_from=self.new_date_from,
+		new_date_to=self.new_date_to,reason=reason,attachment1=attachment1,
+		attachment2=attachment2,attachment3=attachment3,)
+		return cancel_application.save()
+
 
 
 
