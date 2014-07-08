@@ -64,6 +64,7 @@ STATUS = (
 	)
 
 
+
 #Model for employees
 class Employee(models.Model):
 		
@@ -135,21 +136,21 @@ class TransactionLog(models.Model):
 	def toText(self):
 		change=0
 		text=""
+		
 		if self.hp_change:
 			change=self.hp_change
-			text+=str(abs(change))+" Halfpay leave"
+			text+=str(abs(change))+" Halfpay leave "
 		elif self.earned_change:
 			change=self.earned_change
-			text+=str(abs(change))+" Earned leave"
-		if change<0:
-			text+=" debited by"
-		elif change>0:
-			text+=" credited by"
+			text+=str(abs(change))+" Earned leave "
 
-		if not self.is_admin:
-			text+=" Application #"+str(self.application.pk)
-		else:
-			text+=" Admin"
+		if change<0:
+			text+="Debit "
+		elif change>0:
+			text+="Credit "
+		elif change==0:
+			return "No changes in leave balance"
+
 		return text
 
 	def ApplicationTransaction(self,employee,application):
@@ -212,11 +213,13 @@ class Application(models.Model):
 
 	employee = models.ForeignKey('Employee')
 	is_new = models.BooleanField(default=True)
+	is_credit= models.BooleanField(default=False)
 	original= models.ForeignKey('self',null=True)
 	# Original field of New applications refers to ongoing cancel request for the same
 	leave_type = models.IntegerField(choices=LEAVE_TYPES)
-	date_from = models.DateField()
-	date_to	= models.DateField()
+	date_from = models.DateField(null=True)
+	date_to	= models.DateField(null=True)
+	days=models.IntegerField(default=0)
 	status = models.IntegerField(choices=STATUS,default=1)
 	reason = models.TextField(max_length=200)
 	new_date_to=models.DateField(null=True)
@@ -229,8 +232,25 @@ class Application(models.Model):
 	time_approved = models.DateTimeField(null=True,blank=True)
 	#This field will be set only when the application is approved/rejected	
 	
+
 	def __unicode__(self):
 		return self.employee.name + " - " + self.get_leave_type_display()	
+
+	def toText(self):
+		text=""
+		if self.is_new and not self.is_credit:
+			text+="New "+self.get_leave_type_display()+" "
+		elif self.is_new and self.is_credit:
+			text+="Credit "+self.get_leave_type_display()+" "
+
+		else:
+			text+="Cancel Approved Leave"
+		
+		return text
+
+
+
+
 
 	def CancelRequest(self,reason,attachment1,attachment2,attachment3):
 		cancel_application=Application(original=self,is_new=False,
