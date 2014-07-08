@@ -1,62 +1,7 @@
+{% extends "leave/base.html" %}
 {% load bootstrap3 %}
 {% load staticfiles %}
-
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Employee List - LMS</title>
-
-        <link href="{% static 'leave/css/bootstrap.min.css' %}" rel="stylesheet">
- 
-        <script src="{% static 'leave/js/jquery-1.11.1.min.js' %}"></script>
-        <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
-        <style>
-            .space-15px{
-                height: 15px;
-                margin:0;
-                padding: 0;
-                border: 0;
-            }
-        </style>
-    </head>
-    <body>
-
-
-
-    	<nav class="navbar navbar-default" role="navigation">
-    	    <div class="navbar-header">
-    	        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-    	            <span class="sr-only">Toggle navigation</span>
-    	            <span class="icon-bar"></span>
-    	            <span class="icon-bar"></span>
-    	            <span class="icon-bar"></span>
-    	        </button>
-    	        <a class="navbar-brand" href="{% url 'index' %}">Leave Management System</a>
-    	    </div>
-    	
-    	    <div class="collapse navbar-collapse navbar-ex1-collapse">
-    	        <ul class="nav navbar-nav">
-                    <li class="active"><a href="{% url 'index' %}">Home</a></li>
-                </ul>
-    	        <ul class="nav navbar-nav navbar-right">
-    	            <li class="dropdown">
-    	                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user_display_name}}<b class="caret"></b></a> 
-    	                <ul class="dropdown-menu">
-    	                    <li class="dropdown-header">{{name}}</li>
-    	                    <li><a href="{% url 'logt' %}"><i class="glyphicon glyphicon-log-out"></i> Log Out</a></li>
-    	                </ul>
-    	            </li>
-    	        </ul>
-    	    </div>
-    	</nav>
-
-        <div class="container">
+        {% block container %}
             <div class="row">
                 <div class="col-md-12">
                 	<div class="row">
@@ -163,11 +108,14 @@
                 	
                 </div>
             </div>
-        </div>
+        {% endblock container %}
 
-        <div class="space-15px"></div>
-        <script src="{% static 'leave/js/bootstrap.min.js' %}" ></script>
+        {% block script %}
         <script>
+             $(function(){
+                $('#employees').addClass('active');
+            });
+
         	var json = {{employees|safe}};
         	var employees = [];
 
@@ -238,5 +186,4 @@
 
 
         </script>
-    </body>
-</html>
+        {% endblock script %}
