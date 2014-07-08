@@ -15,8 +15,6 @@
     <link href="{% static 'leave/css/datepicker3.css' %}" rel="stylesheet">
 
     <script src="{% static 'leave/js/jquery-1.11.1.min.js' %}"></script>
-    {% block script %} {% endblock script %}
-    
 
         <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -50,14 +48,14 @@
             <ul class="nav navbar-nav">
                 {% if user_type == 1 %}
                     
-                    <li id="new_leave"><a href="{% url 'new_application' '' %}">New Leave</a></li>
+                    <li id="new_leave"><a href="{% url 'new_application' '' %}">New Leave Application</a></li>
                     <li id="credit"><a href="{% url 'new_application' 'credit' %}">Credit Leave</a></li>
-                    <li id="history"><a href="{% url 'sent' '' %}">History</a></li>
+                    <li id="history"><a href="{% url 'sent' '' %}">Application History</a></li>
                 {% elif user_type == 2 %}
                     <li id="applications"><a href="{% url 'clerk' %}">Applications</a></li>
-                {% elif user_type == 3 %}
-                    <li id="applications"><a href="{% url 'higher' %}">Applications</a></li>
                 {% elif user_type == 4 %}
+                    <li id="applications"><a href="{% url 'higher' %}">Applications</a></li>
+                {% elif user_type == 5 %}
                     <li id="employees"><a href="{% url 'employees' %}">Credit/Debit</a></li>
                     <li id="add_employee"><a href="{% url 'new_employee' %}">Add employee</a></li>
                 {% endif %}
@@ -93,8 +91,10 @@
         <script src="{% static 'leave/js/bootstrap.min.js' %}" ></script>
         <script src="{% static 'leave/js/chosen.jquery.min.js' %}" ></script>
         <script src="{% static 'leave/js/bootstrap-datepicker.js' %}" ></script>
-
+        {% block script %}
+        {% endblock script %}
     </body>
+
     </html>
 
 
