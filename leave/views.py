@@ -206,8 +206,10 @@ def cancel(request,id):
 
 	new_form=CancelForm()
 	context={
+	'user_type':userprofile.user_type,
 	'form':new_form,
 	'application':application,
+
 	}
 
 	if request.method=='POST':
@@ -499,6 +501,7 @@ def employee(request,id):
 @login_required
 @user_passes_test(isDataEntry)
 def edit_employee(request,id):
+	userprofile=UserProfile.objects.get(user=request.user)
 	try:
 		employee=Employee.objects.get(pk=id)
 	except Employee.DoesNotExist:
@@ -507,7 +510,8 @@ def edit_employee(request,id):
 	form=EmployeeEditForm(instance=employee)
 	
 	context={
-	'form':form
+	'form':form,
+	'user_type':userprofile.user_type
 	}
 	if request.method=='POST':
 		form = EmployeeEditForm(request.POST,instance=employee)
@@ -526,7 +530,10 @@ def edit_employee(request,id):
 @login_required
 @user_passes_test(isDataEntry)
 def new_employee(request):
+	userprofile=UserProfile.objects.get(user=request.user)
+
 	context={
+	'user_type':userprofile.user_type,
 	}
 	if request.method=='POST':
 		form = EmployeeNewForm(request.POST)
@@ -561,12 +568,14 @@ def new_employee(request):
 @login_required
 @user_passes_test(isDataEntry)
 def employees(request):
+	userprofile=UserProfile.objects.get(user=request.user)
 	employees=Employee.objects.filter(is_active=True)
 	serializer = EmployeeSerializer()
 	serialized_employees = serializer.serialize(employees)
 	
 	context={
-	'employees':serialized_employees
+	'employees':serialized_employees,
+	'user_type':userprofile.user_type
 	}
 	
 	return render(request,'leave/employees.html',context)
@@ -594,7 +603,13 @@ def sent(request,sort,year,month,date):
 @login_required
 @user_passes_test(isDept)
 def dept(request):
-	return HttpResponse("Section Head Home, Coming soon")
+	userprofile=UserProfile.objects.get(user=request.user)
+	context={
+	'user_type':userprofile.user_type
+	}
+	return render(request,'leave/dept.html',context)
+	
+
 
 @login_required	#Require Login
 @user_passes_test(isDept) #Restrict access to users from other groups 
