@@ -5,7 +5,7 @@ from leave import views
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),  
-    url(r'^dept$', views.dept, name='dept'),
+    url(r'^dept/$', views.dept, name='dept'),
     url(r'^dept/new/([a-zA-Z]+)?$', views.new_application, name='new_application'),
     url(r'^dept/sent/([a-zA-Z]+)?/?([0-9]{4})?-?([0-9]{2})?-?([0-9]{2})?', views.sent, name='sent'),
     url(r'^higher/([a-zA-Z]+)?/?([0-9]{4})?-?([0-9]{2})?-?([0-9]{2})?', views.higher,name='higher'),
