@@ -9,7 +9,7 @@ from django.http import HttpResponse,Http404
 from django.template import RequestContext, loader
 from django import forms
 from django.contrib.auth import authenticate,login,logout
-from leave.forms import ApplicationForm,EmployeeEditForm,EmployeeNewForm,CancelForm
+from leave.forms import ApplicationForm,EmployeeEditForm,EmployeeNewForm,CancelForm,CreditApplicationForm
 from django.views.generic import ListView
 from django.contrib import messages
 from django.core.urlresolvers import reverse
@@ -53,6 +53,14 @@ def getStatus(sort):
 	else:
 		status=0
 	return status
+
+def isCredit(type):
+	if type==None:
+		return False
+	elif type=="credit":
+		return True
+	else:
+		return False
 
 def getApplicationsList(page,status,year,month,date):
 	all_list=Application.objects.all().order_by("-time_generated")
@@ -184,6 +192,9 @@ def cancel(request,id):
 
 	if not application.is_new:
 		return HttpResponse("Cancel requests can't be cancelled!")
+	if application.is_credit:
+		return HttpResponse("Credit requests can't be cancelled!")
+
 
 	if application.status!=3:
 		return HttpResponse("This application is now "+application.get_status_display()+
@@ -289,9 +300,14 @@ def print_application(request,id):
 		raise Http404
 	employee=application.employee
 	log=TransactionLog.objects.filter(time__lt=application.time_received,employee=employee).order_by("-time")[:5]
+	if application.is_credit:
+		days_count=application.days						
+	else:
+		days_count=(application.date_to-application.date_from).days+1
+
 	context={
 	'application':application,
-	'days_count':(application.date_to-application.date_from).days+1,
+	'days_count':days_count,
 	'log':log
 	}
 	return render(request,'leave/print.html',context)
@@ -314,39 +330,43 @@ def complete(request):
 		employee=application.employee
 		to_json = {}
 		valid=True
-		if not application.is_new:
-			date_to=application.new_date_to
-			date_from=application.new_date_from
-			
-		else:
-
-			try:
-						
-				date_to=datetime.strptime(date_to, "%m/%d/%Y").date()
-				date_from=datetime.strptime(date_from, "%m/%d/%Y").date()
+		if not application.is_credit:
+			if not application.is_new:
+				date_to=application.new_date_to
+				date_from=application.new_date_from
 				
-
-			except ValueError:
-				valid=False
-				to_json['message']='Invalid dates entered.'
 			else:
-				if date_from>date_to or date_to>application.new_date_to or date_from<application.new_date_from:
-					valid=False
-					to_json['message']='Selected dates out of range. Please select valid dates.'
-			if not valid:
-				to_json['result']=0
-				messages.error(request, to_json['message'])
-				return HttpResponse(json.dumps(to_json), mimetype='application/json')
 
+				try:
+							
+					date_to=datetime.strptime(date_to, "%m/%d/%Y").date()
+					date_from=datetime.strptime(date_from, "%m/%d/%Y").date()
+					
+
+				except ValueError:
+					valid=False
+					to_json['message']='Invalid dates entered.'
+				else:
+					if date_from>date_to or date_to>application.new_date_to or date_from<application.new_date_from:
+						valid=False
+						to_json['message']='Selected dates out of range. Please select valid dates.'
+				if not valid:
+					to_json['result']=0
+					messages.error(request, to_json['message'])
+					return HttpResponse(json.dumps(to_json), mimetype='application/json')
+			days=(date_to-date_from).days+1
+
+		else:
+			days=application.days
 		
 
 		if application.status== 2 and 3 <= status <= 4:
-			days=(date_to-date_from).days+1
+			
 
-			if (not application.is_new) or status==4 or employee.isLeaveLeft(days,application.leave_type):
+			if application.is_credit or (not application.is_new) or status==4 or employee.isLeaveLeft(days,application.leave_type):
 				application.status=status
 				application.time_approved=datetime.now()
-				if status==3 :
+				if status==3 and not application.is_credit:
 					if (application.new_date_from!=date_from or application.new_date_to!=date_to):
 						if notes and notes!="":
 							notes+='\n'
@@ -362,10 +382,17 @@ def complete(request):
 				application.save()
 
 				if application.status==3: 
-					if application.is_new:
-						action_type=-1
-					else :
-						action_type=1
+					if application.is_credit:
+						if application.is_new:
+							action_type=1
+						else :
+							action_type=-1
+					else:
+						if application.is_new:
+							action_type=-1
+						else :
+							action_type=1
+
 					employee.transaction(days,application.leave_type,action_type)
 					TransactionLog().ApplicationTransaction(employee,application)
 				
@@ -414,12 +441,16 @@ def details(request,id):
 		log_entry.save()
 
 	application_log=ApplicationLog.objects.filter(application=application).order_by("time")
-							
+
+	if application.is_credit:
+		days_count=application.days						
+	else:
+		days_count=(application.date_to-application.date_from).days+1
 
 	context= {
 	'name':request.user.username,
 	'application':application,
-	'days_count':(application.date_to-application.date_from).days+1,
+	'days_count':days_count,
 	'user_type':userprofile.user_type,
 	'user_display_name':userprofile.get_user_type_display,
 	'dept': userprofile.get_dept_display,
@@ -560,25 +591,41 @@ def sent(request,sort,year,month,date):
 	return render(request,'leave/sent.html',context)
 
 
+@login_required
+@user_passes_test(isDept)
+def dept(request):
+	return HttpResponse("Section Head Home, Coming soon")
+
 @login_required	#Require Login
 @user_passes_test(isDept) #Restrict access to users from other groups 
-def dept(request):
+def new_application(request,type):
+
 	#Information specific to the user
+
 	userprofile=UserProfile.objects.get(user=request.user)
+	
 	context= {
 	'name': request.user.username,
 	'dept': userprofile.get_dept_display(),
-	'user_type': userprofile.user_type
+	'user_type': userprofile.user_type,
+	'is_credit':isCredit(type)
 	}
 
 
 	if(request.method=='POST'):
-		form = ApplicationForm(userprofile.dept,request.POST,request.FILES)
+		if isCredit(type):
+			form=CreditApplicationForm(userprofile.dept,request.POST,request.FILES)
+		else:
+			form = ApplicationForm(userprofile.dept,request.POST,request.FILES)
 		if(form.is_valid()):
 			new_application=form.save()
-			new_application.new_date_from=new_application.date_from
-			new_application.new_date_to=new_application.date_to
-			new_application.save()
+
+			if not isCredit(type):
+				new_application.new_date_from=new_application.date_from
+				new_application.new_date_to=new_application.date_to
+				new_application.save()
+			#These three lines shouldn't be here
+			
 			activity="Application generated by "+userprofile.get_user_type_display()
 			log_entry=ApplicationLog(application=new_application,time=datetime.now(),activity=activity)
 			log_entry.save()
@@ -587,13 +634,16 @@ def dept(request):
 		else:
 			context['form']=form
 
-			return render(request,'leave/dept.html',context)
+			return render(request,'leave/new_application.html',context)
 
 
 	else:
-		form=ApplicationForm(userprofile.dept)
+		if isCredit(type):
+			form=CreditApplicationForm(userprofile.dept)
+		else:
+			form=ApplicationForm(userprofile.dept)
 		context['form']=form
-		return render(request,'leave/dept.html',context)
+		return render(request,'leave/new_application.html',context)
 
 
 

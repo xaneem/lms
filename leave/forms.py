@@ -29,7 +29,7 @@ class ApplicationForm(ModelForm):
 		
 		if not valid:
 			return valid
-		print self.errors
+	
 		employee=self.cleaned_data['employee']
 		date_from=self.cleaned_data['date_from']
 		date_to=self.cleaned_data['date_to']
@@ -50,6 +50,46 @@ class ApplicationForm(ModelForm):
 
 		if not employee.isLeaveLeft((date_to-date_from).days+1,leave_type):
 			self.errors['date_to']=["Insufficient leave balance"]
+			return False
+
+
+		return True
+
+
+class CreditApplicationForm(ModelForm):
+
+	
+	def __init__(self, dept,*args, **kwargs):
+	    super(CreditApplicationForm, self).__init__(*args, **kwargs)
+	    self.fields['attachment1'].label = "Attachment 1"
+	    self.fields['attachment2'].label = "Attachment 2"
+	    self.fields['attachment3'].label = "Attachment 3"
+	    self.fields['days'].label="Number of leaves "
+	    self.fields["employee"].queryset=Employee.objects.filter(dept=dept)
+	    self.fields["is_credit"].initial=True
+
+
+	class Meta:
+   		model = Application
+   		fields = ['employee', 'leave_type', 'is_credit' ,'days','reason','attachment1',
+   		'attachment2','attachment3',]
+   		widgets={'reason': Textarea(attrs={'cols': 10, 'rows': 5}),
+   		'is_credit':forms.HiddenInput()}
+
+	
+	def is_valid(self):
+
+		valid=super(CreditApplicationForm,self).is_valid()
+		
+		if not valid:
+			return valid
+		
+		employee=self.cleaned_data['employee']
+		days=self.cleaned_data['days']
+		leave_type=self.cleaned_data['leave_type']
+	
+		if days<=0:
+			self.errors['days']=["Please enter postive number of days"]
 			return False
 
 
