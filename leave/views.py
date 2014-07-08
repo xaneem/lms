@@ -444,16 +444,25 @@ def details(request,id):
 
 	application_log=ApplicationLog.objects.filter(application=application).order_by("time")
 
+	approved_days_count=None
 	if application.is_credit:
-		days_count=application.days						
+		days_count=application.days	
+		approved_days_count=application.days					
 	else:
 		days_count=(application.date_to-application.date_from).days+1
+		approved_days_count=(application.new_date_to-application.new_date_from).days+1
+
+
+	
+
+
 
 	context= {
 	'name':request.user.username,
 	'application':application,
 	'days_count':days_count,
 	'user_type':userprofile.user_type,
+	'approved_days_count':approved_days_count,
 	'user_display_name':userprofile.get_user_type_display,
 	'dept': userprofile.get_dept_display,
 	'application_log':application_log
