@@ -109,13 +109,7 @@
                                 <td>{{ forloop.counter0|add:applications.start_index}} </td>
                                 <td>{{ application.time_generated }}</td>
                                 <td>{{ application.employee.name }}</td>
-                                <td>
-                                    {% if application.is_new %}
-                                        New
-                                    {% else %}
-                                        Cancel
-                                    {% endif %}
-                                    {{ application.get_leave_type_display|title }}
+                                <td> {{ application.toText }}
                                 </td>
                                 <td>{{ application.date_from }}</td>
                                 <td>{{ application.date_to }}</td>

@@ -109,12 +109,7 @@
                                 <td>{{ application.time_generated }}</td>
                                 <td>{{ application.employee.name }}</td>
                                 <td>
-                                    {% if application.is_new %}
-                                        New
-                                    {% else %}
-                                        Cancel
-                                    {% endif %}
-                                    {{ application.get_leave_type_display|title }}
+                                    {{ application.toText }}
                                 </td>
                                 <td>{{ application.date_from }}</td>
                                 <td>{{ application.date_to }}</td>

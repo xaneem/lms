@@ -143,12 +143,12 @@
                                 <th>#</th>
                                 <th>Date</th>
                                 <th>Reference</th>
-                                <th>Application Type</th>
+                                <th>Details</th>
                                 <th>EL Change</th>
                                 <th>EL Balance</th>
                                 <th>HPL Change</th>
                                 <th>HPL Balance</th>
-                                <th>Note</th>
+                               
                             
                             </tr>
                         </thead>
@@ -166,18 +166,17 @@
                                     {% endif %}
                                 </td>
                                  <td>
-                                    {% if log.application.is_new %}
-                                        New
+                                    {% if log.is_admin %}
+                                        {{ log.note }}      
                                     {% else %}
-                                        Cancel
-                                    {% endif %}
-                                    {{ log.application.get_leave_type_display|title }}
+                                        {{ log.application.toText }}
+                                    {% endif %} 
                                 </td>
                                 <td>{{ log.earned_change }}</td>
                                 <td>{{ log.earned_balance }}</td>
                                 <td>{{ log.hp_change }}</td>
                                 <td>{{ log.hp_balance }}</td>
-                                <td>{{ log.note }}</td>
+                            
                             </tr>
                             {% endfor %}
 

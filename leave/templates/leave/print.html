@@ -29,11 +29,7 @@
     <body>
         <div class="container">
             <div class="space-15px"></div>
-            <h2>Application #{{application.pk}} ({% if application.is_new %}
-                                                       For New Leave
-                                                      {% else %}
-                                                        Cancel Approved Leave
-                                                      {% endif %} )</h2>
+            <h2>Application #{{application.pk}} ({{ application.toText }} )</h2>
             <div class="row">
                 <div class="col-sm-6">
                     <table class="table table-striped">
@@ -84,22 +80,34 @@
                             </tr>
                             <tr>
                                 <th>Application Type</th>
-                                <td>{% if application.is_new %}For New Leave{% else %}Cancel Approved Leave (Application #{{ application.original.pk }} ){% endif %}</td>
-                            
-
-                            </tr>
+                                <td>{{ application.toText }} </td>
+                              
+   
+                           </tr>
+                           {% if not application.is_new %}
+                                 <tr>
+                                    <th>Original Application</th>
+                                    <td>Application #{{ application.original.pk }}  </td>
+                               
+                                 </tr>
+                            {% endif %}
                             <tr>
                                 <th>Leave type</th>
                                 <td>{{application.get_leave_type_display}}</td>
                             </tr>
-                            <tr>
-                                <th>From</th>
-                                <td>{{application.date_from}}</td>
-                            </tr>
-                            <tr>
-                                <th>To</th>
-                                <td>{{application.date_to}}</td>
-                            </tr>
+                           {% if application.date_from %}
+                                    <tr>
+                                        <th>From</th>
+                                        <td>{{application.date_from}}</td>
+                                    </tr>
+                            {% endif %}
+
+                             {% if application.date_to %}
+                                    <tr>
+                                        <th>To</th>
+                                        <td>{{application.date_to}}</td>
+                                    </tr>
+                            {% endif %}
                             <tr>
                                 <th>Number of days</th>
                                 <td>{{days_count}}</td>
@@ -117,12 +125,20 @@
                     <table class="table table-striped">
                         <tbody>
                             <tr>
-                                <th colspan="2">Employee History</th>
+                                <th colspan="2">Employee History (Last 5 transactions)</th>
                             </tr>
                             {% for entry in log %}
                                 <tr>
                                     <td><i>{{entry.time}}</i></td>
-                                    <td>{{entry.toText}}</td>
+                                  
+                                    <td>{{entry.toText}}
+                                            ( {% if entry.is_admin %}
+                                                    Admin
+                                              {% else %}
+                                                  {{entry.application.toText}} - Application #{{entry.application.pk}}
+                                              {% endif %}
+                                            )
+                                    </td>
                                 </tr>
                             {% endfor %}
                         </tbody>

@@ -41,7 +41,14 @@
         
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="{% url 'dept' %}">Create</a></li>
+                    <li class="active"><a href="
+                            {% if is_credit %}
+                                {% url 'new_application' 'credit' %}
+                            {% else %}
+                                {% url 'new_application' 'debit' %}
+
+                            {% endif %}
+                            ">Create</a></li>
                     <li><a href="{% url 'sent' '' %}">Sent Applications</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -60,7 +67,13 @@
             <div class="row">
                 <div class="col-md-12">
                     
-                    <h3>Create Application</h3>
+                    <h3>Create Application - {% if is_credit %}
+                                                Credit Leave
+                                             {% else %}
+                                                New Leave
+                                            {% endif %}
+
+                    </h3>
                     <ol class="breadcrumb">
                         <li>
                             <a href="{% url 'index' %}">Home</a>
@@ -69,18 +82,34 @@
                     </ol>
 
                     <p>Please fill the details for the application. You can add upto 3 attachments if required.</p>
-                    <form role="form" action="{% url 'dept' %}" method="post" enctype="multipart/form-data">
+                    <form role="form" action="   {% if is_credit %}
+                                                        {% url 'new_application' 'credit' %}
+                                                  {% else %}
+                                                        {% url 'new_application' 'debit' %}
+
+                                                 {% endif %}"
+                     method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         
                         <div class="row">
                             <div class="col-md-6">
+                                {% if is_credit %}
+                                {% bootstrap_field form.is_credit %}
+                                {% endif %}
                                 {% bootstrap_field form.employee %}
                                 {% bootstrap_field form.leave_type %}
                                 {% bootstrap_field form.reason %}
                             </div>
                             <div class="col-md-6">
-                                {% bootstrap_field form.date_from %}
-                                {% bootstrap_field form.date_to %}
+                                {% if is_credit %}
+                                    {% bootstrap_field form.days %}
+                                {% else %}
+                                    {% bootstrap_field form.date_from %}
+                                    {% bootstrap_field form.date_to %}
+                                   
+
+                                {% endif %}
+
                                 {% bootstrap_field form.attachment1 %}
                                 {% bootstrap_field form.attachment2 %}
                                 {% bootstrap_field form.attachment3 %}
