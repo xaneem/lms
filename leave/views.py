@@ -103,17 +103,23 @@ def index(request):
 	   		return render(request, 'leave/login.html',{'message':"Invalid login !",'username':username})
 	   	  	# Return an 'invalid login' error message.
 
-	#User authenticated, Now redirect to corresponding views
+	
+	
 	if request.user.is_authenticated():
+		userprofile=UserProfile.objects.get(user=request.user)
+		#User authenticated, Now redirect to corresponding Home pages
+		context={
+		'user_type':userprofile.user_type,
+		}
 		
 		if isHigher(request.user):
-			return redirect(reverse('higher',args=('',)))
+			return render(request,'leave/dr.html',context)
 		elif isClerk(request.user):
-			return redirect(reverse('clerk',args=('',)))
+			return render(request,'leave/est_office.html',context)
 		elif isDept(request.user):
-			return redirect('dept')
+			return render(request,'leave/dept.html',context)
 		elif isDataEntry(request.user):
-			return redirect(reverse('employees'))
+			return render(request,'leave/est_admin.html',context)
 		else:
 			#If user do not belong to any of three groups, then it should be considered as a staff
 			#Redirect this user to Admin page
