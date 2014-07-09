@@ -108,7 +108,16 @@ class CancelForm(forms.Form):
 	attachment2 = forms.FileField(required=False)
 	attachment3 = forms.FileField(required=False)
 
+class SelectEmployeeForm(forms.Form):
+    employee = forms.ModelChoiceField(queryset=Employee.objects.all(),label='')
 
+    def __init__(self,dept,*args, **kwargs):
+    	super(SelectEmployeeForm, self).__init__(*args, **kwargs)
+    	if dept:
+    		self.fields['employee'].queryset=Employee.objects.filter(dept=dept)
+
+       
+  
 
 class EmployeeEditForm(ModelForm):
 

@@ -9,7 +9,7 @@ from django.http import HttpResponse,Http404
 from django.template import RequestContext, loader
 from django import forms
 from django.contrib.auth import authenticate,login,logout
-from leave.forms import ApplicationForm,EmployeeEditForm,EmployeeNewForm,CancelForm,CreditApplicationForm
+from leave.forms import ApplicationForm,EmployeeEditForm,EmployeeNewForm,CancelForm,CreditApplicationForm,SelectEmployeeForm
 from django.views.generic import ListView
 from django.contrib import messages
 from django.core.urlresolvers import reverse
@@ -469,7 +469,26 @@ def details(request,id):
 	}
 	return render(request,'leave/application.html',context)
 
+@login_required
+def select_employee(request):
+	userprofile=UserProfile.objects.get(user=request.user)
+	
+	dept=None
+	if isDept(request.user):
+		dept=userprofile.dept
+	form=SelectEmployeeForm(dept)
+	if request.method=='POST':
+		form=SelectEmployeeForm(dept,request.POST)
+		if form.is_valid():
+			employee=form.cleaned_data['employee']
+			return redirect(reverse('employee',args=(employee.pk,)))
+	
 
+	context={
+	'form':form,
+	'user_type':userprofile.user_type
+	}
+	return render(request,'leave/select_employee.html',context)
 
 
 

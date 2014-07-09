@@ -1,6 +1,6 @@
 Data Entry:
 	* Filter by E.code/Name
-	* Activity Log
+	* Activity Log 
 	* Show current leave
 	* Add employees
 Make sure reload doesn't result in duplicate actions
@@ -9,7 +9,7 @@ No.of leaves -> days
 Leaves -> leave
 HOD -> Section Head
 Sent Applications -> Application History
-Employee details tab
+Employee details tab -Done
 Reason -> Purpose
 Check alert message on Approve
 
@@ -30,14 +30,14 @@ Print
 
 
 * Move dataentry to Est. Office.
-* Approval by DR for all dataentry.
-* Department -> Add function to credit leave.
+* Approval by DR for all dataentry. 
+* Department -> Add function to credit leave. -Done
 * Usertypes: Dept, EST1 & EST 2, DR
-* Cancel Application Workflow.
+* Cancel Application Workflow. - Done
 * EST admin
 * Current status/History to employee email
 * Option to change password
-* Leave Credit
+* Leave Credit - Done
 * Online Help/Manual
 
 
