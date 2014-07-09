@@ -53,10 +53,10 @@
                     <li id="history"><a href="{% url 'sent' '' %}">Application History</a></li>
                     <li id="select_employee"><a href="{% url 'select_employee' %}">Employee Search</a></li>
                 {% elif user_type == 2 %}
-                    <li id="applications"><a href="{% url 'clerk' %}">Applications</a></li>
+                    <li id="applications"><a href="{% url 'applications' %}">Applications</a></li>
                       <li id="select_employee"><a href="{% url 'select_employee' %}">Employee Search</a></li>
                 {% elif user_type == 4 %}
-                    <li id="applications"><a href="{% url 'higher' %}">Applications</a></li>
+                    <li id="applications"><a href="{% url 'applications' %}">Applications</a></li>
                       <li id="select_employee"><a href="{% url 'select_employee' %}">Employee Search</a></li>
                 {% elif user_type == 5 %}
                     <li id="employees"><a href="{% url 'employees' %}">Credit/Debit</a></li>

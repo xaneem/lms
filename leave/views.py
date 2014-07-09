@@ -136,6 +136,7 @@ def logt(request):
 	return redirect('index')
 		
 
+
 @login_required
 @user_passes_test(isDataEntry)
 def manage_leave(request):
@@ -696,6 +697,16 @@ def new_application(request,type):
 
 
 
+
+@login_required
+def applications(request,sort,year,month,date):
+	if isHigher(request.user):
+		return higher(request,sort,year,month,date)
+	elif isClerk(request.user):
+		return clerk(request,sort,year,month,date)
+	else:
+		return Http404
+
 @login_required
 @user_passes_test(isClerk)
 def clerk(request,sort,year,month,date):
@@ -731,7 +742,7 @@ def higher(request,sort,year,month,date):
 
 	
 
-	url=reverse('higher', args=(sort,))
+	url=reverse('applications', args=(sort,))
 	
 	if not sort=='':
 		url=url+'/'

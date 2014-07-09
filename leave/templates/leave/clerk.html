@@ -25,13 +25,13 @@
                             <i class="glyphicon glyphicon-filter"></i> Filter: {% if status == 6  %}Show All{% elif status == 1 %}Pending{% elif status == 2 %}Processing{% elif status == 3 %}Approved{% elif status == 4 %}Rejected{% elif status == 5 %}Cancelled{% endif %} <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" role="menu">
-                                <li {% if status == 0  %} class="active"{% endif %}><a href="{% url 'clerk' 'all' %}">Show All</a></li>
+                                <li {% if status == 0  %} class="active"{% endif %}><a href="{% url 'applications' 'all' %}">Show All</a></li>
                                 <li class="divider"></li>
-                                <li {% if status == 1  %} class="active"{% endif %}><a href="{% url 'clerk' 'pending' %}">Pending</a></li>
-                                <li {% if status == 2  %} class="active"{% endif %}><a href="{% url 'clerk' 'processing' %}">Processing</a></li>
-                                <li {% if status == 3  %} class="active"{% endif %}><a href="{% url 'clerk' 'approved' %}">Approved</a></li>
-                                <li {% if status == 4  %} class="active"{% endif %}><a href="{% url 'clerk' 'rejected' %}">Rejected</a></li>
-                                <li {% if status == 5  %} class="active"{% endif %}><a href="{% url 'clerk' 'cancelled' %}">Cancelled</a></li>
+                                <li {% if status == 1  %} class="active"{% endif %}><a href="{% url 'applications' 'pending' %}">Pending</a></li>
+                                <li {% if status == 2  %} class="active"{% endif %}><a href="{% url 'applications' 'processing' %}">Processing</a></li>
+                                <li {% if status == 3  %} class="active"{% endif %}><a href="{% url 'applications' 'approved' %}">Approved</a></li>
+                                <li {% if status == 4  %} class="active"{% endif %}><a href="{% url 'applications' 'rejected' %}">Rejected</a></li>
+                                <li {% if status == 5  %} class="active"{% endif %}><a href="{% url 'applications' 'cancelled' %}">Cancelled</a></li>
                             </ul>
                         </div>
                         <p>&nbsp;</p><br>

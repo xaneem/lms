@@ -22,12 +22,12 @@
                     <div class="pull-right">
                         <br>
                         <div class="btn-group">
-                                <a class="btn btn-default {% if status == 6 %}active{% endif %}" href="{% url 'higher' 'all' %}">All</a>
-                                <a class="btn btn-default {% if status == 1 %}active{% endif %}" href="{% url 'higher' 'pending' %}">Pending</a>
-                                <a class="btn btn-default {% if status == 2 %}active{% endif %}" href="{% url 'higher' 'processing' %}">Processing</a>
-                                <a class="btn btn-default {% if status == 3 %}active{% endif %}" href="{% url 'higher' 'approved' %}">Approved</a>
-                                <a class="btn btn-default {% if status == 4 %}active{% endif %}" href="{% url 'higher' 'rejected' %}">Rejected</a>
-                                <a class="btn btn-default {% if status == 5 %}active{% endif %}" href="{% url 'higher' 'cancelled' %}">Cancelled</a>
+                                <a class="btn btn-default {% if status == 6 %}active{% endif %}" href="{% url 'applications' 'all' %}">All</a>
+                                <a class="btn btn-default {% if status == 1 %}active{% endif %}" href="{% url 'applications' 'pending' %}">Pending</a>
+                                <a class="btn btn-default {% if status == 2 %}active{% endif %}" href="{% url 'applications' 'processing' %}">Processing</a>
+                                <a class="btn btn-default {% if status == 3 %}active{% endif %}" href="{% url 'applications' 'approved' %}">Approved</a>
+                                <a class="btn btn-default {% if status == 4 %}active{% endif %}" href="{% url 'applications' 'rejected' %}">Rejected</a>
+                                <a class="btn btn-default {% if status == 5 %}active{% endif %}" href="{% url 'applications' 'cancelled' %}">Cancelled</a>
                                 <button class="btn btn-default" id="filter">Filter <i class="glyphicon glyphicon-chevron-down"></i></button>
                         </div>
                     </div>
