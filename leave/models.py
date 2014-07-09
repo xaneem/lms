@@ -112,6 +112,15 @@ class UserProfile(models.Model):
 	user_type = models.IntegerField(choices=USER_TYPES)
 	dept = models.IntegerField(choices=DEPARTMENTS, default=0)
 	
+
+class Action(models.Model):
+	count=models.IntegerField(default=0)
+	note=models.TextField(max_length=100,blank=True,null=True)
+	status=models.IntegerField(choices=STATUS)
+	time_generated=models.DateTimeField(auto_now_add=True)
+	time_approved=models.DateTimeField(null=True)
+	reply_note=models.TextField(max_length=100,blank=True,null=True)
+
 	
 
 class ApplicationLog(models.Model):
@@ -123,6 +132,7 @@ class ApplicationLog(models.Model):
 
 class TransactionLog(models.Model):
 	employee=models.ForeignKey('Employee')
+	action=models.ForeignKey('Action',null=True)
 	application=models.ForeignKey('Application',null=True)
 	is_admin=models.BooleanField(default=False)
 	earned_balance=models.IntegerField()
