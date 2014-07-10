@@ -17,6 +17,7 @@ import json
 from EmployeeSerializer import EmployeeSerializer
 from django.core import serializers
 from django.db import IntegrityError, transaction
+from django.db.models import Q
 
 
 
@@ -144,33 +145,59 @@ def manage_action(request):
 		status=request.POST.get('status','')
 		action_id=int(action_id)
 		status=int(status)
+		to_json = {}
 		try:
 			action=Action.objects.get(pk=action_id)
 		except Action.DoesNotExist:
 			messages.error(request,'Some error occured')
+			to_json['result']=0
+			to_json['message']='Some error occured'
 		else:
 			if 3 <= status <=4 and action.status==1:
-				entries=TransactionLog.objects.filter(action=action)
-				valid=True
-				for entry in entries:
-					if entry.employee.hp_balance < entry.hp_balance*-1 or entry.employee.earned_balance < entry.earned_change*-1:
-						valid=False
-						break
-
-				if valid:
+				
+				if status==3:
+					entries=TransactionLog.objects.filter(action=action)
+					valid=True
 					for entry in entries:
-						entry.employee.transaction(entry.hp_change,entry.earned_change)
-						entry.hp_balance=entry.employee.hp_balance
-						entry.earned_balance=entry.employee.earned_balance
-						entry.save()
-					messages.success(request,'Action approved')
+						if entry.employee.hp_balance < entry.hp_balance*-1 or entry.employee.earned_balance < entry.earned_change*-1:
+							valid=False
+							break
+
+					if valid:
+						for entry in entries:
+							entry.employee.transaction(entry.hp_change,entry.earned_change)
+							entry.hp_balance=entry.employee.hp_balance
+							entry.earned_balance=entry.employee.earned_balance
+							entry.save()
+						action.status=status
+						action.time_approved=datetime.now()
+						action.save()
+
+						messages.success(request,'Action approved')
 						
-				else:
-					messages.error(request,"Couldn't approved action, Insufficient leave balance")
+						to_json['result']=1
+						to_json['message']='Action approved'
+							
+					else:
+						to_json['result']=0
+						to_json['message']="Couldn't approved action, Insufficient leave balance"
+						messages.error(request,"Couldn't approved action, Insufficient leave balance")
+				elif status==4:
+					action.status=status
+					action.save()
+					messages.success(request,'Action rejected')
+					to_json['result']=1
+					to_json['message']='Action rejected'
+
+
 			else:
+				to_json['result']=0
+				to_json['message']="Some error occured"
 				messages.error(request,'Some error occured')
 
-		return redirect(reverse('action',args=(action.pk,)))
+		return HttpResponse(json.dumps(to_json), mimetype='application/json')
+
+
 
 
 @login_required
@@ -423,7 +450,9 @@ def print_application(request,id):
 	except Application.DoesNotExist:
 		raise Http404
 	employee=application.employee
-	log=TransactionLog.objects.filter(time__lt=application.time_received,employee=employee,action__status=3).order_by("-time")[:5]
+	log=TransactionLog.objects.filter(
+	(Q(is_admin=False)|Q(action__status=3)),time__lt=application.time_received,
+	employee=employee).order_by("-time")[:5]
 	if application.is_credit:
 		days_count=application.days						
 	else:
@@ -624,7 +653,7 @@ def employee(request,id):
 		raise Http404
 	if isDept(request.user) and employee.dept!=userprofile.dept:
 		raise PermissionDenied
-	all_list=TransactionLog.objects.filter(employee=employee,action__status=3).order_by("-time")
+	all_list=TransactionLog.objects.filter((Q(is_admin=False)|Q(action__status=3)),employee=employee).order_by("-time")
 
 	paginator = Paginator(all_list, 10)
 	
