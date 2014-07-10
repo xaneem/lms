@@ -2,7 +2,7 @@ from django.shortcuts import render
 from datetime import datetime 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger 
 from django.contrib.auth.decorators import login_required, user_passes_test
-from leave.models import UserProfile,Employee,Application,ApplicationLog,TransactionLog
+from leave.models import UserProfile,Employee,Application,ApplicationLog,TransactionLog,Action
 from django.shortcuts import redirect
 from django.core.exceptions import ObjectDoesNotExist,PermissionDenied
 from django.http import HttpResponse,Http404
@@ -16,6 +16,7 @@ from django.core.urlresolvers import reverse
 import json
 from EmployeeSerializer import EmployeeSerializer
 from django.core import serializers
+from django.db import IntegrityError, transaction
 
 
 
@@ -135,6 +136,115 @@ def logt(request):
 	logout(request)
 	return redirect('index')
 		
+@login_required
+@user_passes_test(isHigher)
+def manage_action():
+	if request.method=='POST':
+		action_id=request.POST.get('action','')
+		status=request.POST.get('status','')
+		action_id=int(action_id)
+		status=int(status)
+		try:
+			action=Action.objects.get(pk=action_id)
+		except Action.DoesNotExist:
+			messages.error(request,'Some error occured')
+		else:
+			if 3 <= status <=4 and action.status==1:
+				entries=TransactionLog.objects.filter(action=action)
+				valid=True
+				for entry in entries:
+					if entry.employee.hp_balance < entry.hp_balance*-1 or entry.employee.earned_balance < entry.employee.earned_change*-1:
+						valid=False
+						break
+
+				if valid:
+					for entry in entries:
+						entry.employee.transaction(entry.hp_change,entry.earned_change)
+						entry.hp_balance=entry.employee.hp_balance
+						entry.earned_balance=entry.employee.earned_balance
+						entry.save()
+					message.success(request,'Action approved')
+						
+				else:
+					message.error(request,"Couldn't approved action, Insufficient leave balance")
+			else:
+				message.error(request,'Some error occured')
+
+		return redirect(reverse('actions'))
+
+
+@login_required
+@user_passes_test(isDataEntry)
+def action_history(request):
+	userprofile=UserProfile.objects.get(user=request.user)
+	page=request.GET.get('page','')
+	actions=Action.objects.all()
+	paginator = Paginator(actions,20)
+	try:
+		actions = paginator.page(page)
+	except PageNotAnInteger:
+		# If page is not an integer, deliver first page.
+		actions = paginator.page(1)
+	except EmptyPage:
+		# If page is out of range (e.g. 9999), deliver last page of results.
+		actions = paginator.page(paginator.num_pages)
+	
+	context={
+	'actions':actions,
+	'user_type':userprofile.user_type
+	}
+	return render(request,'leave/action_history.html',context)
+
+
+@login_required
+
+def action(request,id):
+	userprofile=UserProfile.objects.get(user=request.user)
+	try:
+		action=Action.objects.get(pk=id)
+	except Action.DoesNotExist:
+		raise Http404
+	entries=TransactionLog.objects.filter(action=action)
+	page=request.GET.get('page','')
+	paginator = Paginator(entries,20)
+	try:
+		entries = paginator.page(page)
+	except PageNotAnInteger:
+		# If page is not an integer, deliver first page.
+		entries = paginator.page(1)
+	except EmptyPage:
+		# If page is out of range (e.g. 9999), deliver last page of results.
+		entries = paginator.page(paginator.num_pages)
+
+	context={
+	'user_type':userprofile.user_type,
+	'entries':entries,
+	'action':action,
+	}
+	return render(request,'leave/action.html',context)
+
+
+@login_required
+@user_passes_test(isHigher)
+def actions(request):
+	userprofile=UserProfile.objects.get(user=request.user)
+	actions=Action.objects.all()
+	page=request.GET.get('page','')
+	paginator = Paginator(actions,20)
+	try:
+		actions = paginator.page(page)
+	except PageNotAnInteger:
+		# If page is not an integer, deliver first page.
+		actions = paginator.page(1)
+	except EmptyPage:
+		# If page is out of range (e.g. 9999), deliver last page of results.
+		actions = paginator.page(paginator.num_pages)
+	context={
+	'actions':actions,
+	'user_type':userprofile.user_type
+	}
+	return render(request,'leave/actions.html',context)
+
 
 
 @login_required
@@ -158,6 +268,9 @@ def manage_leave(request):
 		if 1<= leave_type <=2 and (action_type==-1 or action_type==1) and days>=0:
 			count=0
 			employees=request.POST.getlist('check[]')
+			action=Action(note=note,)
+			action.save()
+
 			for pk in employees:
 				try:
 					employee=Employee.objects.get(pk=pk)
@@ -167,15 +280,17 @@ def manage_leave(request):
 					if action_type==-1 and not employee.isLeaveLeft(days,leave_type):
 						pass
 					else:
-						employee.transaction(days,leave_type,action_type)
-						TransactionLog().AdminTransaction(employee,leave_type,days,action_type,note)
+						
+						TransactionLog().AdminTransaction(action,employee,leave_type,days,action_type,note)
 						count=count+1
 
 
 			if count:
-				messages.success(request,"Updated "+str(count)+" employees ")
+				messages.success(request,"Created action with "+str(count)+" employees ")
+				action.count=count
+				action.save()
 			else:
-				messages.error(request,"No employee updated")
+				messages.error(request,"No employee added to action")
 		
 
 		else:
@@ -509,7 +624,7 @@ def employee(request,id):
 		raise Http404
 	if isDept(request.user) and employee.dept!=userprofile.dept:
 		raise PermissionDenied
-	all_list=TransactionLog.objects.filter(employee=employee).order_by("-time")
+	all_list=TransactionLog.objects.filter(employee=employee,).order_by("-time")
 
 	paginator = Paginator(all_list, 10)
 	
