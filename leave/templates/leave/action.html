@@ -1,0 +1,170 @@
+{% extends "leave/base.html" %}
+
+{% block container %}
+
+<h2> Action #{{ action.pk }}</h2>
+<div class="row">
+                        <div class="col-sm-6">
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <th>Generated Time</th>
+                                        <td>{{action.time_generated}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:200px;">Number of Employees </th>
+                                        <td>{{action.count}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th> Note</th>
+                                        <td>{{action.note}}</td>
+                                    </tr>
+                                   
+                                </tbody>
+                            </table>  
+                            <br>
+                                    </div>
+                        <div class="col-sm-6">
+                            <table class="table table-striped">
+                                <tbody>
+
+                                    <tr>
+                                        <th>Status</th>
+                                        <td>{{action.get_status_display}}</td>
+                                    </tr>
+                                    {% if action.time_approved %}
+                                      <tr>
+                                        <th>Reviewed time</th>
+                                        <td>{{action.time_approved}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Note from Deputy Registrar</th>
+                                        <td>{{action.reply_note}}</td>
+                                    </tr>
+                                    
+                                    {% endif %}
+                                </tbody>
+
+                            </table>
+
+                            {% if action.status == 1  %}
+                                    {% if user_type == 5 %}
+                                    <!--
+                                            <button type="button" id="action-reject" class="btn btn-danger btn-block"><i class="glyphicon glyphicon-remove"></i> Delete</button>
+                                        -->
+                            {% elif user_type == 4 %}
+                                        <div class="form-group">
+                                                        <button type="button" id="action-approve" class="btn btn-success btn-block"><i class="glyphicon glyphicon-ok"></i> Approve</button>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="button" id="action-reject" class="btn btn-danger btn-block"><i class="glyphicon glyphicon-remove"></i> Reject</button>
+                                        </div>  
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+
+ <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Employee</th>
+                                <th>HP Leave Change</th>
+                                <th>Earned Leave Change </th>
+                                
+                            
+                               
+                            
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% if entries %}
+                            {% for entry in entries %}
+                            <tr>
+
+                                <td>{{ forloop.counter0|add:entries.start_index}} </td>
+                                <td><a href="{% url 'employee' entry.employee.pk %}">
+                                                    {{ entry.employee }}</a></td>
+                              
+                                <td>{{ entry.hp_change }}</td>
+                                <td>{{ entry.earned_change }}</td>
+                               
+                             
+                            
+                            </tr>
+                            {% endfor %}
+
+                        {% else %}
+                        <tr><td colspan="8">No Entries .</td></tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+ 
+
+
+{% endblock container %}
+
+{% block script %}
+
+<script>
+
+var csrfmiddlewaretoken = "{{csrf_token}}",
+                id = {{action.pk}},
+                urlAction = "{% url 'manage_action' %}";
+
+        $('#action-approve').on('click', function(event){
+                    event.preventDefault();
+
+                        editNotes = $('#edit-notes').val();
+
+
+                    $.ajax({
+                        url: '{% url 'manage_action' %}',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            action: id,
+                            status: 3,
+                            note : editNotes,
+                            csrfmiddlewaretoken : csrfmiddlewaretoken,
+                        },
+                        success: function(data, textStatus, xhr) {
+                            //location.reload(true);
+                        },
+                        error: function() {
+                           alert("Error. Please report to developers.");
+                           //location.reload(true);
+                        }
+                    });
+                });
+
+                 $('#action-reject').on('click', function(event){
+                    event.preventDefault();
+
+                        editNotes = $('#edit-notes').val();
+
+
+                    $.ajax({
+                        url: '{% url 'manage_action' %}',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            action: id,
+                            status: 4,
+                            note : editNotes,
+                            csrfmiddlewaretoken : csrfmiddlewaretoken,
+                        },
+                        success: function(data, textStatus, xhr) {
+                            //location.reload(true);
+                        },
+                        error: function() {
+                           alert("Error. Please report to developers.");
+                             //location.reload(true);
+                        }
+                    });
+                });
+
+</script>
+
+
+{% endblock script %}

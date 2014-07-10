@@ -1,0 +1,53 @@
+{% extends "leave/base.html" %}
+
+{% block container %}
+
+ <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Generated Time</th>
+                                <th>Number of Entries</th>
+                                <th>Details</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            
+                               
+                            
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% if actions %}
+                            {% for action in actions %}
+                            <tr>
+
+                                <td>{{ forloop.counter0|add:actions.start_index}} </td>
+                                <td>{{ action.time_generated }}</td>
+                              
+                                <td>{{ action.count }}</td>
+                                <td>{{ action.note }}</td>
+                                <td>{{ action.get_status_display }}</td>
+                             
+                                <td><a class="btn btn-default btn-xs" href="{% url 'action' action.pk %}"><i class="glyphicon glyphicon-stats"></i> &nbsp;View Details</a></td>
+                            
+                            </tr>
+                            {% endfor %}
+
+                        {% else %}
+                        <tr><td colspan="8">No Actions yet.</td></tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+ 
+
+
+{% endblock container %}
+
+
+{% block script %}
+<script >
+$(function(){
+                $('#actions').addClass('active');
+            });
+</script>
+{% endblock script %}
