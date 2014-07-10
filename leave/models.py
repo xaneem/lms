@@ -90,15 +90,9 @@ class Employee(models.Model):
 		else:
 			return False
 
-	def transaction(self,days,leave_type,action_type):
-		if leave_type==1:
-			self.earned_balance+=days*action_type
-		elif leave_type==2:
-			self.hp_balance+=days*action_type
-		elif leave_type==3:
-			self.hp_balance+=2*days*action_type
-		else:
-			return False
+	def transaction(self,hp_change,earned_change):
+		self.earned_balance+=earned_change
+		self.hp_balance+=hp_change
 		self.save()
 		return True
 
@@ -116,7 +110,7 @@ class UserProfile(models.Model):
 class Action(models.Model):
 	count=models.IntegerField(default=0)
 	note=models.TextField(max_length=100,blank=True,null=True)
-	status=models.IntegerField(choices=STATUS)
+	status=models.IntegerField(choices=STATUS,default=1)
 	time_generated=models.DateTimeField(auto_now_add=True)
 	time_approved=models.DateTimeField(null=True)
 	reply_note=models.TextField(max_length=100,blank=True,null=True)
@@ -191,7 +185,7 @@ class TransactionLog(models.Model):
 		self.time=datetime.now()
 		self.save()
 
-	def AdminTransaction(self,employee,leave_type,days,action_type,note):
+	def AdminTransaction(self,action,employee,leave_type,days,action_type,note):
 		earned_balance=employee.earned_balance
 		hp_balance=employee.hp_balance
 		earned_change=0
@@ -202,7 +196,8 @@ class TransactionLog(models.Model):
 			hp_change+=days*action_type
 		elif leave_type==3:
 			hp_change+=days*2*action_type
-
+		self.action=action
+		print action
 		self.employee=employee
 		self.leave_type=leave_type
 		self.is_admin=True

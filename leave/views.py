@@ -138,7 +138,7 @@ def logt(request):
 		
 @login_required
 @user_passes_test(isHigher)
-def manage_action():
+def manage_action(request):
 	if request.method=='POST':
 		action_id=request.POST.get('action','')
 		status=request.POST.get('status','')
@@ -153,7 +153,7 @@ def manage_action():
 				entries=TransactionLog.objects.filter(action=action)
 				valid=True
 				for entry in entries:
-					if entry.employee.hp_balance < entry.hp_balance*-1 or entry.employee.earned_balance < entry.employee.earned_change*-1:
+					if entry.employee.hp_balance < entry.hp_balance*-1 or entry.employee.earned_balance < entry.earned_change*-1:
 						valid=False
 						break
 
@@ -163,14 +163,14 @@ def manage_action():
 						entry.hp_balance=entry.employee.hp_balance
 						entry.earned_balance=entry.employee.earned_balance
 						entry.save()
-					message.success(request,'Action approved')
+					messages.success(request,'Action approved')
 						
 				else:
-					message.error(request,"Couldn't approved action, Insufficient leave balance")
+					messages.error(request,"Couldn't approved action, Insufficient leave balance")
 			else:
-				message.error(request,'Some error occured')
+				messages.error(request,'Some error occured')
 
-		return redirect(reverse('actions'))
+		return redirect(reverse('action',args=(action.pk,)))
 
 
 @login_required
@@ -423,7 +423,7 @@ def print_application(request,id):
 	except Application.DoesNotExist:
 		raise Http404
 	employee=application.employee
-	log=TransactionLog.objects.filter(time__lt=application.time_received,employee=employee).order_by("-time")[:5]
+	log=TransactionLog.objects.filter(time__lt=application.time_received,employee=employee,action__status=3).order_by("-time")[:5]
 	if application.is_credit:
 		days_count=application.days						
 	else:
@@ -624,7 +624,7 @@ def employee(request,id):
 		raise Http404
 	if isDept(request.user) and employee.dept!=userprofile.dept:
 		raise PermissionDenied
-	all_list=TransactionLog.objects.filter(employee=employee,).order_by("-time")
+	all_list=TransactionLog.objects.filter(employee=employee,action__status=3).order_by("-time")
 
 	paginator = Paginator(all_list, 10)
 	
