@@ -57,8 +57,9 @@
                       <li id="select_employee"><a href="{% url 'select_employee' %}">Employee Search</a></li>
                 {% elif user_type == 4 %}
                     <li id="applications"><a href="{% url 'applications' %}">Applications</a></li>
-                      <li id="select_employee"><a href="{% url 'select_employee' %}">Employee Search</a></li>
+                     
                        <li id="actions"><a href="{% url 'actions' %}">Admin Actions</a></li>
+                        <li id="select_employee"><a href="{% url 'select_employee' %}">Employee Search</a></li>
                 {% elif user_type == 5 %}
                     <li id="employees"><a href="{% url 'employees' %}">Credit/Debit</a></li>
                     <li id="action_history"><a href="{% url 'action_history' %}">Action History</a></li>
