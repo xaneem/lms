@@ -32,24 +32,22 @@
                             <div class="col-md-6">
                                 {% bootstrap_field form.code %}
                                 {% bootstrap_field form.name %}
-                                {% bootstrap_field form.dept %}
-                                {% bootstrap_field form.post%}
+                                {% bootstrap_field form.email %}
+                                
+                               
 
                             </div>
                             <div class="col-md-6">
+                                {% bootstrap_field form.dept %}
+                                {% bootstrap_field form.post %}
                                
-                                {% bootstrap_field form.email %}
-                                {% bootstrap_field form.is_active %}   
-                                {% bootstrap_field form.earned_balance %} 
-                                {% bootstrap_field form.hp_balance %}   
-
                                 <br>
                          
 
                             </div>
                         </div>
                         
-                        <button type="submit" class="btn btn-success btn-lg"><i class="glyphicon glyphicon-chevron-right"></i> Update
+                        <button type="submit" class="btn btn-success btn-lg"><i class="glyphicon glyphicon-chevron-right"></i> Create
                         </button>
                     </form>
 
