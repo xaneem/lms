@@ -184,6 +184,7 @@ def manage_action(request):
 						messages.error(request,"Couldn't approved action, Insufficient leave balance")
 				elif status==4:
 					action.status=status
+					action.time_approved=datetime.now()
 					action.save()
 					messages.success(request,'Action rejected')
 					to_json['result']=1
@@ -202,10 +203,17 @@ def manage_action(request):
 
 @login_required
 @user_passes_test(isDataEntry)
-def action_history(request):
+def action_history(request,sort):
+	status=getStatus(sort)
+	if status==0:
+		status=6
+
 	userprofile=UserProfile.objects.get(user=request.user)
 	page=request.GET.get('page','')
-	actions=Action.objects.all()
+	actions=Action.objects.all().order_by("-time_generated")
+	if 1<= status <=4:
+		actions=actions.filter(status=status)
+
 	paginator = Paginator(actions,20)
 	try:
 		actions = paginator.page(page)
@@ -218,7 +226,8 @@ def action_history(request):
 	
 	context={
 	'actions':actions,
-	'user_type':userprofile.user_type
+	'user_type':userprofile.user_type,
+	'status':status,
 	}
 	return render(request,'leave/action_history.html',context)
 
@@ -247,15 +256,20 @@ def action(request,id):
 	'user_type':userprofile.user_type,
 	'entries':entries,
 	'action':action,
+	
 	}
 	return render(request,'leave/action.html',context)
 
 
 @login_required
 @user_passes_test(isHigher)
-def actions(request):
+def actions(request,sort):
+	status=getStatus(sort);
+	if status==0:
+		status=1
+
 	userprofile=UserProfile.objects.get(user=request.user)
-	actions=Action.objects.all()
+	actions=Action.objects.filter(status=status)
 	page=request.GET.get('page','')
 	paginator = Paginator(actions,20)
 	try:
@@ -268,7 +282,8 @@ def actions(request):
 		actions = paginator.page(paginator.num_pages)
 	context={
 	'actions':actions,
-	'user_type':userprofile.user_type
+	'user_type':userprofile.user_type,
+	'status':status,
 	}
 	return render(request,'leave/actions.html',context)
 
@@ -281,6 +296,7 @@ def manage_leave(request):
 		leave_type=request.POST.get('leave_type','')
 		action_type=request.POST.get('action_type','')
 		days=request.POST.get('count','')
+		note=request.POST.get('note','')
 		try :
 			leave_type=int(leave_type)
 			action_type=int(action_type)
@@ -290,7 +306,6 @@ def manage_leave(request):
 			return redirect(reverse('employees'))
 
 
-		note="Just testing"
 		
 		if 1<= leave_type <=2 and (action_type==-1 or action_type==1) and days>=0:
 			count=0
@@ -313,11 +328,12 @@ def manage_leave(request):
 
 
 			if count:
-				messages.success(request,"Created action with "+str(count)+" employees ")
+				messages.success(request,"Leave Credit/Debit of "+str(count)+" employees sent for approval")
 				action.count=count
 				action.save()
 			else:
-				messages.error(request,"No employee added to action")
+				messages.error(request,"Error. No employee selected")
+				action.delete()
 		
 
 		else:
@@ -726,10 +742,6 @@ def new_employee(request):
 			if form.is_valid():
 				
 					new_employee=form.save()
-					employee=Employee.objects.get(code=form.cleaned_data['code'])
-					note="Entering existing data"
-	   				TransactionLog().AdminTransaction(employee,1,employee.earned_balance,1,note)
-	   				TransactionLog().AdminTransaction(employee,2,employee.hp_balance,1,note)
 					messages.success(request, 'New Employee Added')
 					return(redirect(reverse('employees')))
 			else:

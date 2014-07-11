@@ -164,6 +164,6 @@ class EmployeeNewForm(ModelForm):
 	
 	class Meta:
    		model = Employee
-   		fields = ['code', 'name', 'dept', 'post','email','is_active','earned_balance','hp_balance']	
+   		fields = ['code', 'name', 'dept', 'post','email',]	
 
 
