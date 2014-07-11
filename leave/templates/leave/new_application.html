@@ -1,82 +1,72 @@
 {% extends "leave/base.html" %}
 {% load bootstrap3 %}
 
-       {% block container %}
-            <div class="row">
-                <div class="col-md-12">
-                    
-                    <h3>Create Application - {% if is_credit %}
-                                                Credit Leave
-                                             {% else %}
-                                                New Leave
-                                            {% endif %}
+{% block container %}
+<div class="row">
+    <div class="col-md-12">
+        <h3>Create Application - {% if is_credit %}
+            Credit Leave
+        {% else %}
+            New Leave
+        {% endif %}
+        </h3>
 
-                    </h3>
-                    <ol class="breadcrumb">
-                        <li>
-                            <a href="{% url 'index' %}">Home</a>
-                        </li>
-                        <li class="active">{% if is_credit %}
-                                                Credit Leave
-                                             {% else %}
-                                                New Leave
-                                            {% endif %}</li>
-                    </ol>
-
-                    <p>Please fill the details for the application. You can add upto 3 attachments if required.</p>
-                    <form role="form" action="   {% if is_credit %}
-                                                        {% url 'new_application' 'credit' %}
-                                                  {% else %}
-                                                        {% url 'new_application' 'debit' %}
-
-                                                 {% endif %}"
-                     method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        
-                        <div class="row">
-                            <div class="col-md-6">
-                                {% if is_credit %}
-                                {% bootstrap_field form.is_credit %}
-                                {% endif %}
-                                {% bootstrap_field form.employee %}
-                                {% bootstrap_field form.leave_type %}
-                                {% bootstrap_field form.reason %}
-                            </div>
-                            <div class="col-md-6">
-                                {% if is_credit %}
-                                    {% bootstrap_field form.days %}
-                                {% else %}
-                                    {% bootstrap_field form.date_from %}
-                                    {% bootstrap_field form.date_to %}
-                                   
-
-                                {% endif %}
-
-                                {% bootstrap_field form.attachment1 %}
-                                {% bootstrap_field form.attachment2 %}
-                                {% bootstrap_field form.attachment3 %}
-
-                                <br>
-                                <button class="btn btn-default" type="button" id="add-attachment"><i class="glyphicon glyphicon-plus"></i> Add Attachment</button>
-
-                            </div>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-success btn-lg"><i class="glyphicon glyphicon-chevron-right"></i> Create Application </button>
-                    </form>
-
-                </div>
+        <ol class="breadcrumb">
+            <li>
+                <a href="{% url 'index' %}">Home</a>
+            </li>
+            <li class="active">{% if is_credit %}
+                Credit Leave
+            {% else %}
+                New Leave
+            {% endif %}</li>
+        </ol>
+        <p>Please fill the details for the application. You can add upto 3 attachments if required.</p>
+        <form role="form" action="   {% if is_credit %}
+            {% url 'new_application' 'credit' %}
+        {% else %}
+            {% url 'new_application' 'debit' %}
+        {% endif %}"
+        method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="row">
+            <div class="col-md-6">
+                {% if is_credit %}
+                    {% bootstrap_field form.is_credit %}
+                {% endif %}
+                {% bootstrap_field form.employee %}
+                {% bootstrap_field form.leave_type %}
+                {% bootstrap_field form.reason %}
             </div>
-     
-   
-        {% endblock container %}
+            <div class="col-md-6">
+                {% if is_credit %}
+                    {% bootstrap_field form.days %}
+                {% else %}
+                    {% bootstrap_field form.date_from %}
+                    {% bootstrap_field form.date_to %}
+                    
+                {% endif %}
+                {% bootstrap_field form.attachment1 %}
+                {% bootstrap_field form.attachment2 %}
+                {% bootstrap_field form.attachment3 %}
+                <br>
+                <button class="btn btn-default" type="button" id="add-attachment"><i class="glyphicon glyphicon-plus"></i> Add Attachment</button>
+            </div>
+        </div>
+        
+        <button type="submit" class="btn btn-success btn-lg"><i class="glyphicon glyphicon-chevron-right"></i> Create Application </button>
+    </form>
+</div>
+</div>
+{% endblock container %}
 
     {% block script %}
     <script>
             $(function() {
 
                 $('#id_leave_type, #id_employee').chosen({
-                    disable_search_threshold: 5,
+                    disable_search_threshold: 2,
                 });
 
                 $('#id_date_from, #id_date_to').attr('readonly', true).css({

@@ -3,89 +3,80 @@
 {% load staticfiles %}
 
 {% block container %}
-            <div class="row">
-                <div class="col-md-12">
-                    <h3>Application History</h3>
-                    <ol class="breadcrumb">
-                        <li>
-                            <a href="{% url 'index' %}">Home</a>
-                        </li>
-                        <li class="active">Application History</li>
-                    </ol>
-                    
-                    <div class="pull-left">
-                        {% if applications.has_other_pages %}
-                        {% bootstrap_pagination applications %}
-                        {% endif %}
-                    </div>
-
-                    <div class="pull-right">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <i class="glyphicon glyphicon-filter"></i> Filter: {% if status == 0  %}Show All{% elif status == 1 %}Pending{% elif status == 2 %}Processing{% elif status == 3 %}Approved{% elif status == 4 %}Rejected{% elif status == 5 %}Cancelled{% endif %} <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li {% if status == 0  %} class="active"{% endif %}><a href="{% url 'sent' '' %}">Show All</a></li>
-                                <li class="divider"></li>
-                                <li {% if status == 1  %} class="active"{% endif %}><a href="{% url 'sent' 'pending' %}">Pending</a></li>
-                                <li {% if status == 2  %} class="active"{% endif %}><a href="{% url 'sent' 'processing' %}">Processing</a></li>
-                                <li {% if status == 3  %} class="active"{% endif %}><a href="{% url 'sent' 'approved' %}">Approved</a></li>
-                                <li {% if status == 4  %} class="active"{% endif %}><a href="{% url 'sent' 'rejected' %}">Rejected</a></li>
-                                <li {% if status == 5  %} class="active"{% endif %}><a href="{% url 'sent' 'cancelled' %}">Cancelled</a></li>
-                            </ul>
-                        </div>
-                        <p>&nbsp;</p><br>
-                    </div>
-
-                    <table class="table table-hover table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Time Applied</th>
-                                <th>Employee Name</th>
-                                <th>Application Type</th>
-                                <th>From</th>
-                                <th>To</th>
-                                <th>Application Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {% if applications %}
-                            {% for application in applications %}
-                            <tr>
-
-                                <td>{{ forloop.counter0|add:applications.start_index}} </td>
-                                <td>{{ application.time_generated }}</td>
-                                <td>{{ application.employee.name }}</td>
-                                <td> {{ application.toText }}
-                                </td>
-                                <td>{{ application.date_from }}</td>
-                                <td>{{ application.date_to }}</td>
-                                <td>{{ application.get_status_display|title }}</td>
-                                <td><a class="btn btn-default btn-xs" href="{% url 'details' application.pk %}"><i class="glyphicon glyphicon-stats"></i> &nbsp;View Details</a></td>
-                            </tr>
-                            {% endfor %}
-                        {% else %}
-                        <tr><td colspan="6">No applications yet.</td></tr>
-                        {% endif %}
-                        </tbody>
-                    </table>
-
-                </div>
+<div class="row">
+    <div class="col-md-12">
+        <h3>Application History</h3>
+        <ol class="breadcrumb">
+            <li>
+                <a href="{% url 'index' %}">Home</a>
+            </li>
+            <li class="active">Application History</li>
+        </ol>
+        
+        <div class="pull-left">
+            {% if applications.has_other_pages %}
+                {% bootstrap_pagination applications %}
+            {% endif %}
+        </div>
+        <div class="pull-right">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <i class="glyphicon glyphicon-filter"></i> Filter by Status: {% if status == 0  %}Show All{% elif status == 1 %}Pending{% elif status == 2 %}Processing{% elif status == 3 %}Approved{% elif status == 4 %}Rejected{% elif status == 5 %}Cancelled{% endif %} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li {% if status == 0  %} class="active"{% endif %}><a href="{% url 'sent' '' %}">Show All</a></li>
+                    <li class="divider"></li>
+                    <li {% if status == 1  %} class="active"{% endif %}><a href="{% url 'sent' 'pending' %}">Pending</a></li>
+                    <li {% if status == 2  %} class="active"{% endif %}><a href="{% url 'sent' 'processing' %}">Processing</a></li>
+                    <li {% if status == 3  %} class="active"{% endif %}><a href="{% url 'sent' 'approved' %}">Approved</a></li>
+                    <li {% if status == 4  %} class="active"{% endif %}><a href="{% url 'sent' 'rejected' %}">Rejected</a></li>
+                    <li {% if status == 5  %} class="active"{% endif %}><a href="{% url 'sent' 'cancelled' %}">Cancelled</a></li>
+                </ul>
             </div>
+            <p>&nbsp;</p><br>
+        </div>
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Time Applied</th>
+                    <th>Employee Name</th>
+                    <th>Application Type</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Application Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if applications %}
+                    {% for application in applications %}
+                        <tr>
+                            <td>{{ forloop.counter0|add:applications.start_index}} </td>
+                            <td>{{ application.time_generated }}</td>
+                            <td>{{ application.employee.name }}</td>
+                            <td> {{ application.toText }}
+                            </td>
+                            <td>{{ application.date_from }}</td>
+                            <td>{{ application.date_to }}</td>
+                            <td>{{ application.get_status_display|title }}</td>
+                            <td><a class="btn btn-default btn-xs" href="{% url 'details' application.pk %}"><i class="glyphicon glyphicon-stats"></i> &nbsp;View Details</a></td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr><td colspan="6">No applications yet.</td></tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
 
-     
-            
+{% endblock container %}
 
-        {% endblock container %}
-
-        {% block script %}
-            <script>
-                $(function(){
-               $('#history').addClass('active');
-               
-                
-                });
-            </script>
-        {% endblock script %}
+{% block script %}
+    <script>
+        $(function(){
+           $('#history').addClass('active'); 
+        });
+    </script>
+{% endblock script %}

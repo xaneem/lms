@@ -1,3 +1,9 @@
+Notes by Saneem:
+	* Change dd/mm/yyyy. (Change in backend, frontend is easy.)
+	* Change Reason field to Purpose (Should change in database schema)
+	* Only Earned Leave in Credit Leave application
+	* In Credit, change Number of Leaves to "Number of Days"
+
 Data Entry:
 	* Filter by E.code/Name
 	* Activity Log 
