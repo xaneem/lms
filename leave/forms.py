@@ -14,6 +14,7 @@ class ApplicationForm(ModelForm):
 	    self.fields['attachment1'].label = "Attachment 1"
 	    self.fields['attachment2'].label = "Attachment 2"
 	    self.fields['attachment3'].label = "Attachment 3"
+	    self.fields['reason'].label = "Purpose"
 	    self.fields["employee"].queryset=Employee.objects.filter(dept=dept)
 
 	class Meta:
@@ -64,9 +65,11 @@ class CreditApplicationForm(ModelForm):
 	    self.fields['attachment1'].label = "Attachment 1"
 	    self.fields['attachment2'].label = "Attachment 2"
 	    self.fields['attachment3'].label = "Attachment 3"
-	    self.fields['days'].label="Number of leaves "
+	    self.fields['days'].label="Number of days "
+	    self.fields['reason'].label = "Purpose"
 	    self.fields["employee"].queryset=Employee.objects.filter(dept=dept)
 	    self.fields["is_credit"].initial=True
+
 
 
 	class Meta:

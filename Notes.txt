@@ -1,22 +1,22 @@
 Notes by Saneem:
 	* Change dd/mm/yyyy. (Change in backend, frontend is easy.)
-	* Change Reason field to Purpose (Should change in database schema)
+	* Change Reason field to Purpose (Should change in database schema) -Done
 	* Only Earned Leave in Credit Leave application
-	* In Credit, change Number of Leaves to "Number of Days"
+	* In Credit, change Number of Leaves to "Number of Days" -Done
 
 Data Entry:
 	* Filter by E.code/Name
-	* Activity Log 
+	* Activity Log -Done
 	* Show current leave
-	* Add employees
+	* Add employees- Done
 Make sure reload doesn't result in duplicate actions
 
-No.of leaves -> days
-Leaves -> leave
-HOD -> Section Head
-Sent Applications -> Application History
+No.of leaves -> days -Done
+Leaves -> leave -Done
+HOD -> Section Head -Done
+Sent Applications -> Application History -Done
 Employee details tab -Done
-Reason -> Purpose
+Reason -> Purpose -Done
 Check alert message on Approve
 
 Section Head
@@ -26,21 +26,21 @@ Section Head
 
 
 Application Details
-	*Processing completed on
-	*Approved From ,Approved Till
+	*Processing completed on -Done
+	*Approved From ,Approved Till -Done
 	
 Print 
 	*Save as Pdf
-	*Current EL balance
-	*Current HPL balance
+	*Current EL balance -Done
+	*Current HPL balance -Done
 
 
-* Move dataentry to Est. Office.
-* Approval by DR for all dataentry. 
+* Move dataentry to Est. Office. -Done
+* Approval by DR for all dataentry. - Done
 * Department -> Add function to credit leave. -Done
 * Usertypes: Dept, EST1 & EST 2, DR
 * Cancel Application Workflow. - Done
-* EST admin
+* EST admin 
 * Current status/History to employee email
 * Option to change password
 * Leave Credit - Done
@@ -66,4 +66,4 @@ estadmin
 estdr
 section-heads(csed, med, ..)
 
-Approval By DR *Important.
+Approval By DR *Important. -Done

@@ -72,11 +72,11 @@
                                         <td>{{application.employee.get_dept_display}}</td>
                                     </tr>
                                      <tr>
-                                        <th>Earned Leave Balance</th>
+                                        <th>Current EL Balance</th>
                                         <td>{{application.employee.earned_balance}}</td>
                                     </tr>
                                     <tr>
-                                        <th>Half Pay Leave Balance </th>
+                                        <th>Current HPL Balance </th>
                                         <td>{{application.employee.hp_balance}}</td>
                                     </tr>
                                     <tr>
@@ -107,7 +107,7 @@
                             {% endif %}
                                     
                                     <tr>
-                                        <th>Generated at</th>
+                                        <th>Generated time</th>
                                         <td>{{application.time_generated}}</td>
                                     </tr>
                                     <tr>
@@ -133,7 +133,7 @@
 
                                     </tr>
                                     <tr>
-                                        <th>Reason</th>
+                                        <th>Purpose</th>
                                         <td>{{ application.reason }}</td>
                                     </tr>
                                      <tr>
@@ -167,7 +167,7 @@
                                     {% if application.time_approved  %}
                                   
                                     <tr>
-                                        <th>Processing completed at</th>
+                                        <th>Processing completed on</th>
                                         <td>{{application.time_approved}}</td>
                                     </tr>
                                     {% if approved_days_count %}
@@ -179,13 +179,13 @@
                                     
                                     {% if application.new_date_from %}
                                     <tr>
-                                        <th>Approved Date From</th>
+                                        <th>Approved From</th>
                                         <td>{{application.new_date_from}}</td>
                                     </tr>
                                     {% endif %}
                                       {% if application.new_date_to %}
                                     <tr>
-                                        <th>Approved Date To</th>
+                                        <th>Approved Till</th>
                                         <td>{{application.new_date_to}}</td>
                                     </tr>
                                      {% endif %}
