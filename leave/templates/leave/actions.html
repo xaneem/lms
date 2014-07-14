@@ -1,85 +1,74 @@
 {% extends "leave/base.html" %}
 {% load bootstrap3 %}
 {% load staticfiles %}
-
 {% block container %}
-<div class="row">
-                <div class="col-md-12">
-                    <h3>Admin Actions</h3>
-                    <ol class="breadcrumb">
-                        <li>
-                            <a href="{% url 'index' %}">Home</a>
-                        </li>
-                        <li class="active">Admin Actions</li>
-                    </ol>
-
-                    <div class="pull-left">
-                        {% if actions.has_other_pages %}
-                        {% bootstrap_pagination actions %}
-                        {% endif %}
-                    </div>
-
-                    <div class="pull-right">
-                        <br>
-                        <div class="btn-group">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Admin Actions</h3>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="{% url 'index' %}">Home</a>
+                </li>
+                <li class="active">Admin Actions</li>
+            </ol>
+            <div class="pull-left">
+                {% if actions.has_other_pages %}
+                    {% bootstrap_pagination actions %}
+                {% endif %}
+            </div>
+            <div class="pull-right">
+                <br>
+                <div class="btn-group">
+                    
+                    <a class="btn btn-default {% if status == 1 %}active{% endif %}" href="{% url 'actions' 'pending' %}">Requires Action</a>
+                    
+                    <a class="btn btn-default {% if status == 3 %}active{% endif %}" href="{% url 'actions' 'approved' %}">Approved</a>
+                    <a class="btn btn-default {% if status == 4 %}active{% endif %}" href="{% url 'actions' 'rejected' %}">Rejected</a>
+                    
+                    
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Generated Time</th>
+                        <th>Number of Entries</th>
+                        <th>Details</th>
+                        <th>Status</th>
+                        <th>Action</th>
                         
-                                <a class="btn btn-default {% if status == 1 %}active{% endif %}" href="{% url 'actions' 'pending' %}">Requires Approval</a>
-                             
-                                <a class="btn btn-default {% if status == 3 %}active{% endif %}" href="{% url 'actions' 'approved' %}">Approved</a>
-                                <a class="btn btn-default {% if status == 4 %}active{% endif %}" href="{% url 'actions' 'rejected' %}">Rejected</a>
-                      
-                          
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
-
-
- <table class="table table-hover table-striped">
-                        <thead>
+                        
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if actions %}
+                        {% for action in actions %}
                             <tr>
-                                <th>#</th>
-                                <th>Generated Time</th>
-                                <th>Number of Entries</th>
-                                <th>Details</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            
-                               
-                            
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {% if actions %}
-                            {% for action in actions %}
-                            <tr>
-
                                 <td>{{ forloop.counter0|add:actions.start_index}} </td>
                                 <td>{{ action.time_generated }}</td>
-                              
+                                
                                 <td>{{ action.count }}</td>
                                 <td>{{ action.note }}</td>
                                 <td>{{ action.get_status_display }}</td>
-                             
+                                
                                 <td><a class="btn btn-default btn-xs" href="{% url 'action' action.pk %}"><i class="glyphicon glyphicon-stats"></i> &nbsp;View Details</a></td>
-                            
+                                
                             </tr>
-                            {% endfor %}
-
-                        {% else %}
+                        {% endfor %}
+                    {% else %}
                         <tr><td colspan="8">No Actions yet.</td></tr>
-                        {% endif %}
-                        </tbody>
-                    </table>
- 
-
-
-{% endblock container %}
-
-
-{% block script %}
-<script >
-$(function(){
-                $('#actions').addClass('active');
+                    {% endif %}
+                </tbody>
+            </table>
+            
+        {% endblock container %}
+        {% block script %}
+            <script >
+            $(function(){
+            $('#actions').addClass('active');
             });
-</script>
-{% endblock script %}
+            </script>
+        {% endblock script %}

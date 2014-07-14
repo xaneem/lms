@@ -117,7 +117,9 @@ Est. Deputy Registrar
 	|--Applications
 	|	|--Application Details
 	|	|--Print Application Page
+	|--Admin Action
 	|--Employee Search
+
 
 Applications
 	Displays the applications, which can be filtered by the application status. The default view shows Pending applications that requires action by the Establishment Office.
@@ -145,3 +147,13 @@ Employee Search
 	View details of all the employees in the department/section. Select the employee from the list using Name/Code and click on the View Details button.
 
 	The details of the employee and leave balance are displayed. The log shows all the credit/debit details of the employee available with the system.
+
+
+
+
+Est. Admin
+	|--Credit/Debit
+	|--Action History
+	|--Add Employee
+	|--Employee Search
+

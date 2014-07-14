@@ -92,7 +92,7 @@
                 		<table class="table table-hover table-striped">
                 			<thead>
                 				<tr>
-                					<th><input type="checkbox" data-state="0"  id="select-all"></th>
+                					<th class="text-center"><small>Select All</small><br><input type="checkbox" data-state="0"  id="select-all"></th>
                 					<th>Emp. Code</th>
                 					<th>Emp. Name</th>
                 					<th>Dept.</th>
@@ -144,7 +144,7 @@
         	var loadTable = function(items){
         		$('#table-entries').html('');
         		items.forEach(function(item){
-        			$('#table-entries').append('<tr><td><input name="check[]" value="'+item.pk+'" type="checkbox" data-id="'+item.pk+'" class="check"></td><td>'+item.code+'</td><td>'+item.name+'</td><td>'+item.dept+'</td><td>'+item.el_bal+'</td><td>'+item.hpl_bal+'</td><td><a href="'+item.edit_url+'" target="_blank" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-pencil"></i>&nbsp; Edit</a><tr>');
+        			$('#table-entries').append('<tr><td class="text-center"><input name="check[]" value="'+item.pk+'" type="checkbox" data-id="'+item.pk+'" class="check"></td><td>'+item.code+'</td><td>'+item.name+'</td><td>'+item.dept+'</td><td>'+item.el_bal+'</td><td>'+item.hpl_bal+'</td><td><a href="'+item.edit_url+'" target="_blank" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-pencil"></i>&nbsp; Edit</a></tr>');
         		});
         	}
             $('#select-all').prop('checked', false);
