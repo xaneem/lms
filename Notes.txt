@@ -3,6 +3,9 @@ Notes by Saneem:
 	* Change Reason field to Purpose (Should change in database schema)
 	* Only Earned Leave in Credit Leave application
 	* In Credit, change Number of Leaves to "Number of Days"
+	* Add Help link, with a single page in templates.
+	* Add Employee Code in Emp. Search.
+	
 
 Data Entry:
 	* Filter by E.code/Name
