@@ -53,6 +53,95 @@ Application History
 Application Details
 	Displays all the details of the selected application.
 
+	Application Details: Shows the details of the selected application. If it is a "Cancel Approved Leave" request, the link to the Original Application is also shown.
+
 	Employee Details: The Employee Details section shows the relevant details of the employee for the application. Note that the leave balance displayed is the current balance, and not necessarily the one when the application was created.
 
-	Application Details: Shows the details of the selected application.
+	Application Status: This section shows the current status and related details.
+
+	The Detailed Log displays a timeline of events for the application.
+
+Cancel Pending Application
+	An application that has a status "Pending" can be cancelled directly from the Application Details page using the Cancel Application button.
+
+	Once the Establishment Office marks an application as "Processing", you will have to wait until it is approved.
+
+Cancel Approved Leave
+	To cancel a leave that has been approved, click on the Cancel Approved Leave button. A new application will be created, and will need to be approved by the Establishment.
+
+Employee Search
+	View details of all the employees in the department/section. Select the employee from the list using Name/Code and click on the View Details button.
+
+	The details of the employee and leave balance are displayed. The log shows all the credit/debit details of the employee available with the system.
+
+
+
+Est. Office
+	|--Applications
+	|	|--Application Details
+	|	|--Print Application Page
+	|--Employee Search
+
+Applications
+	Displays the applications, which can be filtered by the application status. The default view shows Pending applications that requires action by the Establishment Office.
+
+	To view details of an application, click on the View Details button.
+
+Application Details Page
+	Displays all the details of the selected application.
+
+	Application Details: Shows the details of the selected application. If it is a "Cancel Approved Leave" request, the link to the Original Application is also shown.
+
+	Employee Details: The Employee Details section shows the relevant details of the employee for the application. Note that the leave balance displayed is the current balance, and not necessarily the one when the application was created.
+
+	Application Status: This section shows the current status and related details.
+
+	The Detailed Log displays a timeline of events for the application.
+
+	The Establishment Office can mark a Pending application as Processing using the "Start Processing" button. The application is to be printed using the "Print Application" button, and the hard copy forwarded to the Deputy Registrar after appropriate verification.
+
+	An application with the status "Processing" can be Approved/Rejected by the Deputy Registrar.
+
+Print Application Page
+	Click on the Print Application button to open a print friendly view of the application, along with last 5 transactions for the employee.
+
+
+Employee Search
+	View details of all the employees in the department/section. Select the employee from the list using Name/Code and click on the View Details button.
+
+	The details of the employee and leave balance are displayed. The log shows all the credit/debit details of the employee available with the system.
+
+
+
+Est. Deputy Registrar
+	|--Applications
+	|	|--Application Details
+	|	|--Print Application Page
+	|--Employee Search
+
+Applications
+	Displays the applications, which can be filtered by the application status. The default view shows Pending applications that requires action by the Establishment Office.
+
+	To view details of an application, click on the View Details button.
+
+Application Details Page
+	Displays all the details of the selected application.
+
+	Application Details: Shows the details of the selected application. If it is a "Cancel Approved Leave" request, the link to the Original Application is also shown.
+
+	Employee Details: The Employee Details section shows the relevant details of the employee for the application. Note that the leave balance displayed is the current balance, and not necessarily the one when the application was created.
+
+	Application Status: This section shows the current status and related details.
+
+	The Detailed Log displays a timeline of events for the application.
+
+	When a new application is created, the status is Pending. After the application is marked as "Processing" by the Establishment Office, the Deputy Registrar may Approve or Reject it.
+
+Print Application Page
+	Click on the Print Application button to open a print friendly view of the application, along with last 5 transactions for the employee.
+
+
+Employee Search
+	View details of all the employees in the department/section. Select the employee from the list using Name/Code and click on the View Details button.
+
+	The details of the employee and leave balance are displayed. The log shows all the credit/debit details of the employee available with the system.

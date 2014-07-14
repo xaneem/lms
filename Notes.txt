@@ -4,10 +4,17 @@ Notes by Saneem:
 	* Only Earned Leave in Credit Leave application
 
 	* In Credit, change Number of Leaves to "Number of Days"
-	* Add Help link, with a single page in templates.
-	* Add Employee Code in Emp. Search.
+	* Add Help link, with a single page in templates (common for all users, change content by checking usertype.)
 
+	* Add Employee Code in Emp. Search.
 	* In Credit, change Number of Leaves to "Number of Days" -Done
+
+	* Add employee code in Dept. New form
+
+	*Suggestion: Allow Est Office to add notes even after Start Processing is clicked. We can remove the current Add Notes option before clicking Start Processing as it doesn't make sense.
+
+	* Adding New Employee should need admin approval.
+
 
 Data Entry:
 	* Filter by E.code/Name

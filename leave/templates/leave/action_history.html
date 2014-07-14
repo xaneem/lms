@@ -24,7 +24,7 @@
                         <br>
                         <div class="btn-group">
                                 <a class="btn btn-default {% if status == 6 %}active{% endif %}" href="{% url 'action_history' '' %}">All</a>
-                                <a class="btn btn-default {% if status == 1 %}active{% endif %}" href="{% url 'action_history' 'pending' %}">Waiting Approval</a>
+                                <a class="btn btn-default {% if status == 1 %}active{% endif %}" href="{% url 'action_history' 'pending' %}">Approval Pending</a>
                              
                                 <a class="btn btn-default {% if status == 3 %}active{% endif %}" href="{% url 'action_history' 'approved' %}">Approved</a>
                                 <a class="btn btn-default {% if status == 4 %}active{% endif %}" href="{% url 'action_history' 'rejected' %}">Rejected</a>

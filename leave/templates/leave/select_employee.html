@@ -3,19 +3,17 @@
 {% load staticfiles %}
 {% block title %}LMS - Employee Search {% endblock title %}
 {% block container %}
-
-            <div class="row">
-                <div class="col-md-4 col-md-offset-4">
-                    <h3>Select an employee</h3>
-                    <form action="{% url 'select_employee' %}" method="POST" >
-                    {% csrf_token %}
-                    {% bootstrap_field form.employee %}
-                    <button type="submit" class="btn  btn-lg">Details </button>
-                    </form>
-                  
-
-                </div>
-            </div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <h3>Select an Employee</h3>
+            <form action="{% url 'select_employee' %}" method="POST" >
+                {% csrf_token %}
+                {% bootstrap_field form.employee %}
+                <br><button type="submit" class="btn btn-info btn-lg btn-block"><i class="glyphicon glyphicon-stats"></i> View Details </button>
+            </form>
+            
+        </div>
+    </div>
 {% endblock container %}
 
 {% block script %}
