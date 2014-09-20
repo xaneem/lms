@@ -3,7 +3,10 @@
 {% load staticfiles %}
 
         
-{% if application.status == 1  %}
+
+
+{% block container %}
+    {% if application.status == 1  %}
 <!-- Delete Application Confirmation -->
 <div class="modal fade" id="delete-confirm">
     <div class="modal-dialog">
@@ -29,7 +32,6 @@
 </div>
 {% endif %}
 
-{% block container %}
             <div class="row">
                 <div class="col-md-12">
                     <div class="row">

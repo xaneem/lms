@@ -90,6 +90,18 @@ class Employee(models.Model):
 		else:
 			return False
 
+	def approveTransaction(self,days,leave_type,action_type):
+		earned_change=0
+		hp_change=0
+		if leave_type==1:
+			earned_change+=days*action_type
+		elif leave_type==2:
+			hp_change+=days*action_type
+		elif leave_type==3:
+			hp_change+=2*days*action_type
+		self.transaction(hp_change,earned_change);
+		return True
+
 	def transaction(self,hp_change,earned_change):
 		self.earned_balance+=earned_change
 		self.hp_balance+=hp_change
@@ -162,12 +174,22 @@ class TransactionLog(models.Model):
 		hp_balance=employee.hp_balance
 		earned_change=0
 		hp_change=0
-		action_type=1 #Cancel application (Credit)
-		if application.is_new:
-			action_type=-1 #New application (Debit)
+		if application.is_credit:
+			if application.is_new:
+				action_type=1
+			else :
+				action_type=-1
+		else:
+			if application.is_new:
+				action_type=-1
+			else :
+				action_type=1
 
+		if application.is_credit:
+			days=application.days
+		else:
+			days=(application.new_date_to-application.new_date_from).days+1
 
-		days=(application.new_date_to-application.new_date_from).days+1
 		if application.leave_type==1:
 			earned_change+=days*action_type
 		elif application.leave_type==2:

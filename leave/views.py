@@ -180,8 +180,8 @@ def manage_action(request):
 							
 					else:
 						to_json['result']=0
-						to_json['message']="Couldn't approved action, Insufficient leave balance"
-						messages.error(request,"Couldn't approved action, Insufficient leave balance")
+						to_json['message']="Couldn't approve action, Insufficient leave balance"
+						messages.error(request,"Couldn't approve action, Insufficient leave balance")
 				elif status==4:
 					action.status=status
 					action.time_approved=datetime.now()
@@ -196,7 +196,7 @@ def manage_action(request):
 				to_json['message']="Some error occured"
 				messages.error(request,'Some error occured')
 
-		return HttpResponse(json.dumps(to_json), mimetype='application/json')
+		return HttpResponse(json.dumps(to_json))
 
 
 
@@ -455,7 +455,7 @@ def start_processing(request):
 			to_json['result']=0
 			to_json['message']='error'
 			messages.error(request,'Error: Could not change status. Try again.')
-		return HttpResponse(json.dumps(to_json), mimetype='application/json')
+		return HttpResponse(json.dumps(to_json))
 	else:
 		raise PermissionDenied
 
@@ -522,7 +522,7 @@ def complete(request):
 				if not valid:
 					to_json['result']=0
 					messages.error(request, to_json['message'])
-					return HttpResponse(json.dumps(to_json), mimetype='application/json')
+					return HttpResponse(json.dumps(to_json))
 			days=(date_to-date_from).days+1
 
 		else:
@@ -562,8 +562,10 @@ def complete(request):
 						else :
 							action_type=1
 
-					employee.transaction(days,application.leave_type,action_type)
+
+					employee.approveTransaction(days,application.leave_type,action_type)
 					TransactionLog().ApplicationTransaction(employee,application)
+					#Danger!
 				
 
 					
@@ -588,7 +590,7 @@ def complete(request):
 		else:
 			to_json['result']=0
 			to_json['message']='Some error occured. Please try again'
-		return HttpResponse(json.dumps(to_json), mimetype='application/json')
+		return HttpResponse(json.dumps(to_json))
 	else:
 		raise PermissionDenied
 
@@ -618,11 +620,6 @@ def details(request,id):
 	else:
 		days_count=(application.date_to-application.date_from).days+1
 		approved_days_count=(application.new_date_to-application.new_date_from).days+1
-
-
-	
-
-
 
 	context= {
 	'name':request.user.username,
