@@ -108,6 +108,9 @@ def index(request):
 	
 	
 	if request.user.is_authenticated():
+		if request.user.is_staff:
+			return redirect('admin:index')
+
 		userprofile=UserProfile.objects.get(user=request.user)
 		#User authenticated, Now redirect to corresponding Home pages
 		context={
@@ -628,7 +631,7 @@ def details(request,id):
 	'user_type':userprofile.user_type,
 	'approved_days_count':approved_days_count,
 	'user_display_name':userprofile.get_user_type_display,
-	'dept': userprofile.get_dept_display,
+	'dept': userprofile.dept.name,
 	'application_log':application_log
 	}
 	return render(request,'leave/application.html',context)
@@ -684,7 +687,7 @@ def employee(request,id):
 	'employee':employee,
 	'user_type':userprofile.user_type,
 	'user_display_name':userprofile.get_user_type_display,
-	'dept': userprofile.get_dept_display,
+	'dept': userprofile.dept.name,
 	'transaction_log': transaction_log
 	}
 
@@ -779,7 +782,7 @@ def sent(request,sort,year,month,date):
 
 	context= {
 	'name': request.user.username,
-	'dept': userprofile.get_dept_display(),
+	'dept': userprofile.dept.name,
 	'applications':applications,
 	'status' :status,
 	'user_type': userprofile.user_type,
@@ -809,7 +812,7 @@ def new_application(request,type):
 	
 	context= {
 	'name': request.user.username,
-	'dept': userprofile.get_dept_display(),
+	'dept': userprofile.dept.name,
 	'user_type': userprofile.user_type,
 	'is_credit':isCredit(type)
 	}

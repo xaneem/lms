@@ -5,21 +5,6 @@ from django.contrib.auth.models import User
 
 # Each choice in this list represents a End-User of the software,
 # who has the previlege to enter a new application to the system.
-DEPARTMENTS = (
-	(0,'Other'),
-	(1,'Computer Science'),
-	(2,'Mechanical'),
-	(3,'Electrical'),
-	(4,'Civil'),
-	(5,'Electronics'),
-	(6,'Chemical'),
-	(7,'Biotechnology'),
-	(8,'Architecture'),
-	(9,'Mathematics'),
-	(10,'Nanotechnology'),
-	(11,'Chemistry'),
-	(12,'SOMS'),
-	)
 
 #Different posts of Employees
 POSTS = (
@@ -63,14 +48,17 @@ STATUS = (
 	(5,'Cancelled')
 	)
 
-
+class Department(models.Model):
+	name = models.CharField(max_length=100)
+	def __unicode__(self):
+		return self.name
 
 #Model for employees
 class Employee(models.Model):
 		
 	code = models.CharField(max_length=10,null=True,unique=True)
 	name = models.CharField(max_length=100)
-	dept = models.IntegerField(choices=DEPARTMENTS)
+	dept = models.ForeignKey('Department')
 	earned_balance = models.IntegerField(default=0)
 	hp_balance = models.IntegerField(default=0)
 	post = models.IntegerField(choices=POSTS)
@@ -116,7 +104,7 @@ class UserProfile(models.Model):
 
 	user = models.OneToOneField(User)
 	user_type = models.IntegerField(choices=USER_TYPES)
-	dept = models.IntegerField(choices=DEPARTMENTS, default=0)
+	dept = models.ForeignKey('Department')
 	
 
 class Action(models.Model):

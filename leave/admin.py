@@ -1,5 +1,5 @@
 from django.contrib import admin
-from leave.models import Employee,Application,TransactionLog,ApplicationLog,Action
+from leave.models import Employee,Application,TransactionLog,ApplicationLog,Action,Department
 # Register your models here.
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
@@ -18,6 +18,7 @@ admin.site.register(Application)
 admin.site.register(TransactionLog)
 admin.site.register(ApplicationLog)
 admin.site.register(Action)
+admin.site.register(Department)
 
 
 # Define a new User admin
