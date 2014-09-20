@@ -1,7 +1,10 @@
-Install django-bootstrap 3
-	 pip install django-bootstrap3
+*Intall python 2.7
+*Install Pip
+	sudo apt-get install python-pip
+*Install Django
+	sudo pip install Django
+*Install django-bootstrap 3
+	sudo pip install django-bootstrap3
 
-Install South for Database migration
-	
-Install Pytz for using TimeZone
+*Install Pytz for using TimeZone
 	pip install pytz
