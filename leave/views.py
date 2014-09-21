@@ -118,8 +118,13 @@ def index(request):
 		}
 		
 		if isHigher(request.user):
+
+			context['pending_count']=Application.objects.filter(status=1).count()
+			context['processing_count']=Application.objects.filter(status=2).count()
+			context['actions_count']=Action.objects.filter(status=1).count()
 			return render(request,'leave/dr.html',context)
 		elif isClerk(request.user):
+			context['pending_count']=Application.objects.filter(status=1).count()
 			return render(request,'leave/est_office.html',context)
 		elif isDept(request.user):
 			return render(request,'leave/dept.html',context)
@@ -631,7 +636,7 @@ def details(request,id):
 	'user_type':userprofile.user_type,
 	'approved_days_count':approved_days_count,
 	'user_display_name':userprofile.get_user_type_display,
-	'dept': userprofile.dept.name,
+	#'dept': userprofile.dept.name,
 	'application_log':application_log
 	}
 	return render(request,'leave/application.html',context)
@@ -687,7 +692,7 @@ def employee(request,id):
 	'employee':employee,
 	'user_type':userprofile.user_type,
 	'user_display_name':userprofile.get_user_type_display,
-	'dept': userprofile.dept.name,
+	#'dept': userprofile.dept.name,
 	'transaction_log': transaction_log
 	}
 

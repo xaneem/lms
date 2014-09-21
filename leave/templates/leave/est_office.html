@@ -4,7 +4,9 @@
 
  <h2> Home Page for Est. Office </h2>
  
-
+ {% if pending_count %}
+ <a href="{% url 'applications' %}"> {{pending_count}} application{{pending_count|pluralize}}</a> requires action.
+ {% endif %}
 
 {% endblock container %}
 
