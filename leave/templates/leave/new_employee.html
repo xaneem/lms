@@ -1,62 +1,67 @@
 {% extends "leave/base.html" %}
 {% load bootstrap3 %}
 {% load staticfiles %}
-        {% block container %}
+{% block container %}
+<div class="row">
+    <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-6">
+               <h3>Add Employee</h3>
+            </div>
+            {% if messages %}
+            <div class="col-md-6">
+                {% for message in messages %}
+                {% bootstrap_messages message %}
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        
+        <ol class="breadcrumb">
+            <li>
+                <a href="{% url 'index' %}">Home</a>
+            </li>
+            <li class="active">New Employee</li>
+        </ol>
+
+        
+        <form role="form" action="{% url 'new_employee'  %}" method="post" >
+            {% csrf_token %}
+            
             <div class="row">
-                <div class="col-md-12">
-                      <div class="row">
-                        <div class="col-md-6">
-                           <h3>Add Employee</h3>
-                        </div>
-                        {% if messages %}
-                        <div class="col-md-6">
-                            {% for message in messages %}
-                            {% bootstrap_messages message %}
-                            {% endfor %}
-                        </div>
-                        {% endif %}
-                    </div>
+                <div class="col-md-6">
+                    {% bootstrap_field form.code %}
+                    {% bootstrap_field form.name %}
+                    {% bootstrap_field form.email %}
                     
-                    <ol class="breadcrumb">
-                        <li>
-                            <a href="{% url 'index' %}">Home</a>
-                        </li>
-                        <li class="active">New Employee</li>
-                    </ol>
+                   
 
-                    
-                    <form role="form" action="{% url 'new_employee'  %}" method="post" >
-                        {% csrf_token %}
-                        
-                        <div class="row">
-                            <div class="col-md-6">
-                                {% bootstrap_field form.code %}
-                                {% bootstrap_field form.name %}
-                                {% bootstrap_field form.email %}
-                                
-                               
-
-                            </div>
-                            <div class="col-md-6">
-                                {% bootstrap_field form.dept %}
-                                {% bootstrap_field form.post %}
-                               
-                                <br>
-                         
-
-                            </div>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-success btn-lg">Create New Employee <i class="glyphicon glyphicon-chevron-right"></i></button>
-                    </form>
+                </div>
+                <div class="col-md-6">
+                    {% bootstrap_field form.dept %}
+                    <br>
+                    {% bootstrap_field form.post %}
+                   
+                    <br>
+             
 
                 </div>
             </div>
-       {% endblock container %}
-       {% block script %}
-       <script>
-          $(function(){
-                $('#add_employee').addClass('active');
-            });
-    </script>
-        {% endblock script %}
+            
+            <button type="submit" class="btn btn-success btn-lg">Create New Employee <i class="glyphicon glyphicon-chevron-right"></i></button>
+            <a href="javascript:history.back();" class="btn btn-default btn-lg"><i class="glyphicon glyphicon-ban-circle"></i> Cancel</a>
+        </form>
+
+    </div>
+</div>
+{% endblock container %}
+{% block script %}
+<script>
+  $(function(){
+        $('#id_dept, #id_post').chosen({
+            disable_search_threshold: 2,
+        });
+        $('#add_employee').addClass('active');
+    });
+</script>
+{% endblock script %}
