@@ -6,7 +6,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Application Details - LMS</title>
+        <title>Application #{{application.pk}} ({{ application.toText }}) - LMS</title>
         <link href="{% static 'leave/css/bootstrap.min.css' %}" rel="stylesheet">
         <link href="{% static 'leave/css/datepicker3.css' %}" rel="stylesheet">
         <script src="{% static 'leave/js/jquery-1.11.1.min.js' %}"></script>
@@ -35,7 +35,7 @@
     <body>
         <div class="container">
             <div class="space-15px"></div>
-            <h2>Application #{{application.pk}} ({{ application.toText }} )</h2>
+            <h2>Application #{{application.pk}} ({{ application.toText }})</h2>
             <div class="text-right" style="padding-bottom: 10px;" id="print">
                 <btn class="btn btn-info" id="print_button"><i class="glyphicon glyphicon-print"></i> Print</btn>
             </div>
