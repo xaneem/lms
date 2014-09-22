@@ -1,0 +1,24 @@
+{% extends "leave/base.html" %}
+{% load bootstrap3 %}
+{% load staticfiles %}
+       
+
+
+{% block container %}
+
+
+<div class="row">
+    <div class="col-md-12">
+    <h1>I'm user type {{user_type}}</h1>
+    </div>
+</div>
+
+{% endblock container %}
+
+{% block script %}
+<script>
+    $(function(){
+        $('#user_guide').addClass('active');
+    });
+</script>
+{% endblock script %}

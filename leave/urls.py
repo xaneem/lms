@@ -26,6 +26,7 @@ urlpatterns = patterns('',
     url(r'^delete_application/$',views.delete_application,name='delete_application'),
     url(r'^start_processing/$',views.start_processing,name='start_processing'),
     url(r'^complete/$',views.complete,name='complete'),
+    url(r'^user_guide/$', views.user_guide,name='user_guide'),
  	url(r'^attachments/(?P<path>.*)$', 'django.views.static.serve', {
             'document_root': settings.MEDIA_ROOT,
         }))

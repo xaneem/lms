@@ -42,26 +42,27 @@
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
-                {% if user_type == 1 %}
-                    <li id="new_leave"><a href="{% url 'new_application' '' %}">New Application</a></li>
-                    <li id="credit"><a href="{% url 'new_application' 'credit' %}">Credit Leave</a></li>
-                    <li id="history"><a href="{% url 'sent' '' %}">Application History</a></li>
-                    <li id="select_employee"><a href="{% url 'select_employee' %}">Employee Search</a></li>
-                    {% elif user_type == 2 %}
-                    <li id="applications"><a href="{% url 'applications' %}">Applications</a></li>
-                    <li id="select_employee"><a href="{% url 'select_employee' %}">Employee Search</a></li>
-                    {% elif user_type == 4 %}
-                    <li id="applications"><a href="{% url 'applications' %}">Applications</a></li>
-                    <li id="select_employee"><a href="{% url 'select_employee' %}">Employee Search</a></li>
-                    <li id="actions"><a href="{% url 'actions' %}">Admin Actions</a></li>
-                    {% elif user_type == 5 %}
-                    <li id="employees"><a href="{% url 'employees' %}">Credit/Debit</a></li>
-                    <li id="action_history"><a href="{% url 'action_history' %}">Action History</a></li>
-                    <li id="add_employee"><a href="{% url 'new_employee' %}">Add Employee</a></li>
-                    <li id="select_employee"><a href="{% url 'select_employee' %}">Employee Search</a></li>
-                {% endif %}
+            {% if user_type == 1 %}
+                <li id="new_leave"><a href="{% url 'new_application' '' %}">New Application</a></li>
+                <li id="credit"><a href="{% url 'new_application' 'credit' %}">Credit Leave</a></li>
+                <li id="history"><a href="{% url 'sent' '' %}">Application History</a></li>
+                <li id="select_employee"><a href="{% url 'select_employee' %}">Employee Search</a></li>
+            {% elif user_type == 2 %}
+                <li id="applications"><a href="{% url 'applications' %}">Applications</a></li>
+                <li id="select_employee"><a href="{% url 'select_employee' %}">Employee Search</a></li>
+            {% elif user_type == 4 %}
+                <li id="applications"><a href="{% url 'applications' %}">Applications</a></li>
+                <li id="select_employee"><a href="{% url 'select_employee' %}">Employee Search</a></li>
+                <li id="actions"><a href="{% url 'actions' %}">Admin Actions</a></li>
+            {% elif user_type == 5 %}
+                <li id="employees"><a href="{% url 'employees' %}">Credit/Debit</a></li>
+                <li id="action_history"><a href="{% url 'action_history' %}">Action History</a></li>
+                <li id="add_employee"><a href="{% url 'new_employee' %}">Add Employee</a></li>
+                <li id="select_employee"><a href="{% url 'select_employee' %}">Employee Search</a></li>
+            {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <li id="user_guide"><a href="{% url 'user_guide' %}">User Guide</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.first_name}}<b class="caret"></b></a>
                     <ul class="dropdown-menu">

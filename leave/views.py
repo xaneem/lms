@@ -921,3 +921,11 @@ def higher(request,sort,year,month,date):
 	}
 	return render(request,'leave/higher.html',context)
 
+@login_required
+def user_guide(request):
+	userprofile=UserProfile.objects.get(user=request.user)
+	context={
+	'user_type':userprofile.user_type
+	}
+	return render(request,'leave/user_guide.html',context)
+	
