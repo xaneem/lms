@@ -1,5 +1,9 @@
 CSED
 
+NOTE: Further changes are done in user_guide.html.
+Don't miss them!
+
+
 Home
   |--New Application
   |--Credit Leave
