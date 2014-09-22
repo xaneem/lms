@@ -33,8 +33,7 @@ USER_TYPES = (
 	(1,	'Section Head'),
     (2, 'Est. Office'),
     (4, 'Deputy Registrar'),
-    (5, 'Data Entry')
-   
+    (5, 'Data Admin')
 )
 
 
