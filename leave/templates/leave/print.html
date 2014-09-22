@@ -24,12 +24,21 @@
         padding: 0;
         border: 0;
         }
+
+        @media print{
+            #print {
+                display: none;
+            }            
+        }
         </style>
     </head>
     <body>
         <div class="container">
             <div class="space-15px"></div>
             <h2>Application #{{application.pk}} ({{ application.toText }} )</h2>
+            <div class="text-right" style="padding-bottom: 10px;" id="print">
+                <btn class="btn btn-info" id="print_button"><i class="glyphicon glyphicon-print"></i> Print</btn>
+            </div>
             <div class="row">
                 <div class="col-sm-6">
                     <table class="table table-striped">
@@ -151,7 +160,11 @@
         <div class="space-15px"></div>
         <script>
             $(function() {
-                // print();
+                print();
+
+                $('#print_button').on('click', function(){
+                    print();
+                });
             });
         </script>
     </body>
