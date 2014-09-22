@@ -2,19 +2,36 @@
 
 {% block container %}
 
- <h2> Home Page for Deputy Registrar </h2>
+<h2> Home Page for Deputy Registrar </h2>
 
- {% if processing_count %}
- <a href="{% url 'applications' %}" >
-		{{processing_count}} application{{processing_count|pluralize}}</a> requires action. <br>
- {% endif %}
 
- {% if pending_count %}
- <a href="{% url 'applications' 'pending' %}" > {{pending_count}}  application{{pending_count|pluralize}}</a> waiting for action from EST Office. <br>
- {% endif %}
+<div class="row">
+	<div class="col-md-5">
+		<ul class="list-group">
+			{% if processing_count %}
+			<li class="list-group-item">
+				<span class="badge">{{processing_count}}</span>
+			 	<a href="{% url 'applications' %}" >{{processing_count}} leave application{{processing_count|pluralize}}</a> requires action
+			</li>
+			{% endif %}
 
- {% if actions_count %}
-  <a href="{% url 'actions' %}" > {{actions_count}} action{{actions_count|pluralize}}</a> from Admin waiting for approval.
- {% endif %}
+			{% if pending_count %}
+			<li class="list-group-item">
+				<span class="badge">{{pending_count}}</span>
+			 	<a href="{% url 'applications' 'pending' %}" >{{pending_count}} leave   application{{pending_count|pluralize}}</a> waiting at Est. Office.
+			</li>
+			{% endif %}
+
+			{% if actions_count %}
+			<li class="list-group-item">
+				<span class="badge">{{actions_count}}</span>
+			 	<a href="{% url 'actions' %}" >{{actions_count}} action{{actions_count|pluralize}}</a> by Data Admin needs approval.
+			</li>
+			{% endif %}
+		</ul>
+	</div>
+</div>
+
+
 {% endblock container %}
 
