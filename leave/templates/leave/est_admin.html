@@ -1,10 +1,44 @@
 {% extends "leave/base.html" %}
 
+{% block head %}
+
+{% endblock %}
 {% block container %}
 
- <h2> Home Page for Est.Admin </h2>
- 
-
+ <h2> Data Admin </h2>
+ <br>
+<div class="row">
+	<div class="col-md-6">
+		<div class="list-group">
+		      <a href="{% url 'employees' %}" class="list-group-item">
+		        <h4 class="list-group-item-heading">Credit/Debit Leave</h4>
+		        <p class="list-group-item-text">Easily credit/debit leaves for multiple employees.</p>
+		      </a>
+		      <a href="#" class="list-group-item">
+		        <h4 class="list-group-item-heading">List group item heading</h4>
+		        <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+		      </a>
+		      <a href="#" class="list-group-item">
+		        <h4 class="list-group-item-heading">List group item heading</h4>
+		        <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+		      </a>
+		</div>
+	</div>
+</div>
 
 {% endblock container %}
+
+{% block script %}
+<script>
+	$('.list-group-item').on('mouseover', function( e ){
+		$(this).parents().children().removeClass("active");
+		$(this).addClass('active');
+	});
+
+	$('.list-group-item').on('mouseout', function( e ){
+		$(this).parents().children().removeClass("active");
+	});
+</script>
+{% endblock script %}
+
 
