@@ -25,6 +25,12 @@
                         <li class="active">Employee Details</li>
                     </ol>
 
+                    {% if user_type == 5 %}
+                    <div class="text-right" style="padding-bottom:15px;">
+                        <a href="edit" class="btn btn-info"><i class="glyphicon glyphicon-edit"></i> Edit Details</a>
+                    </div>
+                    {% endif %}
+
                     <div class="row">
                         <div class="col-sm-6">
                             <table class="table table-striped">
