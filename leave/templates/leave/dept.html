@@ -2,5 +2,43 @@
 
 {% block container %}
  <h2> Home Page for Section Head </h2>
+ <div class="row">
+	<div class="col-md-6">
+		<div class="list-group">
+		      <a href="{% url 'new_application' %}" class="list-group-item">
+		        <h4 class="list-group-item-heading">New Application</h4>
+		        <p class="list-group-item-text">Create a new leave application for an employee in the department.</p>
+		      </a>
+		      <a href="{% url 'new_application' 'credit' %}" class="list-group-item">
+		        <h4 class="list-group-item-heading">Credit Leave</h4>
+		        <p class="list-group-item-text">Credit Earned Leave for an employee</p>
+		      </a>
+		      <a href="{% url 'sent' %}" class="list-group-item">
+		        <h4 class="list-group-item-heading">Application History</h4>
+		        <p class="list-group-item-text">Details of all the applications sent from the department. </p>
+		      </a>
+		      <a href="{% url 'select_employee' %}" class="list-group-item">
+		        <h4 class="list-group-item-heading">Employee Search</h4>
+		        <p class="list-group-item-text">View details of all the employees in the department</p>
+		      </a>
+		</div>
+	</div>
+</div>
+
 {% endblock container %}
+
+{% block script %}
+<script>
+	$('.list-group-item').on('mouseover', function( e ){
+		$(this).parents().children().removeClass("active");
+		$(this).addClass('active');
+	});
+
+	$('.list-group-item').on('mouseout', function( e ){
+		$(this).parents().children().removeClass("active");
+	});
+</script>
+{% endblock script %}
+
+
 

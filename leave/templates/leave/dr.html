@@ -4,8 +4,25 @@
 
 <h2> Home Page for Deputy Registrar </h2>
 
+	<div class="col-md-6">
+		<div class="list-group">
+		      <a href="{% url 'applications' %}" class="list-group-item">
+		        <h4 class="list-group-item-heading">Applications</h4>
+		        <p class="list-group-item-text">List of all leave applications </p>
+		      </a>
+		    
+		      <a href="{% url 'select_employee' %}" class="list-group-item">
+		        <h4 class="list-group-item-heading">Employee Search</h4>
+		        <p class="list-group-item-text">View details of all the employees</p>
+		      </a>
+		       <a href="{% url 'actions' %}" class="list-group-item">
+		        <h4 class="list-group-item-heading">Admin Actions</h4>
+		        <p class="list-group-item-text">Approve/Reject Admin's actions</p>
+		      </a>
+		  
+		</div>
+	</div>
 
-<div class="row">
 	<div class="col-md-5">
 		<ul class="list-group">
 			{% if processing_count %}
@@ -30,8 +47,20 @@
 			{% endif %}
 		</ul>
 	</div>
-</div>
+
 
 
 {% endblock container %}
 
+{% block script %}
+<script>
+	$('.list-group-item').on('mouseover', function( e ){
+		$(this).parents().children().removeClass("active");
+		$(this).addClass('active');
+	});
+
+	$('.list-group-item').on('mouseout', function( e ){
+		$(this).parents().children().removeClass("active");
+	});
+</script>
+{% endblock script %}
