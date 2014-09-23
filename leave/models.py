@@ -1,7 +1,7 @@
 from django.db import models
 from datetime import datetime
 from django.contrib.auth.models import User
-
+from CustomFileField import CustomFileField
 
 # Each choice in this list represents a End-User of the software,
 # who has the previlege to enter a new application to the system.
@@ -238,9 +238,9 @@ class Application(models.Model):
 	reason = models.TextField(max_length=200)
 	new_date_to=models.DateField(null=True)
 	new_date_from=models.DateField(null=True)
-	attachment1 = models.FileField(upload_to=".",null=True,blank=True)
-	attachment2 = models.FileField(upload_to=".",null=True,blank=True)
-	attachment3 = models.FileField(upload_to=".",null=True,blank=True)
+	attachment1= CustomFileField(upload_to='.',null=True,blank=True)
+	attachment2= CustomFileField(upload_to='.',null=True,blank=True)
+	attachment3= CustomFileField(upload_to='.',null=True,blank=True)
 	time_generated = models.DateTimeField(auto_now_add=True)
 	time_received = models.DateTimeField(null=True)
 	time_approved = models.DateTimeField(null=True,blank=True)
