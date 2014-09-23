@@ -81,6 +81,21 @@
 
                 $('#id_attachment1, #id_attachment2, #id_attachment3').parents('.form-group').hide();
 
+                if($('#id_attachment1').parents('.form-group').hasClass('has-error')){
+                    $('#id_attachment1').parents('.form-group').show();
+                }
+
+                if($('#id_attachment2').parents('.form-group').hasClass('has-error')){
+                    $('#id_attachment1, #id_attachment2').parents('.form-group').show();
+                }
+
+                if($('#id_attachment3').parents('.form-group').hasClass('has-error')){
+                    $('#id_attachment1, #id_attachment2, #id_attachment3').parents('.form-group').show();
+
+                    $('#add-attachment').hide();
+                }
+
+
                 $('#add-attachment').on('click', function(event){
                     event.preventDefault();
 
