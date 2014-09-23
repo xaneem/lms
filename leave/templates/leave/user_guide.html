@@ -332,10 +332,11 @@
             </li>
         </ul>
 
-
+        TODO: code to Employee Code
         TODO: Add Debit/Credit Column
         TODO: Add NOTE FROM DEPUTY REGISTRAR COL.
     	TODO: Details about Admin Action
+        TODO: Hide Designation.
     	Debit/Credit field in Admin Actions Detail view.
     	{% elif user_type == 5%}
 
@@ -345,8 +346,9 @@
                 <div class="well">
                     <ol>
                       <a href="#credit_debit"> <li>Credit/Debit Leave</li> </a>
-                      <a href="#details"> <li>Application Details</li> </a>
-                      <a href="#print"> <li>Print Application</li> </a>
+                      <a href="#actions_history"> <li>Action History</li> </a>
+                      <a href="#add_new_employee"> <li>Add Employee</li> </a>
+                      <a href="#edit_employee"> <li>Edit Employee</li> </a>
                       <a href="#search"> <li>Employee Search</li> </a>
                     </ol>
                 </div>
@@ -363,12 +365,60 @@
             <li>Select the leave type (Earned Leave or Half Pay Leave). One Commuted Leave is equal to two Half Pay Leave.</li>
             <li>Under action type, select if you'd like to Credit or Debit.</li>
             <li>Enter the number of days of leave you'd like to change.</li>
-            <li>Under notes, explain what change you're making. This will make the approval easier.</li> 
-
+            <li>Under notes, explain what change you're making. This will make the action easier to review.</li>
+            <li>Once you're sure everything is correct, click on the Confirm Action button</li>
+            <li>If you're debiting leaves, make sure each selected employee has atleast the number of leaves you're trying to debit.</li>
+            <li>To edit the details of an employee other than the leave counts, click on the Edit button</li>
         </ul>
 
+        <h3 id="actions_history">Action History</h3>
+       
+        <ul>
+            <li> Shows all the actions that has been previously generated. You can choose to show only the ones that are Pending, Approved or Rejected.</li>
+            <li>To view details of a particular action, click on the View Details button</li>
+            <li>Show Details page
+                <ul>
+                    <li>Shows the details of the changes made in the selected action.</li>
+                    <li>Generated time shows the exact time that the action was created.</li>
+                    <li>Number of employees is the total number of employees affected by this action.</li>
+                    <li>The Note includes the purpose for the change.</li>
+                    <li>The table below shows the list of the affected employees. The Half Pay Leave Change and Earned Leave Change columns shows the change in number of days of the particular leave. Debits are indicated by a negative sign in the column.</li>
+                    <li>If the status is Pending, the action has not yet been reviewed by the Deputy Registrar.</li>
+                    <li>If the status is Approved or Rejected, the reviewed time and the note (if any) is shown.</li>
+                </ul>
+            </li>
+        </ul>
 
+        <h3 id="add_new_employee">Add Employee</h3>
+        To add new employees, use the Add Employee page.
 
+        <ul>
+            <li>The Employee Code is the unique code assigned by the administration.</li>
+            <li>In Name, enter the full name of the employee.</li>
+            <li>Enter the correct email address in the Email field. The system automatically sends email to employees when applications are created, approved or rejected.</li>
+            <li>Select the correct department from the departments list.</li>
+            <li>Once you make sure all the data entered is correct, click the Create New Employee button.</li>
+        </ul>
+
+        <h3 id="edit_employee">Edit Employee</h3>
+        Edit the basic details of an employee. Select the employee from the Credit/Debit page, or using the Employee Search page.
+
+        <ul>
+            <li>The Employee Code is the unique code assigned by the administration.</li>
+            <li>The name should contain the full name of the employee.</li>
+            <li>Enter the correct email address in the Email field. The system automatically sends email to employees when applications are created, approved or rejected.</li>
+            <li>Select the correct department from the departments list.</li>
+            <li>If an employee is no longer employed in the institute, uncheck the Active Employee checkbox.</li>
+            <li>To confirm the changes, click the Update button.</li>
+        </ul>
+
+        <h3 id="search">Employee Search</h3>
+
+        <ul>
+            <li>View details of all the employees in the department/section. Select the employee from the list using Name/Code and click on the View Details button.</li>
+            <li>The details of the employee and leave balance are displayed. The log shows all the credit/debit details of the employee available with the system.</li>
+            <li>To edit the details of an employee, click the Edit Details button</li>
+        </ul>
     	{% endif %}
 
 
