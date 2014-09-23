@@ -50,7 +50,7 @@ STATUS = (
 class Department(models.Model):
 	name = models.CharField(max_length=100)
 	def __unicode__(self):
-		return self.code+" : "+self.name
+		return self.name
 
 #Model for employees
 class Employee(models.Model):
@@ -65,7 +65,7 @@ class Employee(models.Model):
 	is_active= models.BooleanField(default=True)
 
 	def __unicode__(self):
-		return self.name
+		return self.code+" : "+self.name
 
 	def isLeaveLeft(self,days,leave_type):
 		if leave_type==1:
