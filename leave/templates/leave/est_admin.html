@@ -14,13 +14,17 @@
 		        <h4 class="list-group-item-heading">Credit/Debit Leave</h4>
 		        <p class="list-group-item-text">Easily credit/debit leaves for multiple employees.</p>
 		      </a>
-		      <a href="#" class="list-group-item">
-		        <h4 class="list-group-item-heading">List group item heading</h4>
-		        <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+		      <a href="{% url 'action_history' %}" class="list-group-item">
+		        <h4 class="list-group-item-heading">Action History</h4>
+		        <p class="list-group-item-text">View details about previously generated actions</p>
 		      </a>
-		      <a href="#" class="list-group-item">
-		        <h4 class="list-group-item-heading">List group item heading</h4>
-		        <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+		      <a href="{% url 'new_employee' %}" class="list-group-item">
+		        <h4 class="list-group-item-heading">Add Employee</h4>
+		        <p class="list-group-item-text">Add a new employee to the database</p>
+		      </a>
+		      <a href="{% url 'select_employee' %}" class="list-group-item">
+		        <h4 class="list-group-item-heading">Employee Search</h4>
+		        <p class="list-group-item-text">View details of a selected employee.</p>
 		      </a>
 		</div>
 	</div>
