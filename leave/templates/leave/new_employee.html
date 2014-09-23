@@ -40,9 +40,7 @@
                 <div class="col-md-6">
                     {% bootstrap_field form.dept %}
                     <br>
-                    {% bootstrap_field form.post %}
-                   
-                    <br>
+                  
              
 
                 </div>
@@ -58,7 +56,7 @@
 {% block script %}
 <script>
   $(function(){
-        $('#id_dept, #id_post').chosen({
+        $('#id_dept').chosen({
             disable_search_threshold: 2,
         });
         $('#add_employee').addClass('active');

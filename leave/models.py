@@ -6,15 +6,6 @@ from CustomFileField import CustomFileField
 # Each choice in this list represents a End-User of the software,
 # who has the previlege to enter a new application to the system.
 
-#Different posts of Employees
-POSTS = (
-	(1,'Ad-Hoc'),
-	(2,'Assistant Professor'),
-	(3,'Associate Professor'),
-	(4,'HOD'),
-	(5,'Professor'),
-	)
-
 
 #Types of leave
 LEAVE_TYPES = (
@@ -60,7 +51,6 @@ class Employee(models.Model):
 	dept = models.ForeignKey('Department')
 	earned_balance = models.IntegerField(default=0)
 	hp_balance = models.IntegerField(default=0)
-	post = models.IntegerField(choices=POSTS)
 	email = models.EmailField(max_length=75)
 	is_active= models.BooleanField(default=True)
 

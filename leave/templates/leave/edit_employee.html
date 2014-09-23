@@ -41,9 +41,7 @@
                    
                     {% bootstrap_field form.dept %}
                     <br>
-                    {% bootstrap_field form.post%}
-                    
-                    <br>
+                   
                     <div class="checkbox"> 
                         <label>
                             {{ form.is_active }}
@@ -64,7 +62,7 @@
 
 {% block script %}
 <script>
-    $('#id_dept, #id_post').chosen({
+    $('#id_dept').chosen({
         disable_search_threshold: 2,
     });
 
