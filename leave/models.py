@@ -50,7 +50,7 @@ STATUS = (
 class Department(models.Model):
 	name = models.CharField(max_length=100)
 	def __unicode__(self):
-		return self.name
+		return self.code+" : "+self.name
 
 #Model for employees
 class Employee(models.Model):
