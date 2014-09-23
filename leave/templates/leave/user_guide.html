@@ -314,38 +314,60 @@
         <ul>
             <li>The default page shows a list of actions that require action.
                 <ul>
-                    <li>The actions in Requires Actions are the ones that have not been approved/rejected. To approve/</li>
+                    <li>The actions in Requires Actions are the ones that have not been approved/rejected. To view details, click the View Details button.</li>
                     <li>To view previous actions that have bene approved, click on the Approved button on the top-right.</li>
                     <li>To view the rejected actions, click the Rejected button</li>
                 </ul>
             </li>
-            <li> 
+            <li>Show Details page
+                <ul>
+                    <li>Shows the details of the changes made by the Data Admin in the selected action.</li>
+                    <li>Generated time shows the exact time that the action was created.</li>
+                    <li>Number of employees is the total number of employees affected by this action.</li>
+                    <li>The Note is added by the Data Admin and should include the purpose for the change.</li>
+                    <li>The table below shows the list of the affected employees. The Half Pay Leave Change and Earned Leave Change columns shows the change in number of days of the particular leave. Debits are indicated by a negative sign in the column.</li>
+                    <li>If the status is Pending, you can Approve or Reject the action using the corresponding buttons along with an optional note.</li>
+                    <li>If the status is Approved or Rejected, the reviewed time and the note (if any) is shown.</li>
+                </ul>
+            </li>
+        </ul>
 
 
-
-
+        TODO: Add Debit/Credit Column
+        TODO: Add NOTE FROM DEPUTY REGISTRAR COL.
     	TODO: Details about Admin Action
     	Debit/Credit field in Admin Actions Detail view.
-
     	{% elif user_type == 5%}
 
         <h2>Data Admin</h2>
         <div class="row">
             <div class="col-md-3">
                 <div class="well">
-                    Est. Admin
                     <ol>
-                        <li>Credit/Debit</li>
-                        <li>Action History</li>
-                        <li>Add Employee</li>
-                        <li>Employee Search</li>
+                      <a href="#credit_debit"> <li>Credit/Debit Leave</li> </a>
+                      <a href="#details"> <li>Application Details</li> </a>
+                      <a href="#print"> <li>Print Application</li> </a>
+                      <a href="#search"> <li>Employee Search</li> </a>
                     </ol>
                 </div>
             </div>
         </div>
-        
 
-        #TODODODODO
+        <h3 id="credit_debit">Credit/Debit Leave</h3>
+        This page enables you to Credit or Debit leave for one or multiple employees in one go.
+
+        <ul>
+            <li>First, click on the check box in the row for an employee that you would like to credit/debit leave for.</li>
+            <li>Similarly, select any number of employees as per requirement. To select all of them, click the Select All button</li>
+            <li>Once you verify that the selected employees are correct, click on the Credit/Debit Leave button</li>
+            <li>Select the leave type (Earned Leave or Half Pay Leave). One Commuted Leave is equal to two Half Pay Leave.</li>
+            <li>Under action type, select if you'd like to Credit or Debit.</li>
+            <li>Enter the number of days of leave you'd like to change.</li>
+            <li>Under notes, explain what change you're making. This will make the approval easier.</li> 
+
+        </ul>
+
+
 
     	{% endif %}
 
