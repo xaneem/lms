@@ -4,7 +4,7 @@ from django.forms import ModelForm,Textarea,DateInput,save_instance
 from datetime import datetime 
 from leave.models import Application,Employee
 from django.forms.extras.widgets import SelectDateWidget
-
+from CustomFileField import CustomFileField
 
 class ApplicationForm(ModelForm):
 
