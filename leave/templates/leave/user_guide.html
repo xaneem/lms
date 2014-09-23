@@ -144,7 +144,6 @@
                     <ol>
                       <a href="#all_applications"> <li>Applications</li> </a>
                       <a href="#details"> <li>Application Details</li> </a>
-                      <a href="#print"> <li>Print Application</li> </a>
                       <a href="#search"> <li>Employee Search</li> </a>
              
             
@@ -197,18 +196,6 @@
     		An application with the status "Processing" can be Approved/Rejected by the Deputy Registrar.
          </li>
          </ul>
-        <h3 id="print">Print Application Page</h3>
-        <ul>
-            <li>
-    		Click on the Print Application button to open a print friendly view of the application, along with last 5 transactions for the employee.<br> The Print Application button shows up after clicking the Start Processing button.
-            </li>
-
-            <li>
-    		The printed application may be forwarded to the Deputy Registrar for approval.
-
-            </li>
-          
-        </ul>
 
     	<h3 id="search">Employee Search</h3>
         <ul>
@@ -263,8 +250,8 @@
                  Cancel Application - An employee requests to cancel a previously approved leave
                 </li>
                 <li>
-               Credit Leave Application - A request from the Section Head to credit leaves when required.<br>
-                Note that bulk credit of leaves can be done by the Data Admin.
+               Credit Leave Application - A request from the Section Head to credit leave when required.<br>
+                Note that bulk credit of leave can be done by the Data Admin.
                 </li>
             </ol>
 
@@ -364,12 +351,12 @@
             <li>First, click on the check box in the row for an employee that you would like to credit/debit leave for.</li>
             <li>Similarly, select any number of employees as per requirement. To select all of them, click the Select All button</li>
             <li>Once you verify that the selected employees are correct, click on the Credit/Debit Leave button</li>
-            <li>Select the leave type (Earned Leave or Half Pay Leave). One Commuted Leave is equal to two Half Pay Leave.</li>
-            <li>Under action type, select if you'd like to Credit or Debit.</li>
-            <li>Enter the number of days of leave you'd like to change.</li>
-            <li>Under notes, explain what change you're making. This will make the action easier to review.</li>
-            <li>Once you're sure everything is correct, click on the Confirm Action button</li>
-            <li>If you're debiting leaves, make sure each selected employee has atleast the number of leaves you're trying to debit.</li>
+            <li>Select the leave type (Earned Leave or Half Pay Leave).</li>
+            <li>Under action type, select if you would like to Credit or Debit.</li>
+            <li>Enter the number of days of leave you would like to change.</li>
+            <li>Under notes, explain what change you are making. This will make the action easier to review.</li>
+            <li>Click on the Confirm Action button</li>
+            <li>If you are debiting leave, make sure each selected employee has atleast the number of leave you are trying to debit.</li>
             <li>To edit the details of an employee other than the leave counts, click on the Edit button</li>
         </ul>
 
@@ -439,3 +426,40 @@
     });
 </script>
 {% endblock script %}
+
+<!-- 
+TODO:
+User guide should have options inside correct pages.
+
+Log out option on home page
+
+Take care of refreshes.
+
+
+
+Pending and Processing in Office default view.
+
+Move Admin Actions above Emp Search
+
+Send mails.
+
+Confirm Dialog for Approve/Reject
+Distance between approve and reject
+
+
+Every admin action should be validated by DR.
+
+Remove Edit button in Credit/Debit
+
+Print Action by Data Admin and send hard copy to DR
+
+
+
+ABOUT THE SYSTEM
+with flow diagram
+
+Print application for HOD
+
+
+Export data feature.
+ -->

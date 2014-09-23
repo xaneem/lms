@@ -17,7 +17,7 @@
 		      </a>
 		       <a href="{% url 'actions' %}" class="list-group-item">
 		        <h4 class="list-group-item-heading">Admin Actions</h4>
-		        <p class="list-group-item-text">Approve/Reject Admin's actions</p>
+		        <p class="list-group-item-text">Approve/Reject pending requests from Data Admin  </p>
 		      </a>
 		      <a href="{% url 'user_guide' %}" class="list-group-item">
 		        <h4 class="list-group-item-heading">User Guide</h4>
@@ -28,12 +28,20 @@
 
 	<div class="col-md-5">
 		<ul class="list-group">
+			{% if actions_count %}
+			<li class="list-group-item">
+				<span class="badge">{{actions_count}}</span>
+			 	<a href="{% url 'actions' %}" >{{actions_count}} action{{actions_count|pluralize}}</a> by Data Admin needs approval.
+			</li>
+			{% endif %}
+			
 			{% if processing_count %}
 			<li class="list-group-item">
 				<span class="badge">{{processing_count}}</span>
 			 	<a href="{% url 'applications' %}" >{{processing_count}} leave application{{processing_count|pluralize}}</a> requires action
 			</li>
 			{% endif %}
+
 
 			{% if pending_count %}
 			<li class="list-group-item">
@@ -42,12 +50,7 @@
 			</li>
 			{% endif %}
 
-			{% if actions_count %}
-			<li class="list-group-item">
-				<span class="badge">{{actions_count}}</span>
-			 	<a href="{% url 'actions' %}" >{{actions_count}} action{{actions_count|pluralize}}</a> by Data Admin needs approval.
-			</li>
-			{% endif %}
+
 		</ul>
 	</div>
 
