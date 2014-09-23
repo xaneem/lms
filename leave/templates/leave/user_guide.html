@@ -20,17 +20,28 @@
 
     	{% if user_type == 1 %}
 
-    	Home
-    	  |--New Application
-    	  |--Credit Leave
-    	  |--Application History
-    	  |   |--Application Details
-    	  |   |--Cancel Pending Application
-    	  |	  |--Cancel Approved Leave
-    	  |--Employee Search
 
+        <div class="row">
+            <div class="col-md-3">
+                <div class="well">
+                   
+                    <ol>
+                      <a href="#new_application"> <li>New Application</li> </a>
+                      <a href="#credit"> <li>Credit Leave</li> </a>
+                      <a href="#history"> <li>Application History</li> </a>
+                      <a href="#details"> <li>Application Details</li> </a>
+                      <a href="#cancel_pending"> <li>Cancel Pending Leave</li> </a>
+                      <a href="#cancel_approved"> <li>Cancel Approved Leave</li> </a>
+                      <a href="#search"> <li>Employee Search</li> </a>
+            
+                    </ol>
+                </div>
+            </div>
+        </div>
 
-		<h3>New Application</h3>
+    
+
+		<h3 id="new_application">New Application</h3>
 		Creates a new leave application for an employee in the department.
 		<ul>
 			<li>Select an Employee from the list.</li>
@@ -52,14 +63,14 @@
 
 		</ul>
 
-        <h3>
+        <h3 id="credit">
     		Credit Leave </h3>
         <ul>
     			This page allows you to create a request to credit Earned Leave for an employee.
 
     			The steps are similar to that of New Application.<br> Instead of dates, choose the Number of Days to credit.
         </ul>
-        <h3>
+        <h3 id="history">
     		Application History </h3>
             <ul>
             <li>
@@ -72,7 +83,7 @@
                 <li>
     			To view the details of an application, click the View Details button. </li>
             </ul>
-            <h3>
+            <h3 id="details">
     		Application Details </h3>
             <ul>
                 <li>
@@ -95,7 +106,7 @@
     			The Detailed Log displays a timeline of events for the application.
                 </li>
                 </ul>
-            <h3>
+            <h3 id="cancel_pending">
     		Cancel Pending Application</h3>
             <ul>
                 <li>
@@ -107,14 +118,14 @@
             </ul>
            
 
-    		<h3>Cancel Approved Leave</h3>
+    		<h3 id="cancel_approved">Cancel Approved Leave</h3>
             <ul>
               
     			To cancel a leave that has been approved, click on the Cancel Approved Leave button. A new application will be created, and will be sent to the Establishment for approval.
            
 
             </ul>
-            <h3>
+            <h3 id="search">
     		Employee Search</h3>
             <ul>
                 <li>
@@ -131,13 +142,26 @@
     	{% elif user_type == 2 %}
     	<!-- Est. Office -->
 
-    	Est. Office
-    		|--Applications
-    		|	|--Application Details
-    		|	|--Print Application Page
-    		|--Employee Search
+     <div class="row">
+            <div class="col-md-3">
+                <div class="well">
+                   
+                    <ol>
+                      <a href="#applications"> <li>Applications</li> </a>
+                      <a href="#details"> <li>Application Details</li> </a>
+                      <a href="#print"> <li>Print Application</li> </a>
+                      <a href="#search"> <li>Employee Search</li> </a>
+             
+            
+                    </ol>
+                </div>
+            </div>
+        </div>
 
-        <h3>
+    
+
+
+        <h3 id="applications">
     	Applications </h3>
         <ul>
             <li>
@@ -154,7 +178,7 @@
 
 
             
-    	 <h3>
+    	 <h3 id="details">
         Application Details Page</h3>
         <ul>
         <li>
@@ -183,7 +207,7 @@
     		An application with the status "Processing" can be Approved/Rejected by the Deputy Registrar.
          </li>
          </ul>
-        <h3>
+        <h3 id="print">
     	Print Application Page</h3>
         <ul>
             <li>
@@ -197,7 +221,7 @@
           
         </ul>
 
-    	<h3>
+    	<h3 id="search">
     	Employee Search</h3>
         <ul>
             <li>
@@ -213,14 +237,25 @@
 
     	{% elif user_type == 4 %}
 
-    	Est. Deputy Registrar
-    		|--Applications
-    		|	|--Application Details
-    		|	|--Print Application Page
-            |--Employee Search
-    		|--Admin Actions
+    
+     <div class="row">
+            <div class="col-md-3">
+                <div class="well">
+                   
+                    <ol>
+                      <a href="#applications"> <li>Applications</li> </a>
+                      <a href="#details"> <li>Application Details</li> </a>
+                      <a href="#print"> <li>Print Application</li> </a>
+                      <a href="#search"> <li>Employee Search</li> </a>
+                       <a href="#actions"> <li>Admin Actions</li> </a>
+             
+            
+                    </ol>
+                </div>
+            </div>
+        </div>
 
-        <h3>
+        <h3 id="applications">
     	Applications</h3>
         <ul>
             <li>
@@ -248,7 +283,7 @@
 
             </li>
         </ul>
-        <h3>
+        <h3 id="details">
     	Application Details Page</h3>
         <ul>
 
@@ -275,7 +310,7 @@
 
     	
         </ul>
-        <h3>
+        <h3 id="print">
     	Print Application Page</h3>
         <ul>
 
@@ -283,7 +318,7 @@
         </ul>
 
 
-        <h3>
+        <h3 id="search">
     	Employee Search</h3>
         <ul>
             <li>
@@ -295,9 +330,13 @@
             </li>
         </ul>
 
+        <h3 id="actions">
+        Admin Actions </h3>
+        <ul>
+            
+            This page allows you to Approve/Reject changes made to the employee's leave balance.
+        </ul>
 
-        Admin Actions
-            This page allows you to Approve/Reject changes made to the 
 
     	TODO: Details about Admin Action
     	Debit/Credit field in Admin Actions Detail view.
