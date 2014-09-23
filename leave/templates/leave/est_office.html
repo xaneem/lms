@@ -26,7 +26,7 @@
 			{% if pending_count %}
 			<li class="list-group-item">
 				<span class="badge">{{pending_count}}</span>
-			 	<a href="{% url 'applications' 'pending' %}" >{{pending_count}} leave   application{{pending_count|pluralize}}</a> waiting at Est. Office.
+			 	<a href="{% url 'applications' 'pending' %}" >{{pending_count}} leave   application{{pending_count|pluralize}}</a> waiting for action.
 			</li>
 			{% endif %}
 
