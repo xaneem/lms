@@ -68,6 +68,10 @@ def getApplicationsList(page,status,year,month,date):
 	all_list=Application.objects.all().order_by("-time_generated")
 	if 1<= status <=5 :
 		all_list=all_list.filter(status=status)
+
+	if status==7:
+		all_list=all_list.filter(Q(status=1)|Q(status=2))
+
 	if year:
 		all_list=all_list.filter(time_generated__year=year)
 	
@@ -874,7 +878,7 @@ def clerk(request,sort,year,month,date):
 	userprofile=request.user.userprofile
 	status=getStatus(sort)
 	if status==0:
-		status=1
+		status=7
 	page = request.GET.get('page')
 	applications=getApplicationsList(page,status,year,month,date)
 	context= {
