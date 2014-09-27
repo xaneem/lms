@@ -52,7 +52,7 @@ class Employee(models.Model):
 	earned_balance = models.IntegerField(default=0)
 	hp_balance = models.IntegerField(default=0)
 	email = models.EmailField(max_length=75)
-	is_active= models.BooleanField(default=True)
+	is_active= models.BooleanField(default=False)
 
 	def __unicode__(self):
 		return self.code+" : "+self.name

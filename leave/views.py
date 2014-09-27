@@ -713,7 +713,7 @@ def edit_employee(request,id):
 
 	try:
 		action=Action.objects.get(is_leave=False,status=1,update_log__employee=employee)
-		messages.error(request, 'An update action is already pending')
+		messages.success(request, 'An update action is already pending')
 		return redirect(reverse('action',args=(action.pk,)))
 	except Action.DoesNotExist:
 		pass
@@ -776,8 +776,8 @@ def new_employee(request):
 			if form.is_valid():
 				
 					new_employee=form.save()
-					messages.success(request, 'New Employee Added')
-					return(redirect(reverse('employees')))
+					messages.success(request, 'New Employee Added. Activate the employee here')
+					return redirect(reverse('edit_employee',args=(new_employee.pk,)))
 			else:
 				messages.error(request,'Please correct incorrect fields')
 				context['form']=form
