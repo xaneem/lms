@@ -86,7 +86,7 @@ class Employee(models.Model):
 		return True
 
 class EmployeeUpdateLog(models.Model):
-	action=models.ForeignKey('Action')
+	action=models.OneToOneField('Action',related_name='update_log')
 	employee=models.ForeignKey('Employee')
 	is_new=models.BooleanField(default=False)
 	new_name = models.CharField(max_length=100)

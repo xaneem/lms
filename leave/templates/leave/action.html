@@ -31,9 +31,25 @@
                         <td>{{action.time_generated}}</td>
                     </tr>
                     <tr>
+                        <th>Action Type</th>
+                        <td>{% if action.is_leave %}
+                                    Leave Credit/Debit
+                                {% else %}
+                                    Details Update
+                                {% endif %}
+                        </td>
+                    </tr>
+                    {% if action.is_leave %}
+                    <tr>
                         <th style="width:200px;">Number of Employees </th>
                         <td>{{action.count}}</td>
                     </tr>
+                    {% else %}
+                    <tr>
+                        <th style="width:200px;">Employee Code </th>
+                        <td>{{action.update_log.employee.code}}</td>
+                    </tr>
+                    {% endif %}
                     <tr>
                         <th> Note</th>
                         <td>{{action.note}}</td>
@@ -79,6 +95,7 @@
             {% endif %}
         </div>
     </div>
+    {% if action.is_leave %}
     <table class="table table-hover table-striped">
         <thead>
             <tr>
@@ -112,6 +129,77 @@
             {% endif %}
         </tbody>
     </table>
+    {% else %}
+        <div class="col-sm-6">
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <th colspan="2" class="text-center">Employee Existing Data</th>
+                    </tr>
+                    <tr>
+                        <th>Name</th>
+                        <td>{{ action.update_log.employee.name }} </td>
+                      
+                    </tr>
+                    <tr>
+                        <th>Department</th>
+                        <td>{{  action.update_log.employee.dept.name }} </td>
+                      
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ action.update_log.employee.email }} </td>
+                      
+                    </tr>
+             
+                    <tr>
+                        <th>Status</th>
+                        <td>{% if action.update_log.employee.is_active %}
+                                Active
+                            {% else %}
+                                Deleted
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-6">
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <th colspan="2" class="text-center">Updated Data</th>
+                    </tr>
+                    <tr>
+                        <th>Name</th>
+                        <td>{{ action.update_log.new_name }} </td>
+                      
+                    </tr>
+                    <tr>
+                        <th>Department</th>
+                        <td>{{  action.update_log.new_dept.name }} </td>
+                      
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ action.update_log.new_email }} </td>
+                      
+                    </tr>
+             
+                    <tr>
+                        <th>Status</th>
+                        <td>{% if action.update_log.new_is_active %}
+                                Active
+                            {% else %}
+                                Deleted
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    {% endif %}
     
 {% endblock container %}
 {% block script %}
