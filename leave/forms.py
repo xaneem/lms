@@ -15,7 +15,7 @@ class ApplicationForm(ModelForm):
 	    self.fields['attachment2'].label = "Attachment 2"
 	    self.fields['attachment3'].label = "Attachment 3"
 	    self.fields['reason'].label = "Purpose"
-	    self.fields["employee"].queryset=Employee.objects.filter(dept=dept)
+	    self.fields["employee"].queryset=Employee.objects.filter(dept=dept,is_active=True)
 
 	class Meta:
    		model = Application
@@ -67,7 +67,7 @@ class CreditApplicationForm(ModelForm):
 	    self.fields['attachment3'].label = "Attachment 3"
 	    self.fields['days'].label="Number of days "
 	    self.fields['reason'].label = "Purpose"
-	    self.fields["employee"].queryset=Employee.objects.filter(dept=dept)
+	    self.fields["employee"].queryset=Employee.objects.filter(dept=dept,is_active=True)
 	    self.fields["is_credit"].initial=True
 
 
@@ -114,10 +114,16 @@ class CancelForm(forms.Form):
 class SelectEmployeeForm(forms.Form):
     employee = forms.ModelChoiceField(queryset=Employee.objects.all(),label='')
 
-    def __init__(self,dept,*args, **kwargs):
+    def __init__(self,dept,user_type,*args, **kwargs):
     	super(SelectEmployeeForm, self).__init__(*args, **kwargs)
+
+    	employees=Employee.objects.all()
+    	if user_type!=5:
+    		self.fields['employee'].queryset=Employee.objects.filter(is_active=True)
     	if dept:
-    		self.fields['employee'].queryset=Employee.objects.filter(dept=dept)
+    		self.fields['employee'].queryset=Employee.objects.filter(dept=dept,is_active=True)
+    
+    	
 
        
   
