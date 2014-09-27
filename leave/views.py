@@ -2,7 +2,7 @@ from django.shortcuts import render
 from datetime import datetime 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger 
 from django.contrib.auth.decorators import login_required, user_passes_test
-from leave.models import UserProfile,Employee,Application,ApplicationLog,TransactionLog,Action
+from leave.models import UserProfile,Employee,Application,ApplicationLog,TransactionLog,Action,EmployeeUpdateLog
 from django.shortcuts import redirect
 from django.core.exceptions import ObjectDoesNotExist,PermissionDenied
 from django.http import HttpResponse,Http404
@@ -711,18 +711,34 @@ def edit_employee(request,id):
 	except Employee.DoesNotExist:
 		raise Http404
 
-	form=EmployeeEditForm(instance=employee)
-	
+	form=EmployeeEditForm(initial={'new_name':employee.name,'new_dept':employee.dept
+	,'new_email':employee.email,'new_is_active':employee.is_active})
 	context={
+	'employee':employee,
 	'form':form,
 	'user_type':userprofile.user_type
 	}
 	if request.method=='POST':
-		form = EmployeeEditForm(request.POST,instance=employee)
+		form = EmployeeEditForm(request.POST)
 		if form.is_valid():
-			form.save()
-			messages.success(request, 'Employee details updated')
-			context['form']=EmployeeEditForm(instance=employee)
+			new_name=form.cleaned_data['new_name']
+			new_dept=form.cleaned_data['new_dept']
+			new_email=form.cleaned_data['new_email']
+			new_is_active=form.cleaned_data['new_is_active']
+			note=form.cleaned_data['note']
+			if(new_name==employee.name and new_dept==employee.dept and
+		 	new_email==employee.email and new_is_active==employee.is_active):
+		 		messages.error(request,'No details updated')
+		 		context['form']=form
+		 	else:
+			 	action=Action(note=note,is_leave=False)
+			 	action.save()
+			 	update=EmployeeUpdateLog(action=action,employee=employee,new_name=new_name,new_dept=new_dept,
+			 	new_email=new_email,new_is_active=new_is_active,old_name=employee.name,old_dept=employee.dept,
+			 	old_email=employee.email,old_is_active=employee.is_active)
+			 	update.save()
+				messages.success(request, 'Employee details update sent for approval')
+			
 		else:
 			messages.error(request,'Please correct incorrect fields')
 			context['form']=form

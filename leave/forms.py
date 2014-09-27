@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm,Textarea,DateInput,save_instance
 
 from datetime import datetime 
-from leave.models import Application,Employee
+from leave.models import Application,Employee,Department
 from django.forms.extras.widgets import SelectDateWidget
 from CustomFileField import CustomFileField
 
@@ -122,9 +122,16 @@ class SelectEmployeeForm(forms.Form):
        
   
 
-class EmployeeEditForm(ModelForm):
+class EmployeeEditForm(forms.Form):
+	new_name = forms.CharField(max_length=100)
+	new_dept = forms.ModelChoiceField(queryset=Department.objects.all())
+	new_email = forms.EmailField(max_length=75)
+	new_is_active= forms.BooleanField(initial=True,required=False)
+	note=forms.CharField(max_length=200,widget=forms.TextInput(attrs={'size': '100'}))
 
-	def __init__(self,*args, **kwargs):
+
+
+	"""def __init__(self,*args, **kwargs):
 	    super(EmployeeEditForm, self).__init__(*args, **kwargs)
 
 	  
@@ -139,6 +146,8 @@ class EmployeeEditForm(ModelForm):
    		return save_instance(self, self.instance, self._meta.fields,
                              fail_message, commit, construct=False,
                              exclude=exclude)
+
+	"""
    		
     	
     

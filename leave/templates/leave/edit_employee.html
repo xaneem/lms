@@ -26,28 +26,63 @@
         </ol>
 
         
-        <form role="form" action="{% url 'edit_employee' form.instance.pk %}" method="post" >
+        <form role="form" action="{% url 'edit_employee' employee.pk %}" method="post" >
             {% csrf_token %}
             
             <div class="row">
                 <div class="col-md-6">
-                    {% bootstrap_field form.code %}
-                    {% bootstrap_field form.name %}
-                     {% bootstrap_field form.email %}
+                    
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <th style="width:200px;">Code</th>
+                                <td>{{employee.code}}</td>
+                            </tr>
+                            <tr>
+                                <th> Name</th>
+                                <td>{{employee.name}}</td>
+                            </tr>
+                            <tr>
+                                <th>Department</th>
+                                <td>{{employee.dept.name}}</td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <td>{{employee.email}}</td>
+                             </tr>
+                             <tr>
+                                <th>Status</th>
+                                <td>{% if employee.is_active %}
+                                        Active
+                                    {% else %}
+                                        Deleted
+                                    {% endif %}
+                                </td>
+                            </tr>
+                     
+                        </tbody>
+                    </table>  
+
                     
 
                 </div>
                 <div class="col-md-6">
                    
-                    {% bootstrap_field form.dept %}
-                    <br>
-                   
-                    <div class="checkbox"> 
+                    {% bootstrap_field form.new_name %}
+                    {% bootstrap_field form.new_email %}
+                    {% bootstrap_field form.new_dept %}
+                    {{ form.new_is_active }}
+                      <div class="checkbox"> 
                         <label>
-                            {{ form.is_active }}
+                                 
                             Active Employee (Uncheck to deactivate)
                         </label>
                     </div>
+               
+                    {% bootstrap_field form.note %}
+                    <br>
+                   
+                  
                 </div>
             </div>
 
