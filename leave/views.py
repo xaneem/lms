@@ -168,32 +168,48 @@ def manage_action(request):
 			if 3 <= status <=4 and action.status==1:
 				
 				if status==3:
-					entries=TransactionLog.objects.filter(action=action)
-					valid=True
-					for entry in entries:
-						if entry.employee.hp_balance < entry.hp_balance*-1 or entry.employee.earned_balance < entry.earned_change*-1:
-							valid=False
-							break
-
-					if valid:
+					if action.is_leave:
+						entries=TransactionLog.objects.filter(action=action)
+						valid=True
 						for entry in entries:
-							entry.employee.transaction(entry.hp_change,entry.earned_change)
-							entry.hp_balance=entry.employee.hp_balance
-							entry.earned_balance=entry.employee.earned_balance
-							entry.save()
+							if entry.employee.hp_balance < entry.hp_balance*-1 or entry.employee.earned_balance < entry.earned_change*-1:
+								valid=False
+								break
+
+						if valid:
+							for entry in entries:
+								entry.employee.transaction(entry.hp_change,entry.earned_change)
+								entry.hp_balance=entry.employee.hp_balance
+								entry.earned_balance=entry.employee.earned_balance
+								entry.save()
+							action.status=status
+							action.time_approved=datetime.now()
+							action.save()
+
+							messages.success(request,'Action approved')
+							
+							to_json['result']=1
+							to_json['message']='Action approved'
+								
+						else:
+							to_json['result']=0
+							to_json['message']="Couldn't approve action, Insufficient leave balance"
+							messages.error(request,"Couldn't approve action, Insufficient leave balance")
+					else:
 						action.status=status
 						action.time_approved=datetime.now()
 						action.save()
-
-						messages.success(request,'Action approved')
-						
+						update_log=action.update_log
+						employee=update_log.employee
+						employee.name=update_log.new_name
+						employee.dept=update_log.new_dept
+						employee.email=update_log.new_email
+						employee.is_active=update_log.new_is_active
+						employee.save()
+						messages.success(request,'Action approved, Employee Details Updated')
 						to_json['result']=1
-						to_json['message']='Action approved'
-							
-					else:
-						to_json['result']=0
-						to_json['message']="Couldn't approve action, Insufficient leave balance"
-						messages.error(request,"Couldn't approve action, Insufficient leave balance")
+						to_json['message']='Action approved, Employee Details Updated'
+
 				elif status==4:
 					action.status=status
 					action.time_approved=datetime.now()
@@ -652,9 +668,12 @@ def select_employee(request):
 	dept=None
 	if isDept(request.user):
 		dept=userprofile.dept
-	form=SelectEmployeeForm(dept)
+		
+	user_type=userprofile.user_type
+
+	form=SelectEmployeeForm(dept,user_type)
 	if request.method=='POST':
-		form=SelectEmployeeForm(dept,request.POST)
+		form=SelectEmployeeForm(dept,user_type,request.POST)
 		if form.is_valid():
 			employee=form.cleaned_data['employee']
 			return redirect(reverse('employee',args=(employee.pk,)))
