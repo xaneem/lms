@@ -711,6 +711,15 @@ def edit_employee(request,id):
 	except Employee.DoesNotExist:
 		raise Http404
 
+	try:
+		action=Action.objects.get(is_leave=False,status=1,update_log__employee=employee)
+		messages.error(request, 'An update action is already pending')
+		return redirect(reverse('action',args=(action.pk,)))
+	except Action.DoesNotExist:
+		pass
+
+
+
 	form=EmployeeEditForm(initial={'new_name':employee.name,'new_dept':employee.dept
 	,'new_email':employee.email,'new_is_active':employee.is_active})
 	context={

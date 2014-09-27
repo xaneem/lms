@@ -134,27 +134,27 @@
             <table class="table table-striped">
                 <tbody>
                     <tr>
-                        <th colspan="2" class="text-center">Employee Existing Data</th>
+                        <th colspan="2" class="text-center">Employee Old Data</th>
                     </tr>
                     <tr>
                         <th>Name</th>
-                        <td>{{ action.update_log.employee.name }} </td>
+                        <td>{{ action.update_log.old_name }} </td>
                       
                     </tr>
                     <tr>
                         <th>Department</th>
-                        <td>{{  action.update_log.employee.dept.name }} </td>
+                        <td>{{  action.update_log.old_dept.name }} </td>
                       
                     </tr>
                     <tr>
                         <th>Email</th>
-                        <td>{{ action.update_log.employee.email }} </td>
+                        <td>{{ action.update_log.old_email }} </td>
                       
                     </tr>
              
                     <tr>
                         <th>Status</th>
-                        <td>{% if action.update_log.employee.is_active %}
+                        <td>{% if action.update_log.old_is_active %}
                                 Active
                             {% else %}
                                 Deleted
