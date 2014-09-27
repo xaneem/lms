@@ -85,7 +85,18 @@ class Employee(models.Model):
 		self.save()
 		return True
 
-
+class EmployeeUpdateLog(models.Model):
+	employee=models.ForeignKey('Employee')
+	is_new=models.BooleanField(default=False)
+	new_name = models.CharField(max_length=100)
+	new_dept = models.ForeignKey('Department',related_name='update_new_dept')
+	new_email = models.EmailField(max_length=75)
+	new_is_active= models.BooleanField(default=True)
+	old_name = models.CharField(max_length=100)
+	old_dept = models.ForeignKey('Department',related_name='update_old_dept')
+	old_email = models.EmailField(max_length=75)
+	old_is_active= models.BooleanField(default=True)
+	
 
 
 #Model to represent different types of users 
@@ -98,6 +109,7 @@ class UserProfile(models.Model):
 
 class Action(models.Model):
 	count=models.IntegerField(default=0)
+	is_leave=models.BooleanField(default=True)
 	note=models.TextField(max_length=100,blank=True,null=True)
 	status=models.IntegerField(choices=STATUS,default=1)
 	time_generated=models.DateTimeField(auto_now_add=True)
