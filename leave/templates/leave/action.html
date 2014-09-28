@@ -101,7 +101,12 @@
             {% if action.status == 1  %}
                 {% if user_type == 5 %}
                      <a class="btn btn-danger" data-toggle="modal" href='#delete-confirm'><i class="glyphicon glyphicon-remove"></i> Delete Action</a>
-
+                     <br><br>
+                
+                    <div class="form-group">
+                        <a class="btn btn-default btn-block" href="{% url 'print_action' action.pk %}" target="_blank"><i class="glyphicon glyphicon-print"></i> Print Action
+                        </a>
+                    </div>
       
                     
                     {% elif user_type == 4 %}

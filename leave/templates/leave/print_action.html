@@ -1,0 +1,244 @@
+{% load bootstrap3 %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Action #{{action.pk}} ({{ action.toText }}) - LMS</title>
+        <link href="{% static 'leave/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'leave/css/datepicker3.css' %}" rel="stylesheet">
+        <script src="{% static 'leave/js/jquery-1.11.1.min.js' %}"></script>
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <style>
+        body{
+        font-size: 1.4em;
+        }
+        .space-15px{
+        height: 15px;
+        margin:0;
+        padding: 0;
+        border: 0;
+        }
+
+        @media print{
+            #print {
+                display: none;
+            }            
+        }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="space-15px"></div>
+            <h2>Action #{{action.pk}} ({{ action.toText }}) </h2>
+            <div class="text-right" style="padding-bottom: 10px;" id="print">
+                <btn class="btn btn-info" id="print_button"><i class="glyphicon glyphicon-print"></i> Print</btn>
+            </div>
+
+    <div class="row">
+         <div class="col-sm-6">
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <th>Generated Time</th>
+                            <td>{{action.time_generated}}</td>
+                        </tr>
+                        <tr>
+                            <th>Action Type</th>
+                            <td>{{ action.toText }}
+                            </td>
+                        </tr>
+                       
+                    </tbody>
+                </table>
+            <br>
+            </div>
+        <div class="col-sm-6">
+            <table class="table table-striped">
+                <tbody>
+                     {% if action.is_leave %}
+                        <tr>
+                            <th style="width:200px;">Number of Employees </th>
+                            <td>{{action.count}}</td>
+                        </tr>
+                  
+                    
+                    {% endif %}
+                        <tr>
+                            <th> Note</th>
+                            <td>{{action.note}}</td>
+                        </tr>
+                        
+                    
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <div class="row">
+    {% if action.is_leave %}
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Employee</th>
+                <th>Half Pay Leave Change</th>
+                <th>Earned Leave Change </th>
+                
+                
+                
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% if entries %}
+                {% for entry in entries %}
+                    <tr>
+                        <td>{{ forloop.counter0|add:entries.start_index}} </td>
+                        <td>{{ entry.employee }}</td>
+                        
+                        <td>{{ entry.hp_change }}</td>
+                        <td>{{ entry.earned_change }}</td>
+                        
+                        
+                        
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr><td colspan="8">No Entries .</td></tr>
+            {% endif %}
+        </tbody>
+    </table>
+    {% else %}
+        <div class="col-sm-6">
+        {% if action.update_log.is_new %}
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <th colspan="2" class="text-center">New Employee Details</th>
+                    </tr>
+                    <tr>
+                        <th >Employee Code </th>
+                        <td>{{action.update_log.employee.code}}</td>
+                    </tr>
+                    <tr>
+                        <th>Name</th>
+                        <td>{{ action.update_log.old_name }} </td>
+                      
+                    </tr>
+                    <tr>
+                        <th>Department</th>
+                        <td>{{  action.update_log.old_dept.name }} </td>
+                      
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ action.update_log.old_email }} </td>
+                      
+                    </tr>
+             
+                </tbody>
+            </table>
+        {% else %}
+
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <th colspan="2" class="text-center">Employee Old Details</th>
+                    </tr>
+
+                    <tr>
+                        <th >Employee Code </th>
+                        <td>{{action.update_log.employee.code}}</td>
+                    </tr>
+                    <tr>
+                        <th>Name</th>
+                        <td>{{ action.update_log.old_name }} </td>
+                      
+                    </tr>
+                    <tr>
+                        <th>Department</th>
+                        <td>{{  action.update_log.old_dept.name }} </td>
+                      
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ action.update_log.old_email }} </td>
+                      
+                    </tr>
+             
+                    <tr>
+                        <th>Status</th>
+                        <td>{% if action.update_log.old_is_active %}
+                                Active
+                            {% else %}
+                                Deleted
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-6">
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <th colspan="2" class="text-center">Newly Proposed Details</th>
+                    </tr>
+                    <tr>
+                        <th >Employee Code </th>
+                        <td>{{action.update_log.employee.code}}</td>
+                    </tr>
+                    <tr>
+                        <th>Name</th>
+                        <td>{{ action.update_log.new_name }} </td>
+                      
+                    </tr>
+                    <tr>
+                        <th>Department</th>
+                        <td>{{  action.update_log.new_dept.name }} </td>
+                      
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ action.update_log.new_email }} </td>
+                      
+                    </tr>
+             
+                    <tr>
+                        <th>Status</th>
+                        <td>{% if action.update_log.new_is_active %}
+                                Active
+                            {% else %}
+                                Deleted
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        {% endif %}
+        </div>
+
+    {% endif %}
+    </div>
+     <h3>Notes / Comments <small>(for office use)</small></h3>
+    </div>
+
+    <div class="space-15px"></div>
+        <script>
+            $(function() {
+                print();
+
+                $('#print_button').on('click', function(){
+                    print();
+                });
+            });
+        </script>
+    </body>
+</html>

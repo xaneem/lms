@@ -261,13 +261,17 @@ def action_history(request,sort):
 
 
 @login_required
-
-def action(request,id):
+def print_action(request,id):
 	userprofile=UserProfile.objects.get(user=request.user)
 	try:
 		action=Action.objects.get(pk=id)
 	except Action.DoesNotExist:
 		raise Http404
+	context={
+	'user_type':userprofile.user_type,
+	'action':action,
+	}
+
 	if action.is_leave:
 		entries=TransactionLog.objects.filter(action=action)
 		page=request.GET.get('page','')
@@ -282,11 +286,37 @@ def action(request,id):
 			entries = paginator.page(paginator.num_pages)
 		context['entries']=entries
 
+	
+	return render(request,'leave/print_action.html',context)
+
+
+@login_required
+def action(request,id):
+	userprofile=UserProfile.objects.get(user=request.user)
+	try:
+		action=Action.objects.get(pk=id)
+	except Action.DoesNotExist:
+		raise Http404
 	context={
 	'user_type':userprofile.user_type,
 	'action':action,
-	
 	}
+
+	if action.is_leave:
+		entries=TransactionLog.objects.filter(action=action)
+		page=request.GET.get('page','')
+		paginator = Paginator(entries,20)
+		try:
+			entries = paginator.page(page)
+		except PageNotAnInteger:
+			# If page is not an integer, deliver first page.
+			entries = paginator.page(1)
+		except EmptyPage:
+		# If page is out of range (e.g. 9999), deliver last page of results.
+			entries = paginator.page(paginator.num_pages)
+		context['entries']=entries
+
+	
 	return render(request,'leave/action.html',context)
 
 
@@ -782,6 +812,7 @@ def edit_employee(request,id):
 			 	old_email=employee.email,old_is_active=employee.is_active)
 			 	update.save()
 				messages.success(request, 'Employee details update sent for approval')
+				return redirect(reverse('action',args=(action.pk,)))
 			
 		else:
 			messages.error(request,'Please correct incorrect fields')
