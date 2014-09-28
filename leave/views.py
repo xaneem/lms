@@ -268,21 +268,22 @@ def action(request,id):
 		action=Action.objects.get(pk=id)
 	except Action.DoesNotExist:
 		raise Http404
-	entries=TransactionLog.objects.filter(action=action)
-	page=request.GET.get('page','')
-	paginator = Paginator(entries,20)
-	try:
-		entries = paginator.page(page)
-	except PageNotAnInteger:
-		# If page is not an integer, deliver first page.
-		entries = paginator.page(1)
-	except EmptyPage:
+	if action.is_leave:
+		entries=TransactionLog.objects.filter(action=action)
+		page=request.GET.get('page','')
+		paginator = Paginator(entries,20)
+		try:
+			entries = paginator.page(page)
+		except PageNotAnInteger:
+			# If page is not an integer, deliver first page.
+			entries = paginator.page(1)
+		except EmptyPage:
 		# If page is out of range (e.g. 9999), deliver last page of results.
-		entries = paginator.page(paginator.num_pages)
+			entries = paginator.page(paginator.num_pages)
+		context['entries']=entries
 
 	context={
 	'user_type':userprofile.user_type,
-	'entries':entries,
 	'action':action,
 	
 	}
@@ -793,10 +794,18 @@ def new_employee(request):
 			return redirect(reverse('edit_employee',args=(employee.pk,)))
 		except Employee.DoesNotExist:
 			if form.is_valid():
-				
+					
 					new_employee=form.save()
-					messages.success(request, 'New Employee Added. Activate the employee here')
-					return redirect(reverse('edit_employee',args=(new_employee.pk,)))
+					note="Adding new employee"
+					action=Action(note=note,is_leave=False)
+				 	action.save()
+				 	update=EmployeeUpdateLog(action=action,is_new=True,employee=new_employee,new_name=new_employee.name,
+				 	new_dept=new_employee.dept,new_email=new_employee.email,new_is_active=True,
+				 	old_name=new_employee.name,old_dept=new_employee.dept,
+				 	old_email=new_employee.email,old_is_active=False)
+				 	update.save()
+					messages.success(request, 'Request to add new employee sent for approval')
+					return redirect(reverse('action',args=(action.pk,)))
 			else:
 				messages.error(request,'Please correct incorrect fields')
 				context['form']=form
