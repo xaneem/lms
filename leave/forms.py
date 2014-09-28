@@ -133,15 +133,17 @@ class EmployeeEditForm(forms.Form):
 	new_dept = forms.ModelChoiceField(queryset=Department.objects.all())
 	new_email = forms.EmailField(max_length=75)
 	new_is_active= forms.BooleanField(initial=True,required=False)
-	note=forms.CharField(max_length=200,widget=forms.TextInput(attrs={'size': '100'}))
+	note=forms.CharField(max_length=200,widget=forms.Textarea(attrs={'size': '100'}))
 
+	def __init__(self,*args, **kwargs):
+		super(EmployeeEditForm, self).__init__(*args, **kwargs)
+		self.fields['new_name'].label = "New Name"
+		self.fields['new_dept'].label = "New Department"
+		self.fields['new_email'].label = "New Email "
+		self.fields['note'].label="Note to DR"
+		
 
-
-	"""def __init__(self,*args, **kwargs):
-	    super(EmployeeEditForm, self).__init__(*args, **kwargs)
-
-	  
-
+	"""
  	def save(self, commit=True):
 
    		if self.instance.pk is None:
@@ -152,15 +154,16 @@ class EmployeeEditForm(forms.Form):
    		return save_instance(self, self.instance, self._meta.fields,
                              fail_message, commit, construct=False,
                              exclude=exclude)
+	
+	class Meta:
+   		model = Employee
+   		fields = ['code', 'name', 'dept', 'email','is_active',]	
 
 	"""
    		
     	
     
 
-	class Meta:
-   		model = Employee
-   		fields = ['code', 'name', 'dept', 'email','is_active',]	
 
 
 class EmployeeNewForm(ModelForm):
