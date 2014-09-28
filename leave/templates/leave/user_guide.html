@@ -429,6 +429,28 @@
 {% endblock script %}
 
 <!-- 
+START NOTE TO AJNAS:
+
+*Add New Employee:
+    When new employee is added, automatically create an
+    action. (We need default as Active, and note or Action Type as Added New Employee). Show only the Action Details page instead of Edit Employee page.
+
+*Edit Employee:     
+    -When new edit is made, automatically open the corresponding Action page. (In current case, it shows confirmation and displays old details in the form again, that is confusing.) 
+
+*Action Detail Page
+    -Add a Cancel Action feature. If Cancel Action is used, we need a confirmation, and then the Action is permanently deleted.
+
+*Check ERROR screenshot in /screenshots folder
+    I tried to edit Vinod Pathari. Most probably a problem with existing data (before you prevented adding more than one action to an employee.)
+
+*Change Employee Search to "View/Edit Employee" for Data Admin.
+
+*Please mark/remove which all TODO you completed
+
+//END NOTE TO AJNAS
+
+
 TODO:
 User guide should have options inside correct pages.
 
