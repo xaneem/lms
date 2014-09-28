@@ -6,7 +6,7 @@
                 <div class="col-md-12">
                 	<div class="row">
                         <div class="col-md-6">
-                            <h3>Employee List</h3>
+                            <h3>Credit/Debit Leave</h3>
                         </div>
                         {% if messages %}
                         <div class="col-md-6">
@@ -21,7 +21,7 @@
                         <li>
                             <a href="{% url 'index' %}">Home</a>
                         </li>
-                        <li class="active">Employee List</li>
+                        <li class="active">Credit/Debit Leave</li>
                     </ol>
 
                     <form action="{% url 'manage_leave' %}" method="POST" role="form" id="main-form">
@@ -96,9 +96,8 @@
                 					<th>Emp. Code</th>
                 					<th>Emp. Name</th>
                 					<th>Dept.</th>
-                					<th>EL Bal.</th>
-                					<th>HPL Bal.</th>
-                					<th>Actions</th>
+                					<th>Earned L. Bal.</th>
+                					<th>Half Pay L. Bal.</th>
                 				</tr>
                 			</thead>
                 			<tbody id="table-entries">
@@ -142,7 +141,7 @@
         	var loadTable = function(items){
         		$('#table-entries').html('');
         		items.forEach(function(item){
-        			$('#table-entries').append('<tr><td class="text-center"><input name="check[]" value="'+item.pk+'" type="checkbox" data-id="'+item.pk+'" class="check"></td><td>'+item.code+'</td><td>'+item.name+'</td><td>'+item.dept+'</td><td>'+item.el_bal+'</td><td>'+item.hpl_bal+'</td><td><a href="'+item.edit_url+'" target="_blank" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-pencil"></i>&nbsp; Edit</a></tr>');
+        			$('#table-entries').append('<tr><td class="text-center"><input name="check[]" value="'+item.pk+'" type="checkbox" data-id="'+item.pk+'" class="check"></td><td>'+item.code+'</td><td>'+item.name+'</td><td>'+item.dept+'</td><td>'+item.el_bal+'</td><td>'+item.hpl_bal+'</td></tr>');
         		});
         	}
             $('#select-all').prop('checked', false);
