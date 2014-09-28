@@ -38,8 +38,8 @@
                             <tr>
                                 <th>#</th>
                                 <th>Generated Time</th>
-                                <th>Type</th>
-                                <th>Details</th>
+                                <th>Action Type</th>
+                                <th>Notes</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             
@@ -56,12 +56,8 @@
                                 <td>{{ forloop.counter0|add:actions.start_index}} </td>
                                 <td>{{ action.time_generated }}</td>
                               
-                                <td>{% if action.is_leave %}
-                                        Leave Credit/Debit
-                                    {% else %}
-                                        Details Update
-                                    {% endif %}
-                                </td>
+                                <td>{{ action.toText }}</td>
+                                
                                 <td>{{ action.note }}</td>
                                 <td>{{ action.get_status_display }}</td>
                              

@@ -117,6 +117,15 @@ class Action(models.Model):
 	time_approved=models.DateTimeField(null=True)
 	reply_note=models.TextField(max_length=100,blank=True,null=True)
 
+	def toText(self):
+		if self.is_leave:
+			return "Leave Credit/Debit"
+		else:
+			if self.update_log.is_new:
+				return "Add New Employee"
+			else:
+				return "Edit Employee Details"
+
 	
 
 class ApplicationLog(models.Model):
