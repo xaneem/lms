@@ -2,6 +2,31 @@
 {% load bootstrap3 %}
 {% load staticfiles %}
 {% block container %}
+{% if action.status == 1 %}
+    <div class="modal fade" id="delete-confirm">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Delete Action?</h4>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this action? This action cannot be reverted.
+                </div>
+                <div class="modal-footer">
+                    <form action="{% url 'delete_action' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="id" value="{{action.pk}}">
+
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="glyphicon glyphicon-ban-circle"></i> Close</button>
+                        <button type="submit" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i> Delete Action</button>
+                    </form>                        
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
     <div class="row">
         <div class="col-md-6">
             <h3> Action #{{ action.pk }} ({{ action.toText }}) </h3>
@@ -75,9 +100,10 @@
             </table>
             {% if action.status == 1  %}
                 {% if user_type == 5 %}
-                    <!--
-                    <button type="button" id="action-reject" class="btn btn-danger btn-block"><i class="glyphicon glyphicon-remove"></i> Delete</button>
-                    -->
+                     <a class="btn btn-danger" data-toggle="modal" href='#delete-confirm'><i class="glyphicon glyphicon-remove"></i> Delete Action</a>
+
+      
+                    
                     {% elif user_type == 4 %}
                     <div class="form-group">
                         <button type="button" id="action-approve" class="btn btn-success btn-block"><i class="glyphicon glyphicon-ok"></i> Approve</button>
@@ -266,6 +292,28 @@
     });
     });
     $('#action-reject').on('click', function(event){
+    event.preventDefault();
+    editNotes = $('#edit-notes').val();
+    $.ajax({
+    url: '{% url 'manage_action' %}',
+    type: 'POST',
+    dataType: 'json',
+    data: {
+    action: id,
+    status: 4,
+    note : editNotes,
+    csrfmiddlewaretoken : csrfmiddlewaretoken,
+    },
+    success: function(data, textStatus, xhr) {
+    location.reload(true);
+    },
+    error: function() {
+    alert("Error. Please report to developers.");
+    location.reload(true);
+    }
+    });
+    });
+        $('#action-delete').on('click', function(event){
     event.preventDefault();
     editNotes = $('#edit-notes').val();
     $.ajax({

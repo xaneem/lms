@@ -317,6 +317,21 @@ def actions(request,sort):
 	return render(request,'leave/actions.html',context)
 
 
+@login_required
+@user_passes_test(isDataEntry)
+def delete_action(request):
+	if request.method=='POST':
+		action=Action.objects.get(pk=request.POST.get('id'))
+		if action.status==1:
+			action.status=0
+			action.save()
+			messages.success(request, 'Action Deleted.')
+		else:
+			messages.error(request,'Only Pending Actions can be deleted')
+		return redirect(reverse('action',args=(action.pk,)))
+	else:
+		PermissionDenied
+
 
 @login_required
 @user_passes_test(isDataEntry)
