@@ -57,8 +57,20 @@
                             <td>{{ application.employee.name }}</td>
                             <td> {{ application.toText }}
                             </td>
-                            <td>{{ application.date_from }}</td>
-                            <td>{{ application.date_to }}</td>
+
+                            <td>{% if application.date_from %} 
+                                        {{ application.date_from }}
+                                {% else %}
+                                        NA
+                                {% endif %}
+                            </td>
+                            <td>{% if application.date_to %} 
+                                        {{ application.date_to }}
+                                {% else %}
+                                        NA
+                                {% endif %}
+                            </td>
+                        
                             <td>{{ application.get_status_display|title }}</td>
                             <td><a class="btn btn-default btn-xs" href="{% url 'details' application.pk %}"><i class="glyphicon glyphicon-stats"></i> &nbsp;View Details</a></td>
                         </tr>
