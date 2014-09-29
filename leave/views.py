@@ -969,7 +969,7 @@ def applications(request,sort,year,month,date):
 	elif isClerk(request.user):
 		return clerk(request,sort,year,month,date)
 	else:
-		return Http404
+		raise Http404
 
 @login_required
 @user_passes_test(isClerk)

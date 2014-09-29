@@ -14,7 +14,7 @@
                         <li class="active">Cancel Application</li>
                     </ol>
 
-                    <p>Please fill the details for the cancellation request. You can add upto 3 attachments if required.</p>
+                    <p>Please fill the details for the cancellation request.</p>
                     <form role="form" action="{% url 'cancel' application.pk %}" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         
