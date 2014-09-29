@@ -8,3 +8,8 @@
 
 *Install Pytz for using TimeZone
 	pip install pytz
+
+*For mysql
+	sudo apt-get install libmysqlclient-dev
+	sudo apt-get install python-dev
+	sudo pip install mysql-python
