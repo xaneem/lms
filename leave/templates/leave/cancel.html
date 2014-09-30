@@ -11,6 +11,9 @@
                         <li>
                             <a href="{% url 'index' %}">Home</a>
                         </li>
+                        <li>
+                            <a href="{% url 'details' application.pk %}">Application Details</a>
+                        </li>
                         <li class="active">Cancel Application</li>
                     </ol>
 
@@ -26,7 +29,7 @@
                             
                         </div>
                         
-                        <button type="submit" class="btn btn-success btn-lg"><i class="glyphicon glyphicon-chevron-right"></i> Create Application </button>
+                        <button type="submit" class="btn btn-success btn-lg">Confirm Cancel Leave <i class="glyphicon glyphicon-chevron-right"></i></button>
                     </form>
 
                 </div>

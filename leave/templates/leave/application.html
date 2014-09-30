@@ -6,7 +6,8 @@
 
 
 {% block container %}
-    {% if application.status == 1  %}
+
+{% if application.status == 1  %}
 <!-- Delete Application Confirmation -->
 <div class="modal fade" id="delete-confirm">
     <div class="modal-dialog">
@@ -32,404 +33,458 @@
 </div>
 {% endif %}
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-6">
-                               <h3>Application #{{application.pk}} ({{ application.toText }} )</h3>
-                        </div>
-                        {% if messages %}
-                        <div class="col-md-6">
-                            {% for message in messages %}
-                            {% bootstrap_messages message %}
-                            {% endfor %}
-                        </div>
-                        {% endif %}
-                    </div>
-
-                    <ol class="breadcrumb">
-                        <li>
-                            <a href="{% url 'index' %}">Home</a>
-                        </li>
-                        <li class="active">Application Details</li>
-                    </ol>
-
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <table class="table table-striped">
-                                <tbody>
-                                    <tr>
-                                        <th colspan="2" class="text-center">Application Details</th>
-                                    </tr>
-                                       <tr>
-                                            <th>Application Type</th>
-                                            <td>{{ application.toText }} </td>
-                                          
-                                        </tr>
-
-                           {% if not application.is_new %}
-                                 <tr>
-                                    <th>Original Application</th>
-                                    <td><a href="{% url 'details' application.original.pk %}" target="_blank">
-                                                Application #{{ application.original.pk }} </a></td>
-                               
-                                 </tr>
-                            {% endif %}
-                                    
-                                    <tr>
-                                        <th>Generated time</th>
-                                        <td>{{application.time_generated}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th style="width:200px;">Leave type</th>
-                                        <td>{{application.get_leave_type_display}}</td>
-                                    </tr>
-                                    {% if application.date_from %}
-                                    <tr>
-                                        <th>From</th>
-                                        <td>{{application.date_from}}</td>
-                                    </tr>
-                                    {% endif %}
-
-                                     {% if application.date_to %}
-                                    <tr>
-                                        <th>To</th>
-                                        <td>{{application.date_to}}</td>
-                                    </tr>
-                                    {% endif %}
-                                    <tr>
-                                        <th>Number of days</th>
-                                        <td>{{days_count}}</td>
-
-                                    </tr>
-                                    <tr>
-                                        <th>Purpose</th>
-                                        <td>{{ application.reason }}</td>
-                                    </tr>
-                                     <tr>
-                                        <th> Attachments </th>
-                                        <td>
-                                        {% if application.attachment1 %}
-                                                <a href="/{{application.attachment1.url }}"><i class="glyphicon glyphicon-file"></i> Attachment 1</a><br>
-                                        {% endif %}
-                                        {% if application.attachment2 %}
-                                                <a href="/{{application.attachment1.url }}"><i class="glyphicon glyphicon-file"></i> Attachment 2</a><br>
-                                        {% endif %}
-                                        {% if application.attachment2 %}
-                                                <a href="/{{application.attachment1.url }}"><i class="glyphicon glyphicon-file"></i> Attachment 3</a><br>
-                                        {% endif %}
-
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <br>
-                            <table class="table table-striped">
-                                <tbody>
-                                    <tr>
-                                        <th colspan="2" class="text-center">Employee Details (Current Status)</th>
-                                    </tr>
-                                    <tr>
-                                        <th style="width:200px;">Employee Code</th>
-                                        <td>{{application.employee.code}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Employee Name</th>
-                                        <td>{{application.employee.name}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Department</th>
-                                        <td>{{application.employee.dept.name}}</td>
-                                    </tr>
-                                     <tr>
-                                        <th>Earned Leave Balance</th>
-                                        <td>{{application.employee.earned_balance}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Half Pay Leave Balance </th>
-                                        <td>{{application.employee.hp_balance}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Employee Details</th>
-                                        <td><a href="{% url 'employee' application.employee.pk %}">View Employee Details</a></td>
-                                    </tr>
-                                </tbody>
-                            </table>   
-                        </div>
-                        <div class="col-sm-6">
-                            <table class="table table-striped">
-                                <tbody>
-                                    <tr>
-                                        <th colspan="2" class="text-center">Application Status</th>
-                                    </tr>   
-                                     <tr>
-                                        <th>Status</th>
-                                        <td>{{application.get_status_display|title}}</td>
-                                    </tr>                           
-                                    {% if application.time_approved  %}
-                                  
-                                    <tr>
-                                        <th>Processing completed on</th>
-                                        <td>{{application.time_approved}}</td>
-                                    </tr>
-                                    {% if approved_days_count %}
-                                    <tr>
-                                        <th>Number of days approved</th>
-                                        <td>{{approved_days_count}}</td>
-                                    </tr>
-                                    {% endif %}
-                                    
-                                    {% if application.new_date_from %}
-                                    <tr>
-                                        <th>Approved From</th>
-                                        <td>{{application.new_date_from}}</td>
-                                    </tr>
-                                    {% endif %}
-                                      {% if application.new_date_to %}
-                                    <tr>
-                                        <th>Approved Till</th>
-                                        <td>{{application.new_date_to}}</td>
-                                    </tr>
-                                     {% endif %}
-                                    {% endif %}
-                                   
-                                   
-                                   
-
-                                    {% if user_type %}
-                                    {% if user_type == 1 %} 
-                                        {% if application.status == 1 %}
-                                            <tr>
-                                                <th>Action</th>
-                                                <td>
-                                                    <a class="btn btn-danger" data-toggle="modal" href='#delete-confirm'><i class="glyphicon glyphicon-remove"></i> Delete Application</a>
-                                                </td>
-                                            </tr>
-                                        {% elif application.status == 3 and application.is_new and not application.is_credit %}
-                                            <tr>
-                                                <th>Action</th>
-                                                <td>
-                                                    <a class="btn btn-danger" data-toggle="modal" href=
-                                                    "{% url 'cancel' application.pk %}"><i class="glyphicon glyphicon-remove"></i> Cancel Application</a>
-                                                </td>
-                                            </tr>
-                                        {% endif %}
-
-
-
-
-                                    {% elif user_type == 2 %}
-                                    {% if application.status == 1  %}
-                                    <tr>
-                                        <th>Notes</th>
-                                        <td>
-                                            <div class="form-group">
-                                                <label for="edit-notes">Add Notes</label>
-                                                <textarea class="form-control" rows="3" id="edit-notes" placeholder="Add a note (optional)"></textarea>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    {% endif %}
-                                    <tr>
-                                        <th>Actions</th>
-                                        <td>
-                                            <div class="row">
-                                                <div class="col-md-8">
-                                                    {% if application.status == 1  %}
-                                                    <div class="form-group">
-                                                        <button type="button" id="action-process" class="btn btn-default btn-block"><i class="glyphicon glyphicon-ok"></i> Start Processing</button>
-                                                    </div>
-                                                    {% endif %}
-                                                    {% if application.status != 1  %}
-                                                    <div class="form-group">
-                                                        <a class="btn btn-default btn-block" href="{% url 'print' application.pk %}" target="_blank"><i class="glyphicon glyphicon-print"></i> Print Application
-                                                        </a>
-                                                    {% endif %}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    {% elif  user_type == 4 and application.status == 2 %}
-
-                                    <tr>
-                                        <th style="max-width:120px;">Edit Application before action (optional)</th>
-                                    <td>
-                                        {% if application.is_new and not application.is_credit %}
-                                                
-                                                
-
-                                                    <div class="form-group">
-                                                        <label for="edit-from-date">Change From Date</label>
-                                                        <input type="text" class="form-control" id="edit-from-date" placeholder="Change From Date" value="{{ application.new_date_from|date:"m/d/Y" }}">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="edit-to-date">Change To Date</label>
-                                                        <input type="text" class="form-control" id="edit-to-date" placeholder="Change To Date" value="{{ application.new_date_to|date:"m/d/Y" }}">
-                                                    </div>
-                                        {% endif %}
-                                            <div class="form-group">
-                                                <label for="edit-notes">Add Notes</label>
-                                                <textarea class="form-control" rows="3" id="edit-notes" placeholder="Add a note (optional)"></textarea>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>    
-                                        <th>Actions</th>
-                                        <td>
-                                            <div class="row">
-                                                <div class="col-md-10 col-md-offset-1">
-                                                    <div class="form-group">
-                                                        <button type="button" id="action-approve" class="btn btn-success btn-block"><i class="glyphicon glyphicon-ok"></i> Approve</button>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <button type="button" id="action-reject" class="btn btn-danger btn-block"><i class="glyphicon glyphicon-remove"></i> Reject</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    {% endif %}
-                                    {% endif %}
-                                </tbody>
-                            </table>
-
-                            <h4>Detailed Log</h4>
-                            <table class="table table-condensed">
-                                <thead>
-                                    <tr>
-                                        <th>Date/Time</th>
-                                        <th>Note</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for log in application_log %}
-                                    <tr>
-                                        <td style="min-width:170px;">{{log.time }}</td>
-                                        <td>
-                                            {{log.activity}}
-                                            {% if log.notes %}<br><strong>Note:</strong>{{ log.notes|linebreaks}}{% endif %}
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-
-                        </div>
-                    </div>
-                </div>
+{% if application.status == 3 and application.is_new and not application.is_credit %}
+<div class="modal fade" id="cancel-confirm">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Cancel Approved Leave?</h4>
             </div>
-        {% endblock container %}
-       
-        {% block script %}
-        <script>
-            var csrfmiddlewaretoken = "{{csrf_token}}",
-                id = {{application.pk}},
-                urlAction = "{% url 'complete' %}",
-                urlProcess = "{% url 'start_processing' %}";
+            <div class="modal-body">
+                Please confirm cancelling approved leave. This action cannot be reverted.
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-danger" data-toggle="modal" href=
+                "{% url 'cancel' application.pk %}"><i class="glyphicon glyphicon-remove"></i> Cancel Approved Leave</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="glyphicon glyphicon-ban-circle"></i> Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% if user_type == 4 and application.status == 2 %}
+
+<div class="modal fade" id="approve-confirm">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Approve Leave?</h4>
+            </div>
+            <div class="modal-body">
+                Please confirm approving this leave application. This action cannot be reverted.
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="action-approve" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i> Confirm Approval</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="glyphicon glyphicon-ban-circle"></i> Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="reject-confirm">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Reject Leave?</h4>
+            </div>
+            <div class="modal-body">
+                Please confirm rejecting this leave application. This action cannot be reverted.
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="action-reject" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i> Confirm Rejection</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="glyphicon glyphicon-ban-circle"></i> Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                   <h3>Application #{{application.pk}} ({{ application.toText }} )</h3>
+            </div>
+            {% if messages %}
+            <div class="col-md-6">
+                {% for message in messages %}
+                {% bootstrap_messages message %}
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <ol class="breadcrumb">
+            <li>
+                <a href="{% url 'index' %}">Home</a>
+            </li>
+            <li class="active">Application Details</li>
+        </ol>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <th colspan="2" class="text-center">Application Details</th>
+                        </tr>
+                           <tr>
+                                <th>Application Type</th>
+                                <td>{{ application.toText }} </td>
+                              
+                            </tr>
+
+               {% if not application.is_new %}
+                     <tr>
+                        <th>Original Application</th>
+                        <td><a href="{% url 'details' application.original.pk %}" target="_blank">
+                                    Application #{{ application.original.pk }} </a></td>
+                   
+                     </tr>
+                {% endif %}
+                        
+                        <tr>
+                            <th>Generated time</th>
+                            <td>{{application.time_generated}}</td>
+                        </tr>
+                        <tr>
+                            <th style="width:200px;">Leave type</th>
+                            <td>{{application.get_leave_type_display}}</td>
+                        </tr>
+                        {% if application.date_from %}
+                        <tr>
+                            <th>From</th>
+                            <td>{{application.date_from}}</td>
+                        </tr>
+                        {% endif %}
+
+                         {% if application.date_to %}
+                        <tr>
+                            <th>To</th>
+                            <td>{{application.date_to}}</td>
+                        </tr>
+                        {% endif %}
+                        <tr>
+                            <th>Number of days</th>
+                            <td>{{days_count}}</td>
+
+                        </tr>
+                        <tr>
+                            <th>Purpose</th>
+                            <td>{{ application.reason }}</td>
+                        </tr>
+                         <tr>
+                            <th> Attachments </th>
+                            <td>
+                            {% if application.attachment1 %}
+                                    <a href="/{{application.attachment1.url }}"><i class="glyphicon glyphicon-file"></i> Attachment 1</a><br>
+                            {% endif %}
+                            {% if application.attachment2 %}
+                                    <a href="/{{application.attachment1.url }}"><i class="glyphicon glyphicon-file"></i> Attachment 2</a><br>
+                            {% endif %}
+                            {% if application.attachment2 %}
+                                    <a href="/{{application.attachment1.url }}"><i class="glyphicon glyphicon-file"></i> Attachment 3</a><br>
+                            {% endif %}
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <th colspan="2" class="text-center">Employee Details (Current Status)</th>
+                        </tr>
+                        <tr>
+                            <th style="width:200px;">Employee Code</th>
+                            <td>{{application.employee.code}}</td>
+                        </tr>
+                        <tr>
+                            <th>Employee Name</th>
+                            <td>{{application.employee.name}}</td>
+                        </tr>
+                        <tr>
+                            <th>Department</th>
+                            <td>{{application.employee.dept.name}}</td>
+                        </tr>
+                         <tr>
+                            <th>Earned Leave Balance</th>
+                            <td>{{application.employee.earned_balance}}</td>
+                        </tr>
+                        <tr>
+                            <th>Half Pay Leave Balance </th>
+                            <td>{{application.employee.hp_balance}}</td>
+                        </tr>
+                        <tr>
+                            <th>Employee Details</th>
+                            <td><a href="{% url 'employee' application.employee.pk %}">View Employee Details</a></td>
+                        </tr>
+                    </tbody>
+                </table>   
+            </div>
+            <div class="col-sm-6">
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <th colspan="2" class="text-center">Application Status</th>
+                        </tr>   
+                         <tr>
+                            <th>Status</th>
+                            <td>{{application.get_status_display|title}}</td>
+                        </tr>                           
+                        {% if application.time_approved  %}
+                      
+                        <tr>
+                            <th>Processing completed on</th>
+                            <td>{{application.time_approved}}</td>
+                        </tr>
+                        {% if approved_days_count %}
+                        <tr>
+                            <th>Number of days approved</th>
+                            <td>{{approved_days_count}}</td>
+                        </tr>
+                        {% endif %}
+                        
+                        {% if application.new_date_from %}
+                        <tr>
+                            <th>Approved From</th>
+                            <td>{{application.new_date_from}}</td>
+                        </tr>
+                        {% endif %}
+                          {% if application.new_date_to %}
+                        <tr>
+                            <th>Approved Till</th>
+                            <td>{{application.new_date_to}}</td>
+                        </tr>
+                         {% endif %}
+                        {% endif %}
+                       
+                       
+                       
+
+                        {% if user_type %}
+                        {% if user_type == 1 %} 
+                            {% if application.status == 1 %}
+                                <tr>
+                                    <th>Action</th>
+                                    <td>
+                                        <a class="btn btn-danger" data-toggle="modal" href='#delete-confirm'><i class="glyphicon glyphicon-remove"></i> Delete Application</a>
+                                    </td>
+                                </tr>
+                            {% elif application.status == 3 and application.is_new and not application.is_credit %}
+                                <tr>
+                                    <th>Action</th>
+                                    <td>
+                                        <a href="#cancel-confirm" data-toggle="modal" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i> Cancel Approved Leave</a>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% elif user_type == 2 %}
+                        {% if application.status == 1  %}
+                        <tr>
+                            <th>Notes</th>
+                            <td>
+                                <div class="form-group">
+                                    <label for="edit-notes">Add Notes</label>
+                                    <textarea class="form-control" rows="3" id="edit-notes" placeholder="Add a note (optional)"></textarea>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endif %}
+                        <tr>
+                            <th>Actions</th>
+                            <td>
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        {% if application.status == 1  %}
+                                        <div class="form-group">
+                                            <button type="button" id="action-process" class="btn btn-default btn-block"><i class="glyphicon glyphicon-ok"></i> Start Processing</button>
+                                        </div>
+                                        {% endif %}
+                                        {% if application.status != 1  %}
+                                        <div class="form-group">
+                                            <a class="btn btn-default btn-block" href="{% url 'print' application.pk %}" target="_blank"><i class="glyphicon glyphicon-print"></i> Print Application
+                                            </a>
+                                        {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% elif  user_type == 4 and application.status == 2 %}
+
+                        <tr>
+                            <th style="max-width:120px;">Edit Application before action (optional)</th>
+                            
+                            <td>
+                            {% if application.is_new and not application.is_credit %}
+                            <div class="form-group">
+                                <label for="edit-from-date">Change From Date</label>
+                                <input type="text" class="form-control" id="edit-from-date" placeholder="Change From Date" value="{{ application.new_date_from|date:"m/d/Y" }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-to-date">Change To Date</label>
+                                <input type="text" class="form-control" id="edit-to-date" placeholder="Change To Date" value="{{ application.new_date_to|date:"m/d/Y" }}">
+                            </div>
+                            {% endif %}
+                                <div class="form-group">
+                                    <label for="edit-notes">Add Notes</label>
+                                    <textarea class="form-control" rows="3" id="edit-notes" placeholder="Add a note (optional)"></textarea>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>    
+                            <th>Actions</th>
+                            <td>
+                                <div class="row">
+                                    <div class="col-md-10 col-md-offset-1">
+                                        <div class="form-group">
+                                            <a href="#approve-confirm" data-toggle="modal" class="btn btn-success btn-block"><i class="glyphicon glyphicon-ok"></i> Approve</a>
+                                        </div>
+                                        <div class="form-group">
+                                            <a href="#reject-confirm" data-toggle="modal" class="btn btn-danger btn-block"><i class="glyphicon glyphicon-remove"></i> Reject</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endif %}
+                        {% endif %}
+                    </tbody>
+                </table>
+
+                <h4>Detailed Log</h4>
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Date/Time</th>
+                            <th>Note</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for log in application_log %}
+                        <tr>
+                            <td style="min-width:170px;">{{log.time }}</td>
+                            <td>
+                                {{log.activity}}
+                                {% if log.notes %}<br><strong>Note:</strong>{{ log.notes|linebreaks}}{% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock container %}
+
+{% block script %}
+<script>
+    var csrfmiddlewaretoken = "{{csrf_token}}",
+        id = {{application.pk}},
+        urlAction = "{% url 'complete' %}",
+        urlProcess = "{% url 'start_processing' %}";
 
 
-            $(function() {
+    $(function() {
 
-                $('#edit-from-date, #edit-to-date').attr('readonly', true).css({
-                    backgroundColor: '#ffffff',
-                    cursor: 'pointer',
-                }).datepicker({
-                    startDate: "today",
-                    todayHighlight: true
-                });
-
-
-                $('#action-approve').on('click', function(event){
-                    event.preventDefault();
-
-                    var editFromDate = $('#edit-from-date').val(),
-                        editToDate = $('#edit-to-date').val(),
-                        editNotes = $('#edit-notes').val();
+        $('#edit-from-date, #edit-to-date').attr('readonly', true).css({
+            backgroundColor: '#ffffff',
+            cursor: 'pointer',
+        }).datepicker({
+            startDate: "today",
+            todayHighlight: true
+        });
 
 
-                    $.ajax({
-                        url: urlAction,
-                        type: 'POST',
-                        dataType: 'json',
-                        data: {
-                            id: id,
-                            status: 3,
-                            date_from : editFromDate,
-                            date_to : editToDate,
-                            notes : editNotes,
-                            csrfmiddlewaretoken : csrfmiddlewaretoken,
-                        },
-                        success: function(data, textStatus, xhr) {
-                            location.reload(true);
-                        },
-                        error: function() {
-                           alert("Error. Please report to developers.");
-                           location.reload(true);
-                        }
-                    });
-                });
+        $('#action-approve').on('click', function(event){
+            event.preventDefault();
 
-                $('#action-reject').on('click', function(event){
-                    event.preventDefault();
-
-                    var editFromDate = $('#edit-from-date').val(),
-                        editToDate = $('#edit-to-date').val(),
-                        editNotes = $('#edit-notes').val();
+            var editFromDate = $('#edit-from-date').val(),
+                editToDate = $('#edit-to-date').val(),
+                editNotes = $('#edit-notes').val();
 
 
-                    $.ajax({
-                        url: urlAction,
-                        type: 'POST',
-                        dataType: 'json',
-                        data: {
-                            id: id,
-                            status: 4,
-                            date_from : editFromDate,
-                            date_to : editToDate,
-                            notes : editNotes,
-                            csrfmiddlewaretoken : csrfmiddlewaretoken,
-                        },
-                        success: function(data, textStatus, xhr) {
-                            location.reload(true);
-                        },
-                        error: function() {
-                            alert("Error. Please report to developers.");
-                            location.reload(true);
-                        }
-                    });
-                });
-
-
-                $('#action-process').on('click', function(event){
-                    event.preventDefault();
-
-                    var editNotes = $('#edit-notes').val();
-
-
-                    $.ajax({
-                        url: urlProcess,
-                        type: 'POST',
-                        dataType: 'json',
-                        data: {
-                            id: id,
-                            notes : editNotes,
-                            csrfmiddlewaretoken : csrfmiddlewaretoken,
-                        },
-                        success: function(data, textStatus, xhr) {
-                            location.reload(true);
-                        },
-                        error: function(data1, data2, data3) {
-                            alert("Error. Please report to developers.");
-                            location.reload(true);
-                        }
-                    });
-                });
-
-
+            $.ajax({
+                url: urlAction,
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    id: id,
+                    status: 3,
+                    date_from : editFromDate,
+                    date_to : editToDate,
+                    notes : editNotes,
+                    csrfmiddlewaretoken : csrfmiddlewaretoken,
+                },
+                success: function(data, textStatus, xhr) {
+                    location.reload(true);
+                },
+                error: function() {
+                   alert("Error. Please report to developers.");
+                   location.reload(true);
+                }
             });
+        });
 
-            
-        </script>
-        {% endblock script %}
+        $('#action-reject').on('click', function(event){
+            event.preventDefault();
+
+            var editFromDate = $('#edit-from-date').val(),
+                editToDate = $('#edit-to-date').val(),
+                editNotes = $('#edit-notes').val();
+
+
+            $.ajax({
+                url: urlAction,
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    id: id,
+                    status: 4,
+                    date_from : editFromDate,
+                    date_to : editToDate,
+                    notes : editNotes,
+                    csrfmiddlewaretoken : csrfmiddlewaretoken,
+                },
+                success: function(data, textStatus, xhr) {
+                    location.reload(true);
+                },
+                error: function() {
+                    alert("Error. Please report to developers.");
+                    location.reload(true);
+                }
+            });
+        });
+
+
+        $('#action-process').on('click', function(event){
+            event.preventDefault();
+
+            var editNotes = $('#edit-notes').val();
+
+
+            $.ajax({
+                url: urlProcess,
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    id: id,
+                    notes : editNotes,
+                    csrfmiddlewaretoken : csrfmiddlewaretoken,
+                },
+                success: function(data, textStatus, xhr) {
+                    location.reload(true);
+                },
+                error: function(data1, data2, data3) {
+                    alert("Error. Please report to developers.");
+                    location.reload(true);
+                }
+            });
+        });
+
+
+    });
+
+    
+</script>
+{% endblock script %}
