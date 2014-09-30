@@ -22,26 +22,25 @@
         <h2>Section Head</h2>
 
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="well">
                    
                     <ol>
-                      <a href="#new_application"> <li>New Application</li> </a>
-                      <a href="#credit_leave"> <li>Credit Leave</li> </a>
-                      <a href="#application_history"> <li>Application History</li> </a>
-                      <a href="#details"> <li>Application Details</li> </a>
-                      <a href="#cancel_pending"> <li>Cancel Pending Leave</li> </a>
-                      <a href="#cancel_approved"> <li>Cancel Approved Leave</li> </a>
-                      <a href="#search"> <li>Employee Search</li> </a>
-            
+                      <li><a href="#new_application">New Application</a></li>
+                      <li><a href="#credit_leave">Credit Leave</a></li>
+                      <li><a href="#application_history">Application History</a>
+                        <ol>
+                          <li><a href="#details">Application Details</a></li>
+                          <li><a href="#cancel_pending">Cancel Pending Leave</a></li>
+                          <li><a href="#cancel_approved">Cancel Approved Leave</a></li>
+                        </ol>
+                      </li> 
+                      <li><a href="#search">Employee Search</a></li>
                     </ol>
                 </div>
             </div>
         </div>
-
-    
-
-		<h3 id="new_application">New Application</h3>
+		<h3 id="new_application">1. New Application</h3>
 		Creates a new leave application for an employee in the department.
 		<ul>
 			<li>Select an Employee from the list.</li>
@@ -63,15 +62,15 @@
 
 		</ul>
 
-        <h3 id="credit_leave">Credit Leave </h3>
+        <h3 id="credit_leave">2. Credit Leave </h3>
         <ul>
     			This page allows you to create a request to credit Earned Leave for an employee.
 
     			The steps are similar to that of New Application.<br> Instead of dates, choose the Number of Days to credit.
         </ul>
-        <h3 id="application_history">Application History </h3>
+        <h3 id="application_history">3. Application History </h3>
             <ul>
-            <li>
+                <li>
     			This page shows the details of all the applications sent from the department. </li>
                 <li>
     		  Using the filters on the top-right, you can choose to filter the list by the status of application. (Pending, Processing, Approved, Rejected or Cancelled)
@@ -81,47 +80,51 @@
                 <li>
     			To view the details of an application, click the View Details button. </li>
             </ul>
-            <h3 id="details">Application Details </h3>
-            <ul>
-                <li>
-    			Displays all the details of the selected application. </li>
 
-                <li>
-              Application Details :<br>
+            <div style="margin-left:40px;">
+                <h3 id="details">3.1. Application Details </h3>
+                <ul>
+                    <li>
+        			Displays all the details of the selected application. </li>
 
-    			Shows the details of the selected application. If it is a "Cancel Approved Leave" request, the link to the Original Application is also shown.
-                </li>
+                    <li>
+                  Application Details :<br>
 
-                <li>
-           
-    			Employee Details:<br> The Employee Details section shows the relevant details of the employee for the application. <br> Note that the leave balance displayed is the current balance, and may differ from the balance when the application was created.
-                </li>
-                <li>
-    		Application Status:<br> This section shows the current status  (Pending, Processing, Approved, Rejected or Cancelled) and related details. 
-                </li>
-                <li>
-    			The Detailed Log displays a timeline of events for the application.
-                </li>
+        			Shows the details of the selected application. If it is a "Cancel Approved Leave" request, the link to the Original Application is also shown.
+                    </li>
+
+                    <li>
+               
+        			Employee Details:<br> The Employee Details section shows the relevant details of the employee for the application. <br> Note that the leave balance displayed is the current balance, and may differ from the balance when the application was created.
+                    </li>
+                    <li>
+        		Application Status:<br> This section shows the current status  (Pending, Processing, Approved, Rejected or Cancelled) and related details. 
+                    </li>
+                    <li>
+        			The Detailed Log displays a timeline of events for the application.
+                    </li>
+                    </ul>
+                <h3 id="cancel_pending">3.2. Delete Pending Application</h3>
+                <ul>
+                    <li>
+        			An application that has a status "Pending" can be deleted directly from the Application Details page using the Delete Application button.
+                    </li>
+                    <li>
+        			Once the Establishment Office marks an application as "Processing", you will have to wait until it is approved.
+                    </li>
                 </ul>
-            <h3 id="cancel_pending">Delete Pending Application</h3>
-            <ul>
-                <li>
-    			An application that has a status "Pending" can be deleted directly from the Application Details page using the Delete Application button.
-                </li>
-                <li>
-    			Once the Establishment Office marks an application as "Processing", you will have to wait until it is approved.
-                </li>
-            </ul>
-           
+               
 
-    		<h3 id="cancel_approved">Cancel Approved Leave</h3>
-            <ul>
-              
-    			To cancel a leave that has been approved, click on the Cancel Application button. A new application will be created, and will be sent to the Establishment for approval.
-           
+        		<h3 id="cancel_approved">3.3. Cancel Approved Leave</h3>
+                <ul>
+                  
+        			To cancel a leave that has been approved, click on the Cancel Application button. A new application will be created, and will be sent to the Establishment for approval.
+               
 
-            </ul>
-            <h3 id="search">Employee Search</h3>
+                </ul>
+            </div>
+
+            <h3 id="search">4. Employee Search</h3>
             <ul>
                 <li>
     			View details of all the employees in the department/section. Select the employee from the list using Name/Code and click on the View Details button.
@@ -138,13 +141,13 @@
         <h2>Est. Office</h2>
 
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="well">
                    
                     <ol>
-                      <a href="#all_applications"> <li>Applications</li> </a>
-                      <a href="#details"> <li>Application Details</li> </a>
-                      <a href="#search"> <li>Employee Search</li> </a>
+                      <li><a href="#all_applications">Applications</a></li>
+                      <li><a href="#details">Application Details</a></li>
+                      <li><a href="#search">Employee Search</a></li>
              
             
                     </ol>
@@ -214,15 +217,15 @@
 
         <h2>Deputy Registrar</h2>
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="well">
                    
                     <ol>
-                      <a href="#all_applications"> <li>Applications</li> </a>
-                      <a href="#details"> <li>Application Details</li> </a>
-                      <a href="#print"> <li>Print Application</li> </a>
-                      <a href="#admin_actions"> <li>Admin Actions</li> </a>
-                      <a href="#search"> <li>Employee Search</li> </a>
+                      <li><a href="#all_applications">Applications</a></li>
+                      <li><a href="#details">Application Details</a></li>
+                      <li><a href="#print">Print Application</a></li>
+                      <li><a href="#admin_actions">Admin Actions</a></li>
+                      <li><a href="#search">Employee Search</a></li>
                        
              
             
@@ -330,16 +333,16 @@
 
         <h2>Data Admin</h2>
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="well">
                     <ol>
-                      <a href="#credit_debit"> <li>Credit/Debit Leave</li> </a>
+                      <li><a href="#credit_debit">Credit/Debit Leave</a></li>
 
-                      <a href="#actions_history"> <li>Action History</li> </a>
-                      <a href="#add_new_employee"> <li>Add Employee</li> </a>
+                      <li><a href="#actions_history">Action History</a></li>
+                      <li><a href="#add_new_employee">Add Employee</a></li>
 
-                      <a href="#edit_employee"> <li>Edit Employee</li> </a>
-                      <a href="#search"> <li>Employee Search</li> </a>
+                      <li><a href="#edit_employee">Edit Employee</a></li>
+                      <li><a href="#search">Employee Search</a></li>
                     </ol>
                 </div>
             </div>

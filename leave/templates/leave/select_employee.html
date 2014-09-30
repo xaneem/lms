@@ -9,7 +9,7 @@
             <form action="{% url 'select_employee' %}" method="POST" >
                 {% csrf_token %}
                 {% bootstrap_field form.employee %}
-                <br><button type="submit" class="btn btn-info btn-lg btn-block"><i class="glyphicon glyphicon-stats"></i> View Details </button>
+                <br><button type="submit" class="btn btn-info btn-lg btn-block"><i class="glyphicon glyphicon-stats"></i> {% if user_type == 5 %} View/Edit Employee {% else %} View Details {% endif %} </button>
             </form>
             
         </div>
