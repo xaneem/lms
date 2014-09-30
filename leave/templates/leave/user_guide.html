@@ -69,73 +69,71 @@
     			The steps are similar to that of New Application.<br> Instead of dates, choose the Number of Days to credit.
         </ul>
         <h3 id="application_history">3. Application History </h3>
+        <ul>
+            <li>
+			This page shows the details of all the applications sent from the department. </li>
+            <li>
+		  Using the filters on the top-right, you can choose to filter the list by the status of application. (Pending, Processing, Approved, Rejected or Cancelled)
+            </li>
+            <li>
+			If there are more than 10 applications, the list is paginated, with 10 applications on each page. </li>
+            <li>
+			To view the details of an application, click the View Details button. </li>
+        </ul>
+
+        <div style="margin-left:40px;">
+            <h3 id="details">3.1. Application Details </h3>
             <ul>
                 <li>
-    			This page shows the details of all the applications sent from the department. </li>
+    			Displays all the details of the selected application. </li>
+
                 <li>
-    		  Using the filters on the top-right, you can choose to filter the list by the status of application. (Pending, Processing, Approved, Rejected or Cancelled)
+              Application Details :<br>
+
+    			Shows the details of the selected application. If it is a "Cancel Approved Leave" request, the link to the Original Application is also shown.
+                </li>
+
+                <li>
+           
+    			Employee Details:<br> The Employee Details section shows the relevant details of the employee for the application. <br> Note that the leave balance displayed is the current balance, and may differ from the balance when the application was created.
                 </li>
                 <li>
-    			If there are more than 10 applications, the list is paginated, with 10 applications on each page. </li>
+    		Application Status:<br> This section shows the current status  (Pending, Processing, Approved, Rejected or Cancelled) and related details. 
+                </li>
                 <li>
-    			To view the details of an application, click the View Details button. </li>
-            </ul>
-
-            <div style="margin-left:40px;">
-                <h3 id="details">3.1. Application Details </h3>
-                <ul>
-                    <li>
-        			Displays all the details of the selected application. </li>
-
-                    <li>
-                  Application Details :<br>
-
-        			Shows the details of the selected application. If it is a "Cancel Approved Leave" request, the link to the Original Application is also shown.
-                    </li>
-
-                    <li>
-               
-        			Employee Details:<br> The Employee Details section shows the relevant details of the employee for the application. <br> Note that the leave balance displayed is the current balance, and may differ from the balance when the application was created.
-                    </li>
-                    <li>
-        		Application Status:<br> This section shows the current status  (Pending, Processing, Approved, Rejected or Cancelled) and related details. 
-                    </li>
-                    <li>
-        			The Detailed Log displays a timeline of events for the application.
-                    </li>
-                    </ul>
-                <h3 id="cancel_pending">3.2. Delete Pending Application</h3>
-                <ul>
-                    <li>
-        			An application that has a status "Pending" can be deleted directly from the Application Details page using the Delete Application button.
-                    </li>
-                    <li>
-        			Once the Establishment Office marks an application as "Processing", you will have to wait until it is approved.
-                    </li>
+    			The Detailed Log displays a timeline of events for the application.
+                </li>
                 </ul>
-               
-
-        		<h3 id="cancel_approved">3.3. Cancel Approved Leave</h3>
-                <ul>
-                  
-        			To cancel a leave that has been approved, click on the Cancel Application button. A new application will be created, and will be sent to the Establishment for approval.
-               
-
-                </ul>
-            </div>
-
-            <h3 id="search">4. Employee Search</h3>
+            <h3 id="cancel_pending">3.2. Delete Pending Application</h3>
             <ul>
                 <li>
-    			View details of all the employees in the department/section. Select the employee from the list using Name/Code and click on the View Details button.
+    			An application that has a status "Pending" can be deleted directly from the Application Details page using the Delete Application button.
                 </li>
-
                 <li>
-    			The details of the employee and leave balance are displayed. The log shows all the credit/debit details of the employee available with the system.
+    			Once the Establishment Office marks an application as "Processing", you will have to wait until it is approved.
                 </li>
             </ul>
+           
 
-    	
+    		<h3 id="cancel_approved">3.3. Cancel Approved Leave</h3>
+            <ul>
+              
+    			To cancel a leave that has been approved, click on the Cancel Application button. A new application will be created, and will be sent to the Establishment for approval.
+           
+
+            </ul>
+        </div>
+
+        <h3 id="search">4. Employee Search</h3>
+        <ul>
+            <li>
+			View details of all the employees in the department/section. Select the employee from the list using Name/Code and click on the View Details button.
+            </li>
+
+            <li>
+			The details of the employee and leave balance are displayed. The log shows all the credit/debit details of the employee available with the system.
+            </li>
+        </ul>    	
 
     	{% elif user_type == 2 %}
         <h2>Est. Office</h2>
@@ -143,22 +141,19 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="well">
-                   
                     <ol>
-                      <li><a href="#all_applications">Applications</a></li>
-                      <li><a href="#details">Application Details</a></li>
-                      <li><a href="#search">Employee Search</a></li>
-             
-            
+                      <li><a href="#all_applications">Applications</a>
+                        <ol>
+                            <li><a href="#details">Application Details</a></li>
+                        </ol>
+                      </li>
+                      <li><a href="#search">Employee Search</a></li>            
                     </ol>
                 </div>
             </div>
         </div>
 
-    
-
-
-        <h3 id="all_applications">Applications </h3>
+        <h3 id="all_applications">1. Applications</h3>
         <ul>
             <li>
     		Displays the Pending leave applications that require action by the Establishment Office. To show other applications (Processing, Approved, Rejected, Cancelled), use the Filter menu on the top-right.
@@ -166,41 +161,40 @@
 
             <li>
     		To view details of an application, click on the View Details button.
-              </li>
-   
+            </li>
         </ul>
-        
-            
-    	 <h3 id="details">Application Details Page</h3>
-        <ul>
-        <li>
-                Displays all the details of the selected application. An application contains the following information:
-         <ul>
-            
-            <li>
-            Application Details:<br> The details of the selected application. If it is a "Cancel Approved Leave" request, the link to the Original Application is also shown.
-            </li>
-            <li>
-            Employee Details:<br> The Employee Details section shows the relevant details of the employee for the application. Note that the leave balance displayed is the current balance, and may differ from the balance when the application was created.
-            </li>
-            <li>
-            Application Status:<br>This section shows the current status (Pending, Processing, Approved, Rejected, Cancelled) and related details.
-            </li>
-            <li>
 
-    		The Detailed Log displays a timeline of events for the application.
-            </li>
-         </ul>
-         </li>
-         <li>
-    		You can mark a Pending application as Processing using the "Start Processing" button. This changes the application status to "Processing". <br>The application is to be printed using the "Print Application" button, and the hard copy forwarded to the Deputy Registrar after verification.
-        </li>
-         <li>
-    		An application with the status "Processing" can be Approved/Rejected by the Deputy Registrar.
-         </li>
-         </ul>
+        <div style="margin-left:40px;">
 
-    	<h3 id="search">Employee Search</h3>
+        	<h3 id="details">1.1. Application Details Page</h3>
+            <ul>
+                <li>Displays all the details of the selected application. An application contains the following information:
+                    <ul>
+                        <li>
+                        Application Details:<br> The details of the selected application. If it is a "Cancel Approved Leave" request, the link to the Original Application is also shown.
+                        </li>
+                        <li>
+                        Employee Details:<br> The Employee Details section shows the relevant details of the employee for the application. Note that the leave balance displayed is the current balance, and may differ from the balance when the application was created.
+                        </li>
+                        <li>
+                        Application Status:<br>This section shows the current status (Pending, Processing, Approved, Rejected, Cancelled) and related details.
+                        </li>
+                        <li>
+
+                		The Detailed Log displays a timeline of events for the application.
+                        </li>
+                    </ul>
+                </li>
+            <li>
+        		You can mark a Pending application as Processing using the "Start Processing" button. This changes the application status to "Processing". <br>The application is to be printed using the "Print Application" button, and the hard copy forwarded to the Deputy Registrar after verification.
+            </li>
+            <li>
+        		An application with the status "Processing" can be Approved/Rejected by the Deputy Registrar.
+            </li>
+            </ul>
+        </div>
+
+    	<h3 id="search">2. Employee Search</h3>
         <ul>
             <li>
 
@@ -221,20 +215,20 @@
                 <div class="well">
                    
                     <ol>
-                      <li><a href="#all_applications">Applications</a></li>
-                      <li><a href="#details">Application Details</a></li>
-                      <li><a href="#print">Print Application</a></li>
+                      <li><a href="#all_applications">Applications</a>
+                        <ol>
+                            <li><a href="#details">Application Details</a></li>
+                            <li><a href="#print">Print Application</a></li>
+                        </ol>
+                      </li>
                       <li><a href="#admin_actions">Admin Actions</a></li>
-                      <li><a href="#search">Employee Search</a></li>
-                       
-             
-            
+                      <li><a href="#search">Employee Search</a></li>                
                     </ol>
                 </div>
             </div>
         </div>
 
-        <h3 id="all_applications">Applications</h3>
+        <h3 id="all_applications">1. Applications</h3>
         <ul>
             <li>
     		Displays the leave applications submitted to the Deputy Registrar for approval. The application status will be "Processing". 
@@ -261,34 +255,35 @@
 
             </li>
         </ul>
-        <h3 id="details">Application Details Page</h3>
-        <ul>
+        <div style="margin-left:40px;">
+            <h3 id="details">1.1. Application Details Page</h3>
+            <ul>
 
-    	Displays all the details of the selected application. An application contains the following information:
-             <li>
-    		Application Details:<br> The details of the selected application. If it is a "Cancel Approved Leave" request, the link to the Original Application is also shown.
-            </li>
-            <li>
-    		Employee Details: <br>The Employee Details section shows the relevant details of the employee for the application.<br> Note that the leave balance displayed is the current balance, and may differ from the balance when the application was created.
-            </li>
-            <li>
-    		Application Status:<br> This section shows the current status (Pending, Processing, Approved, Rejected, Cancelled) and related details
-            </li>
-            <li>
-    		The Detailed Log displays a timeline of events for the application.
-            </li>
-            <li>
-    		When a new application is created, the status is Pending. After the application is marked as "Processing" by the Establishment Office, the Deputy Registrar may Approve or Reject it.
-            </li>
-    		<li>
-    		Applications submitted by a Department/Section must be opened by the Establishment Office and marked as "Processing" before you can approve it.
-            </li>
-    	
-        </ul>
-        <h3 id="print">Print Application Page</h3>
-		Click on the Print Application button to open a print friendly view of the application, along with last 5 transactions for the employee.
-
-        <h3 id="admin_actions">Admin Actions</h3>
+        	Displays all the details of the selected application. An application contains the following information:
+                 <li>
+        		Application Details:<br> The details of the selected application. If it is a "Cancel Approved Leave" request, the link to the Original Application is also shown.
+                </li>
+                <li>
+        		Employee Details: <br>The Employee Details section shows the relevant details of the employee for the application.<br> Note that the leave balance displayed is the current balance, and may differ from the balance when the application was created.
+                </li>
+                <li>
+        		Application Status:<br> This section shows the current status (Pending, Processing, Approved, Rejected, Cancelled) and related details
+                </li>
+                <li>
+        		The Detailed Log displays a timeline of events for the application.
+                </li>
+                <li>
+        		When a new application is created, the status is Pending. After the application is marked as "Processing" by the Establishment Office, the Deputy Registrar may Approve or Reject it.
+                </li>
+        		<li>
+        		Applications submitted by a Department/Section must be opened by the Establishment Office and marked as "Processing" before you can approve it.
+                </li>
+        	
+            </ul>
+            <h3 id="print">1.2. Print Application Page</h3>
+    		Click on the Print Application button to open a print friendly view of the application, along with last 5 transactions for the employee.
+        </div>
+        <h3 id="admin_actions">2. Admin Actions</h3>
 
         This page allows you to Approve/Reject changes made to leave balance of employee(s) by the Data Admin.
         <ul>
@@ -311,7 +306,7 @@
                 </ul>
             </li>
         </ul>
-        <h3 id="search">Employee Search</h3>
+        <h3 id="search">3. Employee Search</h3>
         <ul>
             <li>
 
@@ -323,12 +318,7 @@
         </ul>
 
 
-    <!--TODO: code to Employee Code
-        TODO: Add Debit/Credit Column
-        TODO: Add NOTE FROM DEPUTY REGISTRAR COL.
-   
-    	Debit/Credit field in Admin Actions Detail view.
-         -->
+ 
     	{% elif user_type == 5%}
 
         <h2>Data Admin</h2>
@@ -337,18 +327,15 @@
                 <div class="well">
                     <ol>
                       <li><a href="#credit_debit">Credit/Debit Leave</a></li>
-
                       <li><a href="#actions_history">Action History</a></li>
                       <li><a href="#add_new_employee">Add Employee</a></li>
-
-                      <li><a href="#edit_employee">Edit Employee</a></li>
-                      <li><a href="#search">Employee Search</a></li>
+                      <li><a href="#edit_employee">View/Edit Employee</a></li>
                     </ol>
                 </div>
             </div>
         </div>
 
-        <h3 id="credit_debit">Credit/Debit Leave</h3>
+        <h3 id="credit_debit">1. Credit/Debit Leave</h3>
         This page enables you to Credit or Debit leave for one or multiple employees in one go.
 
         <ul>
@@ -365,7 +352,7 @@
         </ul>
 
 
-        <h3 id="actions_history">Action History</h3>
+        <h3 id="actions_history">2. Action History</h3>
 
        
         <ul>
@@ -384,7 +371,7 @@
             </li>
         </ul>
 
-        <h3 id="add_new_employee">Add Employee</h3>
+        <h3 id="add_new_employee">3. Add Employee</h3>
 
         To add new employees, use the Add Employee page.
 
@@ -396,10 +383,12 @@
             <li>Once you make sure all the data entered is correct, click the Create New Employee button.</li>
         </ul>
 
-        <h3 id="edit_employee">Edit Employee</h3>
-        Edit the basic details of an employee. Select the employee from the Credit/Debit page, or using the Employee Search page.
-
+        <h3 id="edit_employee">4. View/Edit Employee</h3>
+        View details of all the employees in the department/section.
         <ul>
+            <li> Select the employee from the list using Name/Code and click on the View/Edit Employee button.</li>
+            <li>The details of the employee and leave balance are displayed. The log shows all the credit/debit details of the employee available with the system.</li>
+            <li>To edit the details of an employee, click the Edit Details button</li>
             <li>The Employee Code is the unique code assigned by the administration.</li>
             <li>The name should contain the full name of the employee.</li>
             <li>Enter the correct email address in the Email field. The system automatically sends email to employees when applications are created, approved or rejected.</li>
@@ -408,16 +397,7 @@
             <li>To confirm the changes, click the Update button.</li>
         </ul>
 
-        <h3 id="search">Employee Search</h3>
-
-        <ul>
-            <li>View details of all the employees in the department/section. Select the employee from the list using Name/Code and click on the View Details button.</li>
-            <li>The details of the employee and leave balance are displayed. The log shows all the credit/debit details of the employee available with the system.</li>
-            <li>To edit the details of an employee, click the Edit Details button</li>
-        </ul>
     	{% endif %}
-
-
     </div>
 </div>
 
@@ -430,6 +410,14 @@
     });
 </script>
 {% endblock script %}
+
+   <!-- TODO FOR DR
+        TODO: code to Employee Code
+        TODO: Add Debit/Credit Column
+        TODO: Add NOTE FROM DEPUTY REGISTRAR COL.
+   
+        Debit/Credit field in Admin Actions Detail view.
+         -->
 
 <!-- 
 
