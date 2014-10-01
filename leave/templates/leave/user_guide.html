@@ -17,7 +17,6 @@
     <div class="col-md-12">
     	<h1>User Guide</h1>
 
-
     	{% if user_type == 1 %}
         <h2>Section Head</h2>
 
@@ -40,7 +39,14 @@
                 </div>
             </div>
         </div>
-		<h3 id="new_application">1. New Application</h3>
+        <h3 id="new_application">1. New Application </h3>
+        <div class="screenshot-container">
+            <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+            <div class="screenshot-image" style="display:none; margin-top:2px;">
+                <img src="{% static 'leave/documentation/screenshots/new_application.png' %}" class="img-thumbnail">
+            </div>
+        </div>
+
 		Creates a new leave application for an employee in the department.
 		<ul>
 			<li>Select an Employee from the list.</li>
@@ -63,17 +69,35 @@
 		</ul>
 
         <h3 id="credit_leave">2. Credit Leave </h3>
+        <div class="screenshot-container">
+            <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+            <div class="screenshot-image" style="display:none; margin-top:2px;">
+                <img src="{% static 'leave/documentation/screenshots/credit_leave_application_filled.png' %}" class="img-thumbnail">
+            </div>
+        </div>
         <ul>
     			This page allows you to create a request to credit Earned Leave for an employee.
 
     			The steps are similar to that of New Application.<br> Instead of dates, choose the Number of Days to credit.
         </ul>
         <h3 id="application_history">3. Application History </h3>
+        <div class="screenshot-container">
+            <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+            <div class="screenshot-image" style="display:none; margin-top:2px;">
+                <img src="{% static 'leave/documentation/screenshots/application_history.png' %}" class="img-thumbnail">
+            </div>
+        </div>
         <ul>
             <li>
 			This page shows the details of all the applications sent from the department. </li>
             <li>
 		  Using the filters on the top-right, you can choose to filter the list by the status of application. (Pending, Processing, Approved, Rejected or Cancelled)
+            <div class="screenshot-container">
+                <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+                <div class="screenshot-image" style="display:none; margin-top:2px;">
+                    <img src="{% static 'leave/documentation/screenshots/application_history_filter.png' %}" class="img-thumbnail">
+                </div>
+            </div>
             </li>
             <li>
 			If there are more than 10 applications, the list is paginated, with 10 applications on each page. </li>
@@ -83,6 +107,12 @@
 
         <div style="margin-left:40px;">
             <h3 id="details">3.1. Application Details </h3>
+            <div class="screenshot-container">
+                <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+                <div class="screenshot-image" style="display:none; margin-top:2px;">
+                    <img src="{% static 'leave/documentation/screenshots/application_details.png' %}" class="img-thumbnail">
+                </div>
+            </div>
             <ul>
                 <li>
     			Displays all the details of the selected application. </li>
@@ -116,8 +146,23 @@
            
 
     		<h3 id="cancel_approved">3.3. Cancel Approved Leave</h3>
-            <ul>              
-    			To cancel a leave that has been approved, click on the Cancel Approved Leave button. A new application will be created, and will be sent to the Establishment for approval.
+            <ul>
+                <li>To cancel a leave that has been approved, click on the Cancel Approved Leave button.
+                    <div class="screenshot-container">
+                        <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+                        <div class="screenshot-image" style="display:none; margin-top:2px;">
+                            <img src="{% static 'leave/documentation/screenshots/cancel_application_button.png' %}" class="img-thumbnail">
+                        </div>
+                    </div>
+                </li>
+                <li>Specify a reason for cancellation. A new application will be created, and will be sent to the Establishment for approval.
+                    <div class="screenshot-container">
+                        <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+                        <div class="screenshot-image" style="display:none; margin-top:2px;">
+                            <img src="{% static 'leave/documentation/screenshots/cancel_application.png' %}" class="img-thumbnail">
+                        </div>
+                    </div>
+                </li>
             </ul>
         </div>
 
@@ -125,10 +170,22 @@
         <ul>
             <li>
 			View details of all the employees in the department/section. Select the employee from the list using Name/Code and click on the View Details button.
+            <div class="screenshot-container">
+                <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+                <div class="screenshot-image" style="display:none; margin-top:2px;">
+                    <img src="{% static 'leave/documentation/screenshots/section_head_employee_search.png' %}" class="img-thumbnail">
+                </div>
+            </div>
             </li>
 
             <li>
 			The details of the employee and leave balance are displayed. The log shows all the credit/debit details of the employee available with the system.
+            <div class="screenshot-container">
+                <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+                <div class="screenshot-image" style="display:none; margin-top:2px;">
+                    <img src="{% static 'leave/documentation/screenshots/employee_details.png' %}" class="img-thumbnail">
+                </div>
+            </div>
             </li>
         </ul>    	
 
@@ -153,7 +210,19 @@
         <h3 id="all_applications">1. Applications</h3>
         <ul>
             <li>
+            <div class="screenshot-container">
+                <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+                <div class="screenshot-image" style="display:none; margin-top:2px;">
+                    <img src="{% static 'leave/documentation/screenshots/est_office_applications.png' %}" class="img-thumbnail">
+                </div>
+            </div>
     		Displays the Pending leave applications that require action by the Establishment Office. To show other applications (Processing, Approved, Rejected, Cancelled), use the Filter menu on the top-right.
+            <div class="screenshot-container">
+                <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+                <div class="screenshot-image" style="display:none; margin-top:2px;">
+                    <img src="{% static 'leave/documentation/screenshots/est_office_applications_filter.png' %}" class="img-thumbnail">
+                </div>
+            </div>
             </li>
 
             <li>
@@ -165,7 +234,14 @@
 
         	<h3 id="details">1.1. Application Details Page</h3>
             <ul>
-                <li>Displays all the details of the selected application. An application contains the following information:
+                <li>
+                Displays all the details of the selected application. An application contains the following information:
+                <div class="screenshot-container">
+                    <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+                    <div class="screenshot-image" style="display:none; margin-top:2px;">
+                        <img src="{% static 'leave/documentation/screenshots/est_office_application_details.png' %}" class="img-thumbnail">
+                    </div>
+                </div>
                     <ul>
                         <li>
                         Application Details:<br> The details of the selected application. If it is a "Cancel Approved Leave" request, the link to the Original Application is also shown.
@@ -183,7 +259,21 @@
                     </ul>
                 </li>
             <li>
-        		You can mark a Pending application as Processing using the "Start Processing" button. This changes the application status to "Processing". <br>The application is to be printed using the "Print Application" button, and the hard copy forwarded to the Deputy Registrar after verification.
+        		You can mark a Pending application as Processing using the "Start Processing" button. This changes the application status to "Processing". 
+                <div class="screenshot-container">
+                    <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+                    <div class="screenshot-image" style="display:none; margin-top:2px;">
+                        <img src="{% static 'leave/documentation/screenshots/est_office_application_details.png' %}" class="img-thumbnail">
+                    </div>
+                </div>
+            </li>
+            <li>The application is to be printed using the "Print Application" button, and the hard copy forwarded to the Deputy Registrar after verification.
+                <div class="screenshot-container">
+                    <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+                    <div class="screenshot-image" style="display:none; margin-top:2px;">
+                        <img src="{% static 'leave/documentation/screenshots/est_office_print_application.png' %}" class="img-thumbnail">
+                    </div>
+                </div>
             </li>
             <li>
         		An application with the status "Processing" can be Approved/Rejected by the Deputy Registrar.
@@ -196,9 +286,21 @@
             <li>
 
     		View details of all the employees in the department/section. Select the employee from the list using Name/Code and click on the View Details button.
+            <div class="screenshot-container">
+                <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+                <div class="screenshot-image" style="display:none; margin-top:2px;">
+                    <img src="{% static 'leave/documentation/screenshots/est_office_employee_search.png' %}" class="img-thumbnail">
+                </div>
+            </div>
             </li>
             <li>
     		The details of the employee and leave balance are displayed. The log shows all the credit/debit details of the employee available with the system.
+            <div class="screenshot-container">
+                <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+                <div class="screenshot-image" style="display:none; margin-top:2px;">
+                    <img src="{% static 'leave/documentation/screenshots/employee_details.png' %}" class="img-thumbnail">
+                </div>
+            </div>
             </li>
         </ul>
 
@@ -215,10 +317,13 @@
                       <li><a href="#all_applications">Applications</a>
                         <ol>
                             <li><a href="#details">Application Details</a></li>
-                            <li><a href="#print">Print Application</a></li>
                         </ol>
                       </li>
-                      <li><a href="#admin_actions">Admin Actions</a></li>
+                      <li><a href="#admin_actions">Admin Actions</a>
+                        <ol>
+                            <li><a href="#action_details">Action Details</a></li>
+                        </ol>
+                      </li>
                       <li><a href="#search">Employee Search</a></li>                
                     </ol>
                 </div>
@@ -228,8 +333,22 @@
         <h3 id="all_applications">1. Applications</h3>
         <ul>
             <li>
-    		Displays the leave applications submitted to the Deputy Registrar for approval. The application status will be "Processing". 
-            <br>To show other applications (Pending, Approved, Rejected, Cancelled), use the Filter menu on the top-right.
+        		Displays the leave applications submitted to the Deputy Registrar for approval. The application status will be "Processing". 
+                <div class="screenshot-container">
+                    <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+                    <div class="screenshot-image" style="display:none; margin-top:2px;">
+                        <img src="{% static 'leave/documentation/screenshots/dr_applications.png' %}" class="img-thumbnail">
+                    </div>
+                </div>
+            </li>
+            <li>
+            To show other applications (Pending, Approved, Rejected, Cancelled), use the Filter menu on the top-right. To view applications of a certain year, month or day, select them and click Update Filter.
+            <div class="screenshot-container">
+                <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+                <div class="screenshot-image" style="display:none; margin-top:2px;">
+                    <img src="{% static 'leave/documentation/screenshots/dr_applications_filter.png' %}" class="img-thumbnail">
+                </div>
+            </div>
             </li>
             <li>
     		To view details of an application, click on the View Details button.
@@ -253,10 +372,15 @@
             </li>
         </ul>
         <div style="margin-left:40px;">
-            <h3 id="details">1.1. Application Details Page</h3>
+            <h3 id="details">1.1. Application Details</h3>
             <ul>
-
         	Displays all the details of the selected application. An application contains the following information:
+            <div class="screenshot-container">
+                <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+                <div class="screenshot-image" style="display:none; margin-top:2px;">
+                    <img src="{% static 'leave/documentation/screenshots/dr_application_details.png' %}" class="img-thumbnail">
+                </div>
+            </div>
                  <li>
         		Application Details:<br> The details of the selected application. If it is a "Cancel Approved Leave" request, the link to the Original Application is also shown.
                 </li>
@@ -267,50 +391,127 @@
         		Application Status:<br> This section shows the current status (Pending, Processing, Approved, Rejected, Cancelled) and related details
                 </li>
                 <li>
+                    For applications that has not been approved, the From Date and To Date for the application can be changed. This can be used to approve leave for less number of days than the days leave is applied for.
+                </li>
+                <li>
+                   You may enter a note before approving or rejecting an application in the Add Notes field.
+                </li>
+                <li>
         		The Detailed Log displays a timeline of events for the application.
                 </li>
                 <li>
-        		When a new application is created, the status is Pending. After the application is marked as "Processing" by the Establishment Office, the Deputy Registrar may Approve or Reject it.
+        		When a new application is created, the status is Pending. After the application is marked as "Processing" by the Establishment Office, the Deputy Registrar may Approve or Reject it using the respective buttons.
+                <div class="screenshot-container">
+                    <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+                    <div class="screenshot-image" style="display:none; margin-top:2px;">
+                        <img src="{% static 'leave/documentation/screenshots/dr_application_approved.png' %}" class="img-thumbnail">
+                    </div>
+                </div>
                 </li>
         		<li>
         		Applications submitted by a Department/Section must be opened by the Establishment Office and marked as "Processing" before you can approve it.
                 </li>
         	
             </ul>
-            <h3 id="print">1.2. Print Application Page</h3>
-    		Click on the Print Application button to open a print friendly view of the application, along with last 5 transactions for the employee.
         </div>
         <h3 id="admin_actions">2. Admin Actions</h3>
 
-        This page allows you to Approve/Reject changes made to leave balance of employee(s) by the Data Admin.
+        This page allows you to Approve/Reject changes made to leave balance of employee(s) or employee details by the Data Admin.
         <ul>
             <li>The default page shows a list of actions that require action.
+                <div class="screenshot-container">
+                    <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+                    <div class="screenshot-image" style="display:none; margin-top:2px;">
+                        <img src="{% static 'leave/documentation/screenshots/dr_admin_actions.png' %}" class="img-thumbnail">
+                    </div>
+                </div>
                 <ul>
                     <li>The actions in Requires Actions are the ones that have not been approved/rejected. To view details, click the View Details button.</li>
-                    <li>To view previous actions that have bene approved, click on the Approved button on the top-right.</li>
+                    <li>To view previous actions that have been approved, click on the Approved button on the top-right.</li>
                     <li>To view the rejected actions, click the Rejected button</li>
                 </ul>
             </li>
-            <li>Show Details page
-                <ul>
-                    <li>Shows the details of the changes made by the Data Admin in the selected action.</li>
-                    <li>Generated time shows the exact time that the action was created.</li>
-                    <li>Number of employees is the total number of employees affected by this action.</li>
-                    <li>The Note is added by the Data Admin and should include the purpose for the change.</li>
-                    <li>The table below shows the list of the affected employees. The Half Pay Leave Change and Earned Leave Change columns shows the change in number of days of the particular leave. Debits are indicated by a negative sign in the column.</li>
-                    <li>If the status is Pending, you can Approve or Reject the action using the corresponding buttons along with an optional note.</li>
-                    <li>If the status is Approved or Rejected, the reviewed time and the note (if any) is shown.</li>
-                </ul>
-            </li>
+           
         </ul>
+        <div style="margin-left:40px;">
+            <h3 id="details">2.1. Action Details</h3>
+            <ul>
+                <li>Show Details page
+                    <br>
+                    There are three types of Admin Actions: Credit/Debit Leave, Edit Employee Details and Add New Employee.
+                    <ul>
+                        <li>Credit/Debit Leave
+                            <div class="screenshot-container">
+                                <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+                                <div class="screenshot-image" style="display:none; margin-top:2px;">
+                                    <img src="{% static 'leave/documentation/screenshots/dr_admin_action_details_leave.png' %}" class="img-thumbnail">
+                                </div>
+                            </div>
+                            <ul>
+                                <li>Generated time shows the exact time that the action was created.</li>
+                                <li>Number of employees is the total number of employees affected by this action.</li>
+                                <li>The Note is added by the Data Admin and should include the purpose for the change.</li>
+                                <li>The table below shows the list of the affected employees. The Half Pay Leave Change and Earned Leave Change columns shows the change in number of days of the particular leave. Debits are indicated by a negative sign in the column.</li>
+                                <li>If the status is Pending, you can Approve or Reject the action using the corresponding buttons along with an optional note.</li>
+                                <li>If the status is Approved or Rejected, the reviewed time and the note (if any) is shown.</li>
+                            </ul>
+                        </li>
+                        <li>Edit Employee Details
+                            <div class="screenshot-container">
+                                <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+                                <div class="screenshot-image" style="display:none; margin-top:2px;">
+                                    <img src="{% static 'leave/documentation/screenshots/dr_admin_action_details_edit.png' %}" class="img-thumbnail">
+                                </div>
+                            </div>
+                            <ul>
+                                <li>When changes are made to employee details by the Data Admin, the Deputy Registrar should approve them.</li>
+                                <li>Generated time shows the exact time that the action was created.</li>
+                                <li>The Note is added by the Data Admin and should include the purpose for the change.</li>
+                                <li>The table below shows the existing details of the employee as well as the newly proposed details.</li>
+                                <li>If the status is Pending, you can Approve or Reject the action using the corresponding buttons along with an optional note.</li>
+                                <li>If the status is Approved or Rejected, the reviewed time and the note (if any) is shown.</li>
+                            </ul>
+
+                        </li>                    
+                        <li>Add New Employee
+                            <div class="screenshot-container">
+                                <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+                                <div class="screenshot-image" style="display:none; margin-top:2px;">
+                                    <img src="{% static 'leave/documentation/screenshots/dr_admin_action_details_new.png' %}" class="img-thumbnail">
+                                </div>
+                            </div>
+                            <ul>
+                                <li>When a new employee is added by the Data Admin, the Deputy Registrar should approve it.</li>
+                                <li>Generated time shows the exact time that the action was created.</li>
+                                <li>The table below shows the details of the added employee.</li>
+                                <li>If the status is Pending, you can Approve or Reject the action using the corresponding buttons along with an optional note.</li>
+                                <li>If the status is Approved or Rejected, the reviewed time and the note (if any) is shown.</li>
+                            </ul>
+
+                        </li> 
+                    </ul>
+                </li>
+            </ul>
+        </div>
         <h3 id="search">3. Employee Search</h3>
         <ul>
             <li>
-
     		View details of all the employees in the department/section. Select the employee from the list using Name/Code and click on the View Details button.
+            <div class="screenshot-container">
+                <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+                <div class="screenshot-image" style="display:none; margin-top:2px;">
+                    <img src="{% static 'leave/documentation/screenshots/dr_employee_search.png' %}" class="img-thumbnail">
+                </div>
+            </div>
             </li>
             <li>
     		The details of the employee and leave balance are displayed. The log shows all the credit/debit details of the employee available with the system.
+            <div class="screenshot-container">
+                <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+                <div class="screenshot-image" style="display:none; margin-top:2px;">
+                    <img src="{% static 'leave/documentation/screenshots/employee_details.png' %}" class="img-thumbnail">
+                </div>
+            </div>
             </li>
         </ul>
 
@@ -324,7 +525,11 @@
                 <div class="well">
                     <ol>
                       <li><a href="#credit_debit">Credit/Debit Leave</a></li>
-                      <li><a href="#actions_history">Action History</a></li>
+                      <li><a href="#actions_history">Action History</a>
+                        <ol>
+                            <li><a href="#action_details">Action Details</a></li>
+                        </ol>
+                      </li>
                       <li><a href="#add_new_employee">Add Employee</a></li>
                       <li><a href="#edit_employee">View/Edit Employee</a></li>
                     </ol>
@@ -334,43 +539,113 @@
 
         <h3 id="credit_debit">1. Credit/Debit Leave</h3>
         This page enables you to Credit or Debit leave for one or multiple employees in one go.
-
+        <div class="screenshot-container">
+            <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+            <div class="screenshot-image" style="display:none; margin-top:2px;">
+                <img src="{% static 'leave/documentation/screenshots/da_creditdebit.png' %}" class="img-thumbnail">
+            </div>
+        </div>
         <ul>
             <li>First, click on the check box in the row for an employee that you would like to credit/debit leave for.</li>
             <li>Similarly, select any number of employees as per requirement. To select all of them, click the Select All button</li>
-            <li>Once you verify that the selected employees are correct, click on the Credit/Debit Leave button</li>
+            <li>Once you verify that the selected employees are correct, click on the Credit/Debit Leave button
+                <div class="screenshot-container">
+                    <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+                    <div class="screenshot-image" style="display:none; margin-top:2px;">
+                        <img src="{% static 'leave/documentation/screenshots/da_credit_view.png' %}" class="img-thumbnail">
+                    </div>
+                </div>
+            </li>
             <li>Select the leave type (Earned Leave or Half Pay Leave).</li>
             <li>Under action type, select if you would like to Credit or Debit.</li>
             <li>Enter the number of days of leave you would like to change.</li>
             <li>Under notes, explain what change you are making. This will make the action easier to review.</li>
             <li>Click on the Confirm Action button</li>
             <li>If you are debiting leave, make sure each selected employee has atleast the number of leave you are trying to debit.</li>
-            <li>To edit the details of an employee other than the leave counts, click on the Edit button</li>
         </ul>
 
 
         <h3 id="actions_history">2. Action History</h3>
 
-       
         <ul>
-            <li> Shows all the actions that has been previously generated. You can choose to show only the ones that are Pending, Approved or Rejected.</li>
-            <li>To view details of a particular action, click on the View Details button</li>
-            <li>Show Details page
-                <ul>
-                    <li>Shows the details of the changes made in the selected action.</li>
-                    <li>Generated time shows the exact time that the action was created.</li>
-                    <li>Number of employees is the total number of employees affected by this action.</li>
-                    <li>The Note includes the purpose for the change.</li>
-                    <li>The table below shows the list of the affected employees. The Half Pay Leave Change and Earned Leave Change columns shows the change in number of days of the particular leave. Debits are indicated by a negative sign in the column.</li>
-                    <li>If the status is Pending, the action has not yet been reviewed by the Deputy Registrar.</li>
-                    <li>If the status is Approved or Rejected, the reviewed time and the note (if any) is shown.</li>
-                </ul>
+            <li> Shows all the actions that has been previously generated. You can choose to show only the ones that are Pending, Approved or Rejected.
+                <div class="screenshot-container">
+                    <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+                    <div class="screenshot-image" style="display:none; margin-top:2px;">
+                        <img src="{% static 'leave/documentation/screenshots/da_actions.png' %}" class="img-thumbnail">
+                    </div>
+                </div>
             </li>
+            <li>To view details of a particular action, click on the View Details button</li>
         </ul>
+
+        <div style="margin-left:40px;">
+            <h3 id="details">2.1. Action Details</h3>
+            <ul>
+                <li>Show Details page
+                    <br>
+                    There are three types of Admin Actions: Credit/Debit Leave, Edit Employee Details and Add New Employee.
+                    <ul>
+                        <li>Credit/Debit Leave
+                            <div class="screenshot-container">
+                                <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+                                <div class="screenshot-image" style="display:none; margin-top:2px;">
+                                    <img src="{% static 'leave/documentation/screenshots/da_actiondetails.png' %}" class="img-thumbnail">
+                                </div>
+                            </div>
+                            <ul>
+                                <li>Generated time shows the exact time that the action was created.</li>
+                                <li>Number of employees is the total number of employees affected by this action.</li>
+                                <li>The Note should include the purpose for the change.</li>
+                                <li>The table below shows the list of the affected employees. The Half Pay Leave Change and Earned Leave Change columns shows the change in number of days of the particular leave. Debits are indicated by a negative sign in the column.</li>
+                                <li>If the status is Approved or Rejected, the reviewed time is shown.</li>
+                            </ul>
+                        </li>
+                        <li>Edit Employee Details
+                            <div class="screenshot-container">
+                                <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+                                <div class="screenshot-image" style="display:none; margin-top:2px;">
+                                    <img src="{% static 'leave/documentation/screenshots/da_action_edit.png' %}" class="img-thumbnail">
+                                </div>
+                            </div>
+                            <ul>
+                                <li>When changes are made to employee details, the Deputy Registrar should approve them.</li>
+                                <li>Generated time shows the exact time that the action was created.</li>
+                                <li>The Note should include the purpose for the change.</li>
+                                <li>The table below shows the existing details of the employee as well as the newly proposed details.</li>
+                                <li>If the status is Approved or Rejected, the reviewed time is shown.</li>
+                            </ul>
+
+                        </li>                    
+                        <li>Add New Employee
+                            <div class="screenshot-container">
+                                <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+                                <div class="screenshot-image" style="display:none; margin-top:2px;">
+                                    <img src="{% static 'leave/documentation/screenshots/da_add_confirm.png' %}" class="img-thumbnail">
+                                </div>
+                            </div>
+                            <ul>
+                                <li>When a new employee is added, the Deputy Registrar should approve it.</li>
+                                <li>Generated time shows the exact time that the action was created.</li>
+                                <li>The table below shows the details of the added employee.</li>
+                                <li>If the status is Approved or Rejected, the reviewed time is shown.</li>
+                            </ul>
+
+                        </li> 
+                    </ul>
+                </li>
+            </ul>
+        </div>
 
         <h3 id="add_new_employee">3. Add Employee</h3>
 
         To add new employees, use the Add Employee page.
+        <div class="screenshot-container">
+            <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+            <div class="screenshot-image" style="display:none; margin-top:2px;">
+                <img src="{% static 'leave/documentation/screenshots/da_add.png' %}" class="img-thumbnail">
+            </div>
+        </div>
 
         <ul>
             <li>The Employee Code is the unique code assigned by the administration.</li>
@@ -382,16 +657,38 @@
 
         <h3 id="edit_employee">4. View/Edit Employee</h3>
         View details of all the employees in the department/section.
+        <div class="screenshot-container">
+            <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+            <div class="screenshot-image" style="display:none; margin-top:2px;">
+                <img src="{% static 'leave/documentation/screenshots/da_vieweditemp.png' %}" class="img-thumbnail">
+            </div>
+        </div>
         <ul>
             <li> Select the employee from the list using Name/Code and click on the View/Edit Employee button.</li>
             <li>The details of the employee and leave balance are displayed. The log shows all the credit/debit details of the employee available with the system.</li>
-            <li>To edit the details of an employee, click the Edit Details button</li>
+            <li>To edit the details of an employee, click the Edit Details button
+                <div class="screenshot-container">
+                    <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+                    <div class="screenshot-image" style="display:none; margin-top:2px;">
+                        <img src="{% static 'leave/documentation/screenshots/da_edit_main.png' %}" class="img-thumbnail">
+                    </div>
+                </div>
+            </li>
+            <li>The Edit Details page shows the existing details of the employee. You may request an edit using the form on the right.
+                <div class="screenshot-container">
+                    <button class="screenshot-button btn btn-default" type="button"><i class="glyphicon glyphicon-camera"></i> View Screenshot</button>
+                    <div class="screenshot-image" style="display:none; margin-top:2px;">
+                        <img src="{% static 'leave/documentation/screenshots/da_editemp.png' %}" class="img-thumbnail">
+                    </div>
+                </div>
+            </li>
             <li>The Employee Code is the unique code assigned by the administration.</li>
             <li>The name should contain the full name of the employee.</li>
             <li>Enter the correct email address in the Email field. The system automatically sends email to employees when applications are created, approved or rejected.</li>
             <li>Select the correct department from the departments list.</li>
             <li>If an employee is no longer employed in the institute, uncheck the Active Employee checkbox.</li>
-            <li>To confirm the changes, click the Update button.</li>
+            <li>To confirm the changes, click the Request Update button.</li>
+            <li>An Edit Employee Action will be created and should be approved by the Deputy Registrar.</li>
         </ul>
 
     	{% endif %}
@@ -404,6 +701,19 @@
 <script>
     $(function(){
         $('#user_guide').addClass('active');
+
+        //Activate screenshot buttons
+        $('.screenshot-button').on('click', function (e){
+            e.preventDefault();
+            var current = $(this).parents('.screenshot-container').children('.screenshot-image');
+            $('body').find('.screenshot-image').slideUp();
+            if(current.is(':visible')){
+                $(this).parents('.screenshot-container').children('.screenshot-image').slideUp();
+            }else{
+                $('body').find('.screenshot-image').slideUp();
+                $(this).parents('.screenshot-container').children('.screenshot-image').slideDown();
+            }
+        });
     });
 </script>
 {% endblock script %}
