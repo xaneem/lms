@@ -1,26 +1,59 @@
+virtualenv env (sudo apt-get instal python-virtualenv)
+	pip install django
+	pip install django-bootstrap3
+sudo apt-get install libmysqlclient-dev
+sudo apt-get install python-dev
+	pip install pytz
+	pip install mysql-python
+
+git clone "http://github.com/xaneem/lms.git"
+Add virtual host file. (cd /etc/apache2/sites-available)
+	Give appropriate directories.
+sudo a2ensite sitename
+
+Add and edit secret.py in administrative/secret.py (Servername,alias,STATIC_URL,MEDIA_URL,STATIC_ROOT)
+
+
+./manage.py collectstatic
+./manage.py syncdb
+
+give appropriate permissions for media folder.
+	cd /var/www/lms
+	chgrp -R www-data attachments/
+	chmod -R g+w attachments/
+
+
+
+------------------------------------------------------------------
+Virtual Host file
+
+    STATIC_ROOT = Full path to static folder
+    MEDIAL_ROOT = Full path to medial folder
+
+
     <VirtualHost *:80>
         ServerAdmin webmaster@clusterdev.com
-        ServerName lms.clusterdev.com
-        ServerAlias www.lms.clusterdev.com
-        Alias /robots.txt /var/www/lms/lms/static/robots.txt
-        Alias /favicon.ico /var/www/lms/lms/static/favicon.ico
-        Alias /media/ /var/www/lms/lms/attachments/
-        Alias /static/ /var/www/lms/lms/static/
+        ServerName lms.com 
+        ServerAlias www.lms.com
+        Alias /robots.txt /home/ajnas/dev/django/lms-prod/lms/static/robots.txt
+        Alias /favicon.ico /home/ajnas/dev/django/lms-prod/lms/static/favicon.ico
+        Alias /media/ /home/ajnas/dev/django/lms-prod/lms/attachments
+        Alias /static/ /home/ajnas/dev/django/lms-prod/lms/lms/static/
 
-        <Directory /var/www/lms/lms/static>
+        <Directory STATIC_ROOT>
                 Options -Indexes
                 Require all granted
         </Directory>
 
-        <Directory /var/www/lms/lms/attachments>
+        <Directory MEDIA_ROOT>
                 Require all granted
         </Directory>
 
-        WSGIDaemonProcess lms python-path=/var/www/lms/lms:/var/www/lms/env/lib/python2.7/site-packages
-        WSGIProcessGroup lms
-        WSGIScriptAlias / /var/www/lms/lms/administrative/wsgi.py
+        WSGIDaemonProcess lms-prod python-path=PATH_TO_PROJECT_ROOT:PATH_TO_VIRTUAL_ENV/lib/python2.7/site-packages
+        WSGIProcessGroup lms-prod
+        WSGIScriptAlias / PATH_TO_PROJECT_ROOT/administrative/wsgi.py
 
-        <Directory /var/www/lms/lms/administrative>
+        <Directory PATH_TO_PROJECT_ROOT/administrative>
                 <Files wsgi.py>
                         Require all granted
                 </Files>
@@ -29,12 +62,6 @@
 
 
 
-add STATIC_URL,MEDIA_URL,STATIC_ROOT
 
-cd /var/www/lms
-chgrp -R www-data attachments/
-chmod -R g+w attachments/
-
-env/bin/python lms/manage.py collectstatic
 
 
