@@ -10,15 +10,12 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from secret import *
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'attachments')
-MEDIA_URL = 'attachments/'
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '6ge*@ezh*e+kj9mfh0vi68@*5bgr^d87slr#kz6dktaskmd#d^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -56,44 +53,6 @@ ROOT_URLCONF = 'administrative.urls'
 
 WSGI_APPLICATION = 'administrative.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-"""
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'lmsnitc',
-        'USER': 'lmsnitc',
-        'PASSWORD': 'helloworld',
-        'HOST': 'http://www.db4free.net',   # Or an IP Address that your DB is hosted on
-        'PORT': '3306',
-    }
-}
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql', 
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',   # Or an IP Address that your DB is hosted on
-        'PORT': '3306',
-    }
-}
-
-
-"""
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-# Internationalization
-# https://docs.djangoproject.com/en/1.6/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'Asia/Calcutta'
@@ -104,16 +63,44 @@ USE_L10N = True
 
 USE_TZ = True
 
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'LMS NITC <lmsnitc@gmail.com>'
-EMAIL_HOST_PASSWORD = '*************'
-DEFAULT_FROM_EMAIL = 'LMS NITC'
-DEFAULT_TO_EMAIL = 'ajnas_bcs11@nitc.ac.in'
+
+
+# Database
+# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
+
+PRODCUTION=True
+
+from administrative.secret import *
+
+if not PRODCUTION:
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),}}
+
+
+
+
+# Settings for Dev Server (sqlite3)
+
+
+
+
+
+
+#Settings for Production Server (MYSQL)
+
+
+#End of settings for production Server 
+
+
+# Internationalization
+# https://docs.djangoproject.com/en/1.6/topics/i18n/
+
+
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
-STATIC_URL = '/static/'
+

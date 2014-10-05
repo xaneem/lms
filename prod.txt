@@ -1,0 +1,40 @@
+    <VirtualHost *:80>
+        ServerAdmin webmaster@clusterdev.com
+        ServerName lms.clusterdev.com
+        ServerAlias www.lms.clusterdev.com
+        Alias /robots.txt /var/www/lms/lms/static/robots.txt
+        Alias /favicon.ico /var/www/lms/lms/static/favicon.ico
+        Alias /media/ /var/www/lms/lms/attachments/
+        Alias /static/ /var/www/lms/lms/static/
+
+        <Directory /var/www/lms/lms/static>
+                Options -Indexes
+                Require all granted
+        </Directory>
+
+        <Directory /var/www/lms/lms/attachments>
+                Require all granted
+        </Directory>
+
+        WSGIDaemonProcess lms python-path=/var/www/lms/lms:/var/www/lms/env/lib/python2.7/site-packages
+        WSGIProcessGroup lms
+        WSGIScriptAlias / /var/www/lms/lms/administrative/wsgi.py
+
+        <Directory /var/www/lms/lms/administrative>
+                <Files wsgi.py>
+                        Require all granted
+                </Files>
+        </Directory>
+    </VirtualHost>
+
+
+
+add STATIC_URL,MEDIA_URL,STATIC_ROOT
+
+cd /var/www/lms
+chgrp -R www-data attachments/
+chmod -R g+w attachments/
+
+env/bin/python lms/manage.py collectstatic
+
+
