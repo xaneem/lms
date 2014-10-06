@@ -41,7 +41,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
-                    <form action="/" method="POST" role="form">
+                    <form action="{% url 'index' %}" method="POST" role="form">
                     	{% csrf_token %}
                         <legend>Login to your account</legend>
                         <div class="form-group{% if message %} has-error{% endif %} ">
