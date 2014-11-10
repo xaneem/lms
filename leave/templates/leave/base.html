@@ -66,6 +66,8 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li id="user_guide"><a href="{% url 'user_guide' %}">User Guide</a></li>
+                 <li><a href="{% url 'logt' %}"><i class="glyphicon glyphicon-log-out"></i> Log out</a></li>
+                 <!--
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.userprofile.get_user_type_display}} <b class="caret"></b></a>
                     <ul class="dropdown-menu">
@@ -73,6 +75,7 @@
                         <li><a href="{% url 'logt' %}"><i class="glyphicon glyphicon-log-out"></i> Log out</a></li>
                     </ul>
                 </li>
+                -->
             </ul>
         </div>
     </nav>
