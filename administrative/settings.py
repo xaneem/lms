@@ -68,11 +68,11 @@ USE_TZ = True
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
-PRODCUTION=True
+PRODUCTION=False
 
 from administrative.secret import *
 
-if not PRODCUTION:
+if not PRODUCTION:
     DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
