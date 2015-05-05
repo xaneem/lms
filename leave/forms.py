@@ -37,9 +37,9 @@ class ApplicationForm(ModelForm):
 		leave_type=self.cleaned_data['leave_type']
 	
 
-		if date_from<datetime.now().date():
-			self.errors['date_from']=['Invalid from date']
-			return False
+		# if date_from<datetime.now().date():
+		# 	self.errors['date_from']=['Invalid from date']
+		# 	return False
 
 		if(date_to<date_from):
 			self.errors['date_to']=["Invalid to date"]
